@@ -10,27 +10,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="141dp"
+        android:layout_height="55dp"
         android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:layout_width="74dp"
-            android:layout_height="63dp"
-            android:layout_marginStart="124dp"
-            android:layout_marginLeft="124dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="124dp"
-            android:layout_marginRight="124dp"
-            android:src="@drawable/ic_funcionarios"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
-            android:textStyle="bold"
             android:id="@+id/txt_titulo"
             android:layout_width="209dp"
             android:layout_height="21dp"
@@ -38,9 +24,10 @@
             android:layout_marginLeft="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="12dp"
             android:text="Informe os dados do funcionário"
             android:textColor="@color/white"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.503"
@@ -50,8 +37,8 @@
 
     <LinearLayout
 
-        android:layout_width="278dp"
-        android:layout_height="wrap_content"
+        android:layout_width="289dp"
+        android:layout_height="450dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -61,9 +48,19 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintVertical_bias="0.765">
+        app:layout_constraintVertical_bias="0.391">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Nome do funciónario"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/editTextFunNome"
@@ -75,13 +72,20 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:ems="10"
-            android:hint="Nome"
             android:inputType="textEmailAddress"
             app:layout_constraintBottom_toTopOf="@+id/editTextUserName2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
             app:layout_constraintVertical_bias="0.925" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="E-mail"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/editTextFumEmail"
@@ -92,11 +96,19 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:ems="10"
-            android:hint="E-mail"
+
             android:inputType="textEmailAddress"
             app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="CPF"
+            android:textStyle="bold" />
 
         <com.santalu.maskedittext.MaskEditText
             android:id="@+id/editTextFumCpf"
@@ -107,27 +119,33 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:ems="10"
-            android:hint="CPF"
+
             android:inputType="number"
-            app:met_mask="###.###.###-##"
             app:layout_constraintBottom_toTopOf="@+id/editTextEmail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-          />
+            app:met_mask="###.###.###-##" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:text="Cargo"
-            android:textColor="#9D9C98"
-            android:textSize="18dp" />
+            android:textStyle="bold" />
 
         <Spinner
             android:id="@+id/cargosFum_spinner"
             android:layout_width="match_parent"
             android:layout_height="35dp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Senha"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/editTextFunSena"
@@ -138,11 +156,19 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:ems="10"
-            android:hint="Senha"
+
             android:inputType="textPassword"
             app:layout_constraintBottom_toTopOf="@+id/btnCreate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Confirmar senha"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/editTextFumSenha2"
@@ -150,19 +176,17 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="15dp"
             android:ems="10"
-            android:hint="Confirmar senha"
             android:inputType="textPassword" />
 
         <Button
             android:id="@+id/btn_Consluir_Fun"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="120dp"
+            android:layout_height="39dp"
+            android:layout_marginStart="82dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginBottom="0dp"
             android:background="@drawable/borda_arredondada"
             android:text="Concluir"
             android:textColor="@color/white"

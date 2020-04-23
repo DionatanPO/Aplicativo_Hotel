@@ -163,16 +163,16 @@ public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.Ho
                         titulo.setText("  Alterar dados hospedagem");
 
 
-                        spinner = finalView.findViewById(R.id.pagamento_spinnerh);
-                        spinner2 = finalView.findViewById(R.id.n_pessoas_spinnerh);
-                        spinner_apartamento = finalView.findViewById(R.id.apartamento_spinnerh);
+                        spinner = finalView.findViewById(R.id.pagamento_spinner);
+                        spinner2 = finalView.findViewById(R.id.n_pessoas_spinner);
+                        spinner_apartamento = finalView.findViewById(R.id.apartamento_spinner);
 
-                        nome_hospede = finalView.findViewById(R.id.editText_hospede_nomeh);
+                        nome_hospede = finalView.findViewById(R.id.editText_hospede_nome);
 
 
                         nome_hospede.setText(hospedagemsList.get(pos).getHospede().getNome());
 
-                        cpf = finalView.findViewById(R.id.editText_cpfh);
+                        cpf = finalView.findViewById(R.id.editText_cpf);
                         cpf.setText(hospedagemsList.get(pos).getHospede().getCpf());
 
                         telefone = finalView.findViewById(R.id.editText_telefone);
@@ -186,7 +186,7 @@ public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.Ho
                         data_saida = finalView.findViewById(R.id.editTextData_saida);
                         data_saida.setText(data_s);
 
-                        valor_hospedagem = finalView.findViewById(R.id.editText_valor_hospedagemh);
+                        valor_hospedagem = finalView.findViewById(R.id.editText_valor_hospedagem);
 
                         System.out.println(String.valueOf(hospedagemsList.get(pos).getValor_hospedagem()));
 

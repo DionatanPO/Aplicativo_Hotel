@@ -9,26 +9,27 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="130dp"
         android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:layout_width="326dp"
-            android:layout_height="26dp"
+            android:layout_width="309dp"
+            android:layout_height="30dp"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:text="Informe seus dados de administrador"
             android:textColor="@color/white"
             android:textSize="18dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            app:layout_constraintVertical_bias="0.527" />
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <TextView
             android:id="@+id/textView2"
@@ -52,8 +53,8 @@
 
     <LinearLayout
 
-        android:layout_width="246dp"
-        android:layout_height="352dp"
+        android:layout_width="229dp"
+        android:layout_height="396dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -62,8 +63,18 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.515">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Nome do administrador"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/editTextUserName"
@@ -71,11 +82,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+
             android:layout_marginRight="8dp"
             android:ems="10"
-            android:hint="Nome administrador"
+            android:hint="Ex: Maria"
             android:inputType="textEmailAddress"
             app:layout_constraintBottom_toTopOf="@+id/editTextUserName2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -83,6 +93,14 @@
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
             app:layout_constraintVertical_bias="0.925" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+
+            android:layout_marginLeft="8dp"
+            android:text="CPF"
+            android:textStyle="bold" />
 
         <com.santalu.maskedittext.MaskEditText
             android:id="@+id/editTextUserName2"
@@ -93,13 +111,21 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:ems="10"
-            android:hint="CPF"
+            android:hint="Ex: 123.456.789-12"
             android:inputType="number"
-            app:met_mask="###.###.###-##"
             app:layout_constraintBottom_toTopOf="@+id/editTextEmail"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:met_mask="###.###.###-##" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+
+            android:layout_marginLeft="8dp"
+            android:text="E-mail"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/editTextEmail"
@@ -110,11 +136,20 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:ems="10"
-            android:hint="E-mail"
+            android:hint="Ex: Maria@email.com"
             android:inputType="textEmailAddress"
             app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+
+            android:layout_marginLeft="8dp"
+            android:text="Senha"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/editTextPassword"
@@ -125,27 +160,36 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:ems="10"
-            android:hint="Senha"
+            android:hint=""
             android:inputType="textPassword"
             app:layout_constraintBottom_toTopOf="@+id/btnCreate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+
+            android:layout_marginLeft="8dp"
+            android:text="Confirmar senha"
+            android:textStyle="bold" />
+
         <EditText
-            android:layout_marginBottom="30dp"
             android:id="@+id/editTextSenha2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginBottom="12dp"
             android:ems="10"
-            android:hint="Confirmar senha"
+            android:hint=""
             android:inputType="textPassword" />
 
         <Button
             android:id="@+id/btnCreate"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
             android:layout_marginStart="60dp"
             android:layout_marginLeft="50dp"
             android:layout_marginEnd="8dp"

@@ -7,8 +7,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:elevation="5dp"
-        android:translationZ="7dp"
+
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="208dp"
@@ -55,8 +54,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <GridLayout
-        android:elevation="5dp"
-        android:translationZ="8dp"
+
         android:layout_width="279dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
