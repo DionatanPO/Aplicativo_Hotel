@@ -11,11 +11,7 @@ import android.widget.TextView;
 import com.example.app.R;
 
 public class PainelActivity extends Activity {
-    TextView btn_funcionario;
-    TextView btn_check_in;
-    TextView btn_limpeza;
-    TextView btn_apartamento;
-    TextView btn_hospedagem;
+    TextView btn_funcionario, btn_check_in, btn_limpeza, btn_apartamento, btn_hospedagem, btn_reserva;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +24,7 @@ public class PainelActivity extends Activity {
         btn_limpeza = findViewById(R.id.btn_limpeza);
         btn_apartamento = findViewById(R.id.btn_apartamento);
         btn_hospedagem = findViewById(R.id.btn_hospedagem);
+        btn_reserva = findViewById(R.id.btn_reserva);
 
 //       btn_funcionario.setVisibility(View.INVISIBLE);
         btn_funcionario.setOnClickListener(new View.OnClickListener() {
@@ -68,5 +65,12 @@ public class PainelActivity extends Activity {
             }
         });
 
+        btn_reserva.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(PainelActivity.this, ReservaActivity.class);
+                startActivity(i);
+            }
+        });
     }
 }

@@ -28,5 +28,6 @@
     </string-array>
 
     <string name="m1">Informe os dados para check-in</string>
+    <string name="m2">Informe os dados para reserva</string>
 </resources>
 

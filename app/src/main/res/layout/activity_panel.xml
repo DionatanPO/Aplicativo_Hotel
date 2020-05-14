@@ -10,7 +10,7 @@
 
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="208dp"
+        android:layout_height="266dp"
         android:background="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +22,6 @@
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="28dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:src="@drawable/ic_casa"
@@ -48,25 +47,26 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.235" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <GridLayout
 
-        android:layout_width="279dp"
-        android:layout_height="wrap_content"
+        android:layout_width="290dp"
+        android:layout_height="494dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="136dp"
+        android:layout_marginTop="96dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:columnCount="2"
-        android:padding="10dp"
+        android:padding="0dp"
         android:rowCount="2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintHorizontal_bias="0.851"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -74,7 +74,7 @@
             android:id="@+id/btn_check_in"
             android:layout_width="99dp"
             android:layout_height="99dp"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:background="@drawable/borda_circle"
             android:drawableTop="@drawable/ic_entrar"
             android:elevation="3dp"
@@ -85,12 +85,12 @@
             android:translationZ="5dp" />
 
         <TextView
-            android:elevation="3dp"
             android:layout_width="99dp"
             android:layout_height="99dp"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:background="@drawable/borda_circle"
             android:drawableTop="@drawable/ic_saida"
+            android:elevation="3dp"
             android:paddingTop="20dp"
             android:text="Check-out"
             android:textAlignment="center"
@@ -98,13 +98,13 @@
 
 
         <TextView
-            android:elevation="3dp"
             android:id="@+id/buttonFuncionarios"
             android:layout_width="99dp"
             android:layout_height="99dp"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:background="@drawable/borda_circle"
             android:drawableTop="@drawable/ic_funcionarios"
+            android:elevation="3dp"
             android:paddingTop="12dp"
             android:text="Funcionário"
             android:textAlignment="center"
@@ -112,41 +112,54 @@
 
 
         <TextView
-            android:elevation="3dp"
             android:id="@+id/btn_limpeza"
             android:layout_width="99dp"
             android:layout_height="99dp"
-            android:layout_margin="15dp"
+            android:layout_margin="13dp"
             android:background="@drawable/borda_circle"
             android:drawableTop="@drawable/ic_limpeza"
+            android:elevation="3dp"
             android:paddingTop="15dp"
             android:text="Limpeza"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary" />
 
         <TextView
-            android:elevation="3dp"
             android:id="@+id/btn_apartamento"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_margin="12dp"
+            android:layout_margin="5dp"
             android:background="@drawable/borda_circle"
             android:drawableTop="@drawable/ic_chave"
+            android:elevation="3dp"
             android:paddingTop="15dp"
             android:text="Apartamento"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary" />
 
         <TextView
-            android:elevation="3dp"
             android:id="@+id/btn_hospedagem"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_margin="12dp"
+            android:layout_margin="5dp"
             android:background="@drawable/borda_circle"
             android:drawableTop="@drawable/ic_pasta"
+            android:elevation="3dp"
             android:paddingTop="26dp"
             android:text="Hospedagem"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/btn_reserva"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/borda_circle"
+            android:drawableTop="@drawable/ic_reserva"
+            android:elevation="3dp"
+            android:paddingTop="20dp"
+            android:text="Reserva"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary" />
 
