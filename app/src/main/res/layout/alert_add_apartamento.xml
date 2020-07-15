@@ -31,7 +31,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:textStyle="bold"
             android:id="@+id/txt_titulo"
             android:layout_width="254dp"
             android:layout_height="20dp"
@@ -42,9 +41,10 @@
             android:layout_marginBottom="16dp"
             android:text="Informe os dados do Apartamento"
             android:textColor="@color/white"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.722"
+            app:layout_constraintHorizontal_bias="0.50"
             app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

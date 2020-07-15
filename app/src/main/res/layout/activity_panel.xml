@@ -29,6 +29,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <Button
+
+            android:id="@+id/painel_btn_menu"
+            android:layout_width="45dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/ic_baseline_menu_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.971"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
@@ -59,14 +75,13 @@
         android:layout_height="494dp"
         android:layout_marginStart="75dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="110dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:columnCount="2"
         android:padding="0dp"
         android:rowCount="2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.851"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -162,6 +177,21 @@
             android:text="Reserva"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary" />
+
+        <TextView
+
+            android:id="@+id/btn_relatorio"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/borda_circle"
+            android:drawableTop="@drawable/ic_baseline_description_24"
+            android:elevation="3dp"
+            android:paddingTop="15dp"
+            android:text="Reserva"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:gravity="center_horizontal" />
 
     </GridLayout>
 
