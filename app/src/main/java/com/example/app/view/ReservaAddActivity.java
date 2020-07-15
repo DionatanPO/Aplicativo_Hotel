@@ -3,6 +3,7 @@ package com.example.app.view;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.app.R;
@@ -31,25 +33,19 @@ import java.util.List;
 
 
 public class ReservaAddActivity extends AppCompatActivity implements Spinner.OnItemSelectedListener {
-    String pagamento ;
+
     int n_pessoas ;
-    Spinner spinner;
     Spinner spinner2;
     Spinner spinner_apartamento;
 
-    EditText nome_hospede, cpf,  telefone, data_entrada, data_saida,  v_reserva;
+    EditText nome_hospede, telefone, data_entrada, data_saida;
 
     Button btn_concluir;
     ArrayAdapter spinnerAdapter;
-
     private List<Apartamento> apartamentoList;
     private Apartamento apartamento;
-
-
     Cal_Data cal_data;
     String json;
-    float valor_reserva;
-    private AlertDialog alerta;
     TextView btn_reserva;
 
 
@@ -57,46 +53,19 @@ public class ReservaAddActivity extends AppCompatActivity implements Spinner.OnI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_reserva);
-        btn_reserva = findViewById(R.id.btn_reserva);
+
         btn_concluir = findViewById(R.id.btnConcluir_reserva);
 
-//        btn_reserva.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent i = new Intent(ReservaAddActivity.this, ReservaActivity.class);
-//                startActivity(i);
-//            }
-//        });
 
-        spinner = findViewById(R.id.pagamento_spinner);
-        spinner2 = findViewById(R.id.n_pessoas_spinner);
-        spinner_apartamento = findViewById(R.id.apartamento_spinner);
-
-        nome_hospede = findViewById(R.id.editText_hospede_nome);
-        cpf = findViewById(R.id.editText_cpf);
-        telefone = findViewById(R.id.editText_telefone);
-        data_entrada = findViewById(R.id.editTextData_entrada);
-        data_saida = findViewById(R.id.editTextData_saida);
+        spinner2 = findViewById(R.id.reserva_n_pessoas_spinner);
+        spinner_apartamento = findViewById(R.id.reserva_apartamento_spinner);
+        nome_hospede = findViewById(R.id.reserva_hospede_nome);
+        telefone = findViewById(R.id.reserva_telefone);
+        data_entrada = findViewById(R.id.reservaData_entrada);
+        data_saida = findViewById(R.id.reservaData_saida);
 
 
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.pagamento_array, android.R.layout.simple_spinner_item);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                pagamento = (String) parent.getItemAtPosition(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                pagamento = "";
-            }
-        });
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
                 R.array.n_pessoas_array, android.R.layout.simple_spinner_item);
 
@@ -132,14 +101,12 @@ public class ReservaAddActivity extends AppCompatActivity implements Spinner.OnI
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 apartamento = (Apartamento) parent.getItemAtPosition(position);
 
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 apartamento = null;
             }
-
 
         });
 
@@ -156,22 +123,20 @@ public class ReservaAddActivity extends AppCompatActivity implements Spinner.OnI
             @SuppressLint("WrongConstant")
             @Override
             public void onClick(View view) {
-                if (v_reserva.getText().length() != 0){
-                    valor_reserva = Float.parseFloat(v_reserva.getText().toString());
-                }
+
 
                 ReservaController reservaController = new ReservaController(ReservaAddActivity.this);
 
                 try {
-                    json = reservaController.valirar_reserva(
-                            apartamento,cpf.getText().toString(), nome_hospede.getText().toString(), telefone.getText().toString(), data_entrada.getText().toString(), data_saida.getText().toString(), pagamento, valor_reserva, n_pessoas);
+                    json = (String) reservaController.valirar_reserva(
+                            apartamento, nome_hospede.getText().toString(), telefone.getText().toString(), data_entrada.getText().toString(), data_saida.getText().toString(),n_pessoas);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 Reserva_Request reserva_request = new Reserva_Request(ReservaAddActivity.this);
                 if (json != null) {
                     reserva_request.cadastrar_reserva(json);
-                    apartamento.setEstado("Ocupado");
+                    apartamento.setEstado("Reservado");
                     ApartamentoController ac = new ApartamentoController(ReservaAddActivity.this);
 
                     reserva_request.alterar_Apartamento(ac.converter_apartamento_json(apartamento), apartamento.getId());
@@ -211,18 +176,23 @@ public class ReservaAddActivity extends AppCompatActivity implements Spinner.OnI
             }
         });
 
-
     }
-
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
 
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(this, ReservaActivity.class));
+        finishAffinity();
+        return;
     }
 }

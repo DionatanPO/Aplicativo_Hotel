@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +39,7 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
     String est;
     private AlertDialog alerta;
     Reserva_Request reserva_request;
-   ReservaController reserva_controller;
+    ReservaController reserva_controller;
     String json;
 
 
@@ -87,11 +89,7 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
         holder.data_saida_card.setText(data_s);
 
         holder.telefone_card.setText(reservasList.get(position).getHospede().getTelefone());
-        holder.cpf_card.setText(reservasList.get(position).getHospede().getCpf());
         holder.nome_hospede_card.setText(reservasList.get(position).getHospede().getNome());
-
-
-
 
 
     }
@@ -104,39 +102,38 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
 
     public class ReservaViewHolder extends RecyclerView.ViewHolder {
 
-        TextView nome_hospede_card;
-        TextView cpf_card;
-        TextView telefone_card;
-        TextView data_entrada_card;
-        TextView data_saida_card;
-//        TextView v_reserva_card;
-//        TextView n_pessoas_card;
-
-        TextView apartamento_card;
-
+        TextView nome_hospede_card, telefone_card, data_entrada_card, data_saida_card, n_pessoas_card, apartamento_card;
+        ImageView btn_reserva_checkin;
 
         public ReservaViewHolder(final View itemView) {
             super(itemView);
 
-            nome_hospede_card = itemView.findViewById(R.id.editText_hospede_nome_card);
-            cpf_card = itemView.findViewById(R.id.editText_hospede_cpf_card);
-            telefone_card = itemView.findViewById(R.id.editText_hospede_telefone_card);
-            data_entrada_card = itemView.findViewById(R.id.editTextData_entrada_card);
-            data_saida_card = itemView.findViewById(R.id.editTextData_saida_card);
+            nome_hospede_card = itemView.findViewById(R.id.reserva_hospede_nome_card);
+            telefone_card = itemView.findViewById(R.id.reserva_hospede_telefone_card);
+            data_entrada_card = itemView.findViewById(R.id.reserva_Data_entrada_card);
+            data_saida_card = itemView.findViewById(R.id.reserva_Data_saida_card);
+            n_pessoas_card = itemView.findViewById(R.id.reserva_n_pessoas_card);
+            apartamento_card = itemView.findViewById(R.id.reserva_apartamento_card);
+            btn_reserva_checkin = itemView.findViewById(R.id.reserva_checkin);
 
-//            n_pessoas_card = itemView.findViewById(R.id.editText_n_pessoas_card);
+            btn_reserva_checkin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final int pos = getAdapterPosition();
 
-            apartamento_card = itemView.findViewById(R.id.editText_apartamento_card);
+                    if (pos != RecyclerView.NO_POSITION) {
+                        System.out.println(reservasList.get(pos).getHospede().getNome());
+                    }
+                }
+            });
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     nome_hospede = itemView.findViewById(R.id.editText_hospede_nome);
-                    cpf = itemView.findViewById(R.id.editText_cpf);
                     telefone = itemView.findViewById(R.id.editText_telefone);
                     data_entrada = itemView.findViewById(R.id.editTextData_entrada);
                     data_saida = itemView.findViewById(R.id.editTextData_saida);
-
 
 
                     final int pos = getAdapterPosition();
@@ -179,7 +176,6 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
                         String data_s = new SimpleDateFormat("dd/MM/yyyy").format(reservasList.get(pos).getData_saida());
                         data_saida = finalView.findViewById(R.id.editTextData_saida);
                         data_saida.setText(data_s);
-
 
 
                         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(ctx,
@@ -261,7 +257,7 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
                                 reserva_request = new Reserva_Request(ctx);
 
                                 try {
-                                    json = reserva_controller.valirar_reserva_altera(apId, apartamento, cpf.getText().toString(), nome_hospede.getText().toString(), telefone.getText().toString(), data_entrada.getText().toString(), data_saida.getText().toString(), pagamento, Float.parseFloat(valor_reserva.getText().toString()), n_pessoas);
+                                    json = reserva_controller.valirar_reserva_altera(apId, apartamento, nome_hospede.getText().toString(), telefone.getText().toString(), data_entrada.getText().toString(), data_saida.getText().toString(),  n_pessoas);
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }

@@ -15,22 +15,52 @@ public class Reserva {
     private Date data_saida;
     private Hospede hospede;
     private Apartamento apartamento;
+    private Funcionario funcionario;
     private String estado;
+    private int n_pessoas;
 
     public Reserva() {
     }
 
-    public Reserva(Long id, Date data_entrada, Date data_saida, Hospede hospede, Apartamento apartamento, String estado) {
+    public Reserva(Long id, Date data_entrada, Date data_saida, Hospede hospede, Apartamento apartamento, String estado, int n_pessoas) {
         this.id = id;
         this.data_entrada = data_entrada;
         this.data_saida = data_saida;
         this.hospede = hospede;
         this.apartamento = apartamento;
         this.estado = estado;
+        this.n_pessoas = n_pessoas;
+    }
+
+    public Reserva(Long id, Date data_entrada, Date data_saida, Hospede hospede, Apartamento apartamento, Funcionario funcionario, String estado, int n_pessoas) {
+        this.id = id;
+        this.data_entrada = data_entrada;
+        this.data_saida = data_saida;
+        this.hospede = hospede;
+        this.apartamento = apartamento;
+        this.funcionario = funcionario;
+        this.estado = estado;
+        this.n_pessoas = n_pessoas;
+    }
+
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
     }
 
     public String getEstado() {
         return estado;
+    }
+
+    public int getN_pessoas() {
+        return n_pessoas;
+    }
+
+    public void setN_pessoas(int n_pessoas) {
+        this.n_pessoas = n_pessoas;
     }
 
     public void setEstado(String estado) {

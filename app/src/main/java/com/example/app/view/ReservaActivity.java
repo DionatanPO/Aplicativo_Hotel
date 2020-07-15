@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,7 +39,7 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 public class ReservaActivity extends Activity {
     private ReservaAdapter reservaAdapter;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+
     private RecyclerView.LayoutManager layoutManager;
     ReservaController reservaController;
     Reserva_Request reserva_request;
@@ -66,7 +68,7 @@ public class ReservaActivity extends Activity {
 
         reservaAdapter = new ReservaAdapter(this, reservaList);
 
-        reserva_request.bsucarTodosAtivos(reservaAdapter);
+       reserva_request.bsucarTodosAtivos(reservaAdapter);
 
 
         btn_add = findViewById(R.id.fab_add);
@@ -85,6 +87,7 @@ public class ReservaActivity extends Activity {
             public void onClick(View view) {
                 Intent i = new Intent(ReservaActivity.this, ReservaAddActivity.class);
                 startActivity(i);
+
             }
         });
 
@@ -140,7 +143,7 @@ public class ReservaActivity extends Activity {
         }
 
         @Override
-        public void onChildDraw (Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive){
+        public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
 
             new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                     .addBackgroundColor(ContextCompat.getColor(ReservaActivity.this, R.color.red))
@@ -153,6 +156,24 @@ public class ReservaActivity extends Activity {
 
     }
 
+    public void add_adpter(Reserva reserva) {
+        reservaAdapter.getReservasList().add(reserva);
+        reservaAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        reservaAdapter.notifyDataSetChanged();
+
+    }
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(this, PainelActivity.class));
+        finishAffinity();
+        return;
+    }
 }
 
 

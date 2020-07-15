@@ -24,25 +24,54 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
 
-android:elevation="3dp"
+                android:id="@+id/constraintLayout2"
 
                 android:layout_width="match_parent"
-                android:layout_height="75dp"
+                android:layout_height="62dp"
                 android:background="#6980A8"
+                android:elevation="3dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
+
+                <TextView
+
+                    android:id="@+id/textView5"
+                    android:layout_width="26dp"
+                    android:layout_height="17dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="AP:"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/reserva_apartamento_card"
+                    android:layout_width="103dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="9dp"
+                    android:text="*"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/textView5"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/textViewap"
-                    android:layout_width="95dp"
-                    android:layout_height="35dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginLeft="12dp"
+                    android:layout_width="69dp"
+                    android:layout_height="18dp"
+                    android:layout_marginStart="156dp"
+                    android:layout_marginLeft="156dp"
                     android:layout_marginTop="8dp"
                     android:text="Reserva:"
                     android:textColor="@color/white"
-                    android:textSize="22dp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -51,12 +80,12 @@ android:elevation="3dp"
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginTop="44dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="32dp"
                     android:text="Hospede:"
                     android:textColor="@color/white"
-                    android:textStyle="bold"
+
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,8 +108,8 @@ android:elevation="3dp"
                 android:id="@+id/textView3445465436"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="176dp"
-                android:layout_marginLeft="176dp"
+                android:layout_marginStart="160dp"
+                android:layout_marginLeft="160dp"
                 android:layout_marginTop="108dp"
                 android:text="Saida:"
                 android:textStyle="bold"
@@ -91,9 +120,9 @@ android:elevation="3dp"
                 android:id="@+id/textView34dhfdh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="208dp"
-                android:layout_marginLeft="208dp"
-                android:layout_marginTop="84dp"
+                android:layout_marginStart="185dp"
+                android:layout_marginLeft="200dp"
+                android:layout_marginTop="68dp"
                 android:text="Nº Pessoa:"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -101,87 +130,98 @@ android:elevation="3dp"
 
             <TextView
                 android:id="@+id/textView344tyrjyh"
-                android:layout_width="60dp"
+                android:layout_width="63dp"
                 android:layout_height="18dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="84dp"
+                android:layout_marginTop="68dp"
                 android:text="Telefone:"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/editText_apartamento_card"
-                android:layout_width="100dp"
-                android:layout_height="22dp"
-                android:layout_marginStart="108dp"
-                android:layout_marginLeft="108dp"
-                android:layout_marginTop="16dp"
+                android:id="@+id/reserva_id_card"
+                android:layout_width="106dp"
+                android:layout_height="15dp"
+                android:layout_marginStart="215dp"
+                android:layout_marginLeft="228dp"
+                android:layout_marginTop="10dp"
                 android:elevation="3dp"
-                android:text="R"
+                android:text="*"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:elevation="3dp"
-                android:id="@+id/editText_hospede_nome_card"
+                android:textSize="16dp"
+                android:id="@+id/reserva_hospede_nome_card"
                 android:layout_width="247dp"
                 android:layout_height="19dp"
-                android:layout_marginStart="84dp"
-                android:layout_marginLeft="84dp"
-                android:layout_marginTop="44dp"
-
+                android:layout_marginStart="80dp"
+                android:layout_marginLeft="78dp"
+                android:layout_marginTop="32dp"
+                android:elevation="3dp"
                 android:text="Hospede "
                 android:textColor="@color/white"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/editText_hospede_telefone_card"
-                android:layout_width="125dp"
+                android:id="@+id/reserva_hospede_telefone_card"
+                android:layout_width="100dp"
                 android:layout_height="19dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dp"
                 android:text="telefone "
                 app:layout_constraintStart_toEndOf="@+id/textView344tyrjyh"
-                tools:layout_editor_absoluteY="85dp" />
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
             <TextView
-                android:id="@+id/editTextData_entrada_card"
+                android:id="@+id/reserva_Data_entrada_card"
                 android:layout_width="86dp"
                 android:layout_height="19dp"
-                android:layout_marginStart="68dp"
-                android:layout_marginLeft="68dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="46dp"
                 android:text="Entrada"
                 android:textAlignment="center"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_hospede_telefone_card" />
+                app:layout_constraintStart_toEndOf="@+id/text"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
             <TextView
-                android:id="@+id/editTextData_saida_card"
+                android:id="@+id/reserva_Data_saida_card"
                 android:layout_width="87dp"
                 android:layout_height="20dp"
-                android:layout_marginStart="68dp"
-                android:layout_marginLeft="68dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="46dp"
                 android:text="Saida"
                 android:textAlignment="center"
-                app:layout_constraintStart_toEndOf="@+id/editTextData_entrada_card"
-                app:layout_constraintTop_toBottomOf="@+id/textView34dhfdh" />
+                app:layout_constraintStart_toEndOf="@+id/textView3445465436"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
             <TextView
-                android:id="@+id/editText_n_pessoas_card"
+                android:id="@+id/reserva_n_pessoas_card"
                 android:layout_width="25dp"
                 android:layout_height="18dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dp"
                 android:text="Nº Pessoa"
                 app:layout_constraintStart_toEndOf="@+id/textView34dhfdh"
-                tools:layout_editor_absoluteY="85dp" />
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
+            <ImageView
+                android:id="@+id/reserva_checkin"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/ic_entrar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reserva_hospede_nome_card" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

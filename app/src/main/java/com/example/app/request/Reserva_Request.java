@@ -17,6 +17,7 @@ import com.example.app.model.Url;
 import com.example.app.view.ReservaAdapter;
 import com.example.app.view.ReservaAdapter;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +34,8 @@ public class Reserva_Request {
     private List<Reserva> reservaList = new ArrayList<>();
     private Url url = new Url();
     private String ip = url.getUrl();
-
+ Gson gson = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd").create();
     Apartamento ap;
     Reserva reserva = new Reserva();
 
@@ -58,6 +60,7 @@ public class Reserva_Request {
                     e.printStackTrace();
 
                 }
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -206,7 +209,7 @@ public class Reserva_Request {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject reservas = jsonArray.getJSONObject(i);
 
-                                reserva = new Gson().fromJson(reservas.toString(), Reserva.class);
+                                reserva = gson.fromJson(reservas.toString(), Reserva.class);
                                 reservaList.add(reserva);
 
                             }

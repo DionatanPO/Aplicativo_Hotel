@@ -65,7 +65,7 @@
 
         <EditText
 
-            android:id="@+id/editText_hospede_nome"
+            android:id="@+id/reserva_hospede_nome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -91,7 +91,7 @@
             android:textStyle="bold" />
 
         <com.santalu.maskedittext.MaskEditText
-            android:id="@+id/editText_telefone"
+            android:id="@+id/reserva_telefone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -126,7 +126,7 @@
                 android:textStyle="bold" />
 
             <com.santalu.maskedittext.MaskEditText
-                android:id="@+id/editTextData_entrada"
+                android:id="@+id/reservaData_entrada"
                 android:layout_width="153dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -141,7 +141,7 @@
                 app:met_mask="##/##/####" />
 
             <com.santalu.maskedittext.MaskEditText
-                android:id="@+id/editTextData_saida"
+                android:id="@+id/reservaData_saida"
                 android:layout_width="161dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -169,13 +169,13 @@
                 android:textStyle="bold" />
 
             <Spinner
-                android:id="@+id/n_pessoas_spinner"
+                android:id="@+id/reserva_n_pessoas_spinner"
                 android:layout_width="140dp"
                 android:layout_height="35dp" />
 
 
             <Spinner
-                android:id="@+id/apartamento_spinner"
+                android:id="@+id/reserva_apartamento_spinner"
                 android:layout_width="140dp"
                 android:layout_height="35dp"
                 android:layout_marginBottom="70dp" />
