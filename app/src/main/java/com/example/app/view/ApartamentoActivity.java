@@ -3,8 +3,6 @@ package com.example.app.view;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -30,6 +28,7 @@ import com.example.app.R;
 import com.example.app.controller.ApartamentoController;
 
 import com.example.app.request.Apartamento_Request;
+import com.example.app.view.adapter.ApartamentoAdapter;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 

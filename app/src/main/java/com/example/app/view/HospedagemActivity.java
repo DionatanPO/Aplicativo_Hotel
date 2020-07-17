@@ -27,6 +27,7 @@ import com.example.app.R;
 import com.example.app.controller.CheckinController;
 import com.example.app.model.Hospedagem;
 import com.example.app.request.Hospedagem_Request;
+import com.example.app.view.adapter.HospedagemAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

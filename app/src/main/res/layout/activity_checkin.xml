@@ -250,7 +250,7 @@
         android:layout_marginBottom="32dp"
         android:background="@drawable/borda_arredondada"
         android:text="Concluir"
-        android:textColor="@color/white"
+        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.474"

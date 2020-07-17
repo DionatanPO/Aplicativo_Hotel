@@ -12,10 +12,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.app.model.Apartamento;
 import com.example.app.model.Reserva;
-import com.example.app.model.Reserva;
 import com.example.app.model.Url;
-import com.example.app.view.ReservaAdapter;
-import com.example.app.view.ReservaAdapter;
+import com.example.app.view.adapter.ReservaAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

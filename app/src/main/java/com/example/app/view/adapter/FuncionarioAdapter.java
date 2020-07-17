@@ -1,4 +1,4 @@
-package com.example.app.view;
+package com.example.app.view.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;

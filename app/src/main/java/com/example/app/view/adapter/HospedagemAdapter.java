@@ -1,4 +1,4 @@
-package com.example.app.view;
+package com.example.app.view.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -10,36 +10,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
-import com.example.app.controller.ReservaController;
-import com.example.app.controller.ReservaController;
+import com.example.app.controller.CheckinController;
 import com.example.app.model.Apartamento;
-import com.example.app.model.Reserva;
+import com.example.app.model.Hospedagem;
 import com.example.app.request.Apartamento_Request;
-import com.example.app.request.Reserva_Request;
+import com.example.app.request.Hospedagem_Request;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaViewHolder> {
+public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.HospedagemViewHolder> {
     Context ctx;
-    List<Reserva> reservasList;
+    List<Hospedagem> hospedagemsList;
     String est;
     private AlertDialog alerta;
-    Reserva_Request reserva_request;
-    ReservaController reserva_controller;
+    Hospedagem_Request hospedagem_request;
+    CheckinController checkin_controller;
     String json;
 
 
@@ -56,8 +54,8 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
     EditText telefone;
     EditText data_entrada;
     EditText data_saida;
-    EditText v_reserva;
-    EditText valor_reserva;
+    EditText v_hospedagem;
+    EditText valor_hospedagem;
 
     ArrayAdapter spinnerAdapter;
 
@@ -65,75 +63,85 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
     private Apartamento apartamento;
 
 
-    public ReservaAdapter(Context ctx, List<Reserva> reservas) {
+    public HospedagemAdapter(Context ctx, List<Hospedagem> hospedagems) {
         this.ctx = ctx;
-        reservasList = reservas;
+        hospedagemsList = hospedagems;
 
     }
 
     @NonNull
     @Override
-    public ReservaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_reserva, parent, false);
-        return new ReservaViewHolder(v);
+    public HospedagemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_hospedagem, parent, false);
+        return new HospedagemViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ReservaViewHolder holder, final int position) {
+    public void onBindViewHolder(HospedagemViewHolder holder, final int position) {
 
-        holder.apartamento_card.setText(reservasList.get(position).getApartamento().getIdentificacao());
-//        holder.n_pessoas_card.setText(String.valueOf(reservasList.get(position).getN_pessoas()));
-        String data_e = new SimpleDateFormat("dd/MM/yyyy").format(reservasList.get(position).getData_entrada());
+        holder.apartamento_card.setText(hospedagemsList.get(position).getApartamento().getIdentificacao());
+        holder.n_pessoas_card.setText(String.valueOf(hospedagemsList.get(position).getN_pessoas()));
+        holder.v_hospedagem_card.setText(String.valueOf(hospedagemsList.get(position).getValor_hospedagem()));
+        String data_e = new SimpleDateFormat("dd/MM/yyyy").format(hospedagemsList.get(position).getData_entrada());
         holder.data_entrada_card.setText(data_e);
-        String data_s = new SimpleDateFormat("dd/MM/yyyy").format(reservasList.get(position).getData_saida());
+        String data_s = new SimpleDateFormat("dd/MM/yyyy").format(hospedagemsList.get(position).getData_saida());
         holder.data_saida_card.setText(data_s);
 
-        holder.telefone_card.setText(reservasList.get(position).getHospede().getTelefone());
-        holder.nome_hospede_card.setText(reservasList.get(position).getHospede().getNome());
+        holder.telefone_card.setText(hospedagemsList.get(position).getHospede().getTelefone());
+        holder.cpf_card.setText(hospedagemsList.get(position).getHospede().getCpf());
+        holder.nome_hospede_card.setText(hospedagemsList.get(position).getHospede().getNome());
+        holder.tipo_pagamento_card.setText(hospedagemsList.get(position).getTipo_pagamento());
+
+        if (holder.tipo_pagamento_card.getText().equals("Não Pago")) {
+            holder.tipo_pagamento_card.setTextColor(Color.RED);
+        } else {
+            holder.tipo_pagamento_card.setTextColor(Color.rgb(3, 130, 37));
+        }
 
 
     }
 
     @Override
     public int getItemCount() {
-        return reservasList.size();
+        return hospedagemsList.size();
     }
 
 
-    public class ReservaViewHolder extends RecyclerView.ViewHolder {
+    public class HospedagemViewHolder extends RecyclerView.ViewHolder {
 
-        TextView nome_hospede_card, telefone_card, data_entrada_card, data_saida_card, n_pessoas_card, apartamento_card;
-        ImageView btn_reserva_checkin;
+        TextView nome_hospede_card;
+        TextView cpf_card;
+        TextView telefone_card;
+        TextView data_entrada_card;
+        TextView data_saida_card;
+        TextView v_hospedagem_card;
+        TextView n_pessoas_card;
+        TextView tipo_pagamento_card;
+        TextView apartamento_card;
 
-        public ReservaViewHolder(final View itemView) {
+
+        public HospedagemViewHolder(final View itemView) {
             super(itemView);
 
-            nome_hospede_card = itemView.findViewById(R.id.reserva_hospede_nome_card);
-            telefone_card = itemView.findViewById(R.id.reserva_hospede_telefone_card);
-            data_entrada_card = itemView.findViewById(R.id.reserva_Data_entrada_card);
-            data_saida_card = itemView.findViewById(R.id.reserva_Data_saida_card);
-            n_pessoas_card = itemView.findViewById(R.id.reserva_n_pessoas_card);
-            apartamento_card = itemView.findViewById(R.id.reserva_apartamento_card);
-            btn_reserva_checkin = itemView.findViewById(R.id.reserva_checkin);
-
-            btn_reserva_checkin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final int pos = getAdapterPosition();
-
-                    if (pos != RecyclerView.NO_POSITION) {
-                        System.out.println(reservasList.get(pos).getHospede().getNome());
-                    }
-                }
-            });
+            nome_hospede_card = itemView.findViewById(R.id.editText_hospede_nome_card);
+            cpf_card = itemView.findViewById(R.id.editText_hospede_cpf_card);
+            telefone_card = itemView.findViewById(R.id.editText_hospede_telefone_card);
+            data_entrada_card = itemView.findViewById(R.id.editTextData_entrada_card);
+            data_saida_card = itemView.findViewById(R.id.editTextData_saida_card);
+            v_hospedagem_card = itemView.findViewById(R.id.editText_valor_hospedagem_card);
+            n_pessoas_card = itemView.findViewById(R.id.editText_n_pessoas_card);
+            tipo_pagamento_card = itemView.findViewById(R.id.editText_tipo_pagamento_card);
+            apartamento_card = itemView.findViewById(R.id.editText_apartamento_card);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     nome_hospede = itemView.findViewById(R.id.editText_hospede_nome);
+                    cpf = itemView.findViewById(R.id.editText_cpf);
                     telefone = itemView.findViewById(R.id.editText_telefone);
                     data_entrada = itemView.findViewById(R.id.editTextData_entrada);
                     data_saida = itemView.findViewById(R.id.editTextData_saida);
+                    v_hospedagem = itemView.findViewById(R.id.editText_valor_hospedagem);
 
 
                     final int pos = getAdapterPosition();
@@ -151,7 +159,7 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
                         TextView titulo;
                         titulo = finalView.findViewById(R.id.txt_titulo);
 
-                        titulo.setText("  Alterar dados reserva");
+                        titulo.setText("  Alterar dados hospedagem");
 
 
                         spinner = finalView.findViewById(R.id.pagamento_spinner);
@@ -161,22 +169,27 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
                         nome_hospede = finalView.findViewById(R.id.editText_hospede_nome);
 
 
-                        nome_hospede.setText(reservasList.get(pos).getHospede().getNome());
+                        nome_hospede.setText(hospedagemsList.get(pos).getHospede().getNome());
 
                         cpf = finalView.findViewById(R.id.editText_cpf);
-                        cpf.setText(reservasList.get(pos).getHospede().getCpf());
+                        cpf.setText(hospedagemsList.get(pos).getHospede().getCpf());
 
                         telefone = finalView.findViewById(R.id.editText_telefone);
-                        telefone.setText(reservasList.get(pos).getHospede().getTelefone());
+                        telefone.setText(hospedagemsList.get(pos).getHospede().getTelefone());
 
-                        String data_e = new SimpleDateFormat("dd/MM/yyyy").format(reservasList.get(pos).getData_entrada());
+                        String data_e = new SimpleDateFormat("dd/MM/yyyy").format(hospedagemsList.get(pos).getData_entrada());
                         data_entrada = finalView.findViewById(R.id.editTextData_entrada);
                         data_entrada.setText(data_e);
 
-                        String data_s = new SimpleDateFormat("dd/MM/yyyy").format(reservasList.get(pos).getData_saida());
+                        String data_s = new SimpleDateFormat("dd/MM/yyyy").format(hospedagemsList.get(pos).getData_saida());
                         data_saida = finalView.findViewById(R.id.editTextData_saida);
                         data_saida.setText(data_s);
 
+                        valor_hospedagem = finalView.findViewById(R.id.editText_valor_hospedagem);
+
+                        System.out.println(String.valueOf(hospedagemsList.get(pos).getValor_hospedagem()));
+
+                        valor_hospedagem.setText(String.valueOf(hospedagemsList.get(pos).getValor_hospedagem()));
 
                         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(ctx,
                                 R.array.pagamento_array, android.R.layout.simple_spinner_item);
@@ -219,7 +232,7 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
 
                         apartamento = new Apartamento();
                         apartamentoList = new ArrayList<>();
-                        apartamentoList.add(reservasList.get(pos).getApartamento());
+                        apartamentoList.add(hospedagemsList.get(pos).getApartamento());
 
 
                         spinnerAdapter = new ArrayAdapter(ctx, android.R.layout.simple_spinner_dropdown_item, apartamentoList);
@@ -250,26 +263,26 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
                                 Long apId;
 
 
-                                apId = reservasList.get(pos).getId();
+                                apId = hospedagemsList.get(pos).getId();
                                 System.out.println(apId);
 
-                                reserva_controller = new ReservaController(ctx);
-                                reserva_request = new Reserva_Request(ctx);
+                                checkin_controller = new CheckinController(ctx);
+                                hospedagem_request = new Hospedagem_Request(ctx);
 
                                 try {
-                                    json = reserva_controller.valirar_reserva_altera(apId, apartamento, nome_hospede.getText().toString(), telefone.getText().toString(), data_entrada.getText().toString(), data_saida.getText().toString(),  n_pessoas);
+                                    json = checkin_controller.valirar_checkin_altera(apId, apartamento, cpf.getText().toString(), nome_hospede.getText().toString(), telefone.getText().toString(), data_entrada.getText().toString(), data_saida.getText().toString(), pagamento, Float.parseFloat(valor_hospedagem.getText().toString()), n_pessoas);
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
                                 if (json != null) {
-                                    reserva_request.alterar_reserva(json, apId);
+                                    hospedagem_request.alterar_hospedagem(json, apId);
                                     alerta.dismiss();
-                                    atualizar(pos, reserva_controller.converter_json_reserva(json));
+                                    atualizar(pos, checkin_controller.converter_json_hospedagem(json));
                                     LayoutInflater inflater2 = LayoutInflater.from(ctx);
                                     View layout2 = inflater2.inflate(R.layout.custom_toast, null);
 
                                     TextView text = (TextView) layout2.findViewById(R.id.text);
-                                    text.setText("Reserva alterada!");
+                                    text.setText("Hospedagem alterada!");
 
                                     Toast toast = new Toast(ctx);
 
@@ -312,22 +325,22 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
 
     }
 
-    public List<Reserva> getReservasList() {
-        return reservasList;
+    public List<Hospedagem> getHospedagemsList() {
+        return hospedagemsList;
     }
 
-    public void setreservasList(List<Reserva> reservasList) {
-        this.reservasList = reservasList;
+    public void sethospedagemsList(List<Hospedagem> hospedagemsList) {
+        this.hospedagemsList = hospedagemsList;
         notifyDataSetChanged();
     }
 
-    public void addReserva(Reserva ap) {
-        getReservasList().add(ap);
+    public void addHospedagem(Hospedagem ap) {
+        getHospedagemsList().add(ap);
         notifyDataSetChanged();
     }
 
-    public void atualizar(int pos, Reserva ap) {
-        getReservasList().set(pos, ap);
+    public void atualizar(int pos, Hospedagem ap) {
+        getHospedagemsList().set(pos, ap);
         notifyItemChanged(pos);
         notifyDataSetChanged();
     }

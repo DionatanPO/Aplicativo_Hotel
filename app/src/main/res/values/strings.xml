@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Hotel</string>
+    <string name="app_name">Smart Hotel</string>
     <string-array name="estados_array">
         <item>Disponível</item>
         <item>Ocupado</item>

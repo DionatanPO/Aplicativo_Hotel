@@ -1,12 +1,10 @@
 package com.example.app.view;
 
 import android.os.Bundle;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
@@ -14,6 +12,7 @@ import com.example.app.controller.FuncionarioController;
 import com.example.app.controller.LimpezaController;
 import com.example.app.model.Apartamento;
 import com.example.app.request.Apartamento_Request;
+import com.example.app.view.adapter.LimpezaAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

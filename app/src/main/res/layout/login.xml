@@ -70,7 +70,7 @@
             android:layout_marginRight="40dp"
             android:background="@drawable/borda_arredondada"
             android:text="Entrar"
-            android:textColor="@color/white"
+            android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
@@ -154,16 +154,6 @@
             app:layout_constraintEnd_toStartOf="@+id/buttonEnter"
             app:layout_constraintHorizontal_bias="0.55"
             app:layout_constraintStart_toEndOf="@+id/buttonCreate_account"
-            app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
-
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lembrar de min"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.194"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

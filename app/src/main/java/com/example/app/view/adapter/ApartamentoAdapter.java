@@ -1,6 +1,5 @@
-package com.example.app.view;
+package com.example.app.view.adapter;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.view.Gravity;
@@ -19,16 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
 import com.example.app.controller.ApartamentoController;
-import com.example.app.controller.LimpezaController;
 import com.example.app.model.Apartamento;
 import com.example.app.request.Apartamento_Request;
-import com.example.app.request.Limpeza_Request;
 
 import java.util.List;
 
-import static android.view.View.GONE;
-
-public class LimpezaAdapter extends RecyclerView.Adapter<LimpezaAdapter.ApartamentoViewHolder> {
+public class ApartamentoAdapter extends RecyclerView.Adapter<ApartamentoAdapter.ApartamentoViewHolder> {
     Context ctx;
     List<Apartamento> apartamentosList;
     String est;
@@ -38,7 +33,7 @@ public class LimpezaAdapter extends RecyclerView.Adapter<LimpezaAdapter.Apartame
     String json;
 
 
-    public LimpezaAdapter(Context ctx, List<Apartamento> apartamentos) {
+    public ApartamentoAdapter(Context ctx, List<Apartamento> apartamentos) {
         this.ctx = ctx;
         apartamentosList = apartamentos;
 
@@ -47,14 +42,18 @@ public class LimpezaAdapter extends RecyclerView.Adapter<LimpezaAdapter.Apartame
     @NonNull
     @Override
     public ApartamentoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_limpeza, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_apartamento, parent, false);
         return new ApartamentoViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ApartamentoViewHolder holder, final int position) {
 
+
+
+
         holder.identificacao.setText(apartamentosList.get(position).getIdentificacao());
+        holder.descricao.setText(apartamentosList.get(position).getDescricao());
         holder.estado.setText(apartamentosList.get(position).getEstado());
 
 
@@ -69,13 +68,15 @@ public class LimpezaAdapter extends RecyclerView.Adapter<LimpezaAdapter.Apartame
     public class ApartamentoViewHolder extends RecyclerView.ViewHolder {
 
         TextView identificacao;
+        TextView descricao;
         TextView estado;
 
 
         public ApartamentoViewHolder(final View itemView) {
             super(itemView);
-            identificacao = itemView.findViewById(R.id.identificacao_limpeza_card);
-            estado = itemView.findViewById(R.id.estad_limpeza_cardo);
+            identificacao = itemView.findViewById(R.id.card_identificacao);
+            descricao = itemView.findViewById(R.id.card_descricao);
+            estado = itemView.findViewById(R.id.card_estado);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -97,16 +98,16 @@ public class LimpezaAdapter extends RecyclerView.Adapter<LimpezaAdapter.Apartame
                         TextView titulo;
                         titulo = finalView.findViewById(R.id.txt_titulo);
 
-                        titulo.setText("   Alterar estado do Apartamento");
+                        titulo.setText("   Alterar dados do Apartamento");
                         final EditText identificacao;
                         final EditText descricao;
 
 
+
                         identificacao = finalView.findViewById(R.id.editText_identificacaoAP);
                         descricao = finalView.findViewById(R.id.editText_DescricaoAp);
-                        identificacao.setVisibility(GONE);
-
-                        descricao.setVisibility(GONE);
+                        identificacao.setText(apartamentosList.get(pos).getIdentificacao());
+                        descricao.setText(apartamentosList.get(pos).getDescricao());
 
                         Spinner spinner = (Spinner) layout.findViewById(R.id.estados_spinner);
 
@@ -130,7 +131,6 @@ public class LimpezaAdapter extends RecyclerView.Adapter<LimpezaAdapter.Apartame
 
 
                         layout.findViewById(R.id.btnCadAp).setOnClickListener(new View.OnClickListener() {
-                            @SuppressLint("WrongConstant")
                             public void onClick(View arg0) {
 
                                 Long apId;
@@ -142,31 +142,22 @@ public class LimpezaAdapter extends RecyclerView.Adapter<LimpezaAdapter.Apartame
                                 apc = new ApartamentoController(ctx);
                                 apr = new Apartamento_Request(ctx);
 
-                                json = apc.valirar_alterar_Apartamento(apId, apartamentosList.get(pos).getIdentificacao().toString(), est, apartamentosList.get(pos).getDescricao());
-
+                                json = apc.valirar_alterar_Apartamento(apId, identificacao.getText().toString(), est, descricao.getText().toString());
                                 if (json != null) {
-                                    if (apc.converter_json_apartamento_(json).getEstado().equals("Disponível")) {
-                                        LimpezaController limpezaController = new LimpezaController(ctx);
-                                        Limpeza_Request limpeza_request = new Limpeza_Request(ctx);
-                                        limpeza_request.cadastrar_limpeza(limpezaController.valirar_cadastro_lipenza(apartamentosList.get(pos)));
-                                    }
-
                                     apr.alterar_Apartamento(json, apId);
                                     alerta.dismiss();
-                                    getApartamentosList().remove(pos);
-                                    notifyDataSetChanged();
-
-
+                                    atualizar(pos, apc.converter_json_apartamento_(json));
 
                                     LayoutInflater inflater2 = LayoutInflater.from(ctx);
                                     View layout2 = inflater2.inflate(R.layout.custom_toast, null);
 
                                     TextView text = (TextView) layout2.findViewById(R.id.text);
-                                    text.setText("Estado do ap alterado!");
+                                    text.setText("Apartamento alterado");
 
                                     Toast toast = new Toast(ctx);
+
                                     toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                    toast.setDuration(8000);
+                                    toast.setDuration(9000);
                                     toast.setView(layout2);
                                     toast.show();
 

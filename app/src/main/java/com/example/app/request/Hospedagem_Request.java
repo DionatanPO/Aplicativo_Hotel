@@ -1,9 +1,6 @@
 package com.example.app.request;
 
 import android.content.Context;
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -16,7 +13,7 @@ import com.android.volley.toolbox.Volley;
 
 import com.example.app.model.Hospedagem;
 import com.example.app.model.Url;
-import com.example.app.view.HospedagemAdapter;
+import com.example.app.view.adapter.HospedagemAdapter;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;

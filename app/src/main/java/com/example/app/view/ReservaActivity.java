@@ -29,6 +29,7 @@ import com.example.app.R;
 import com.example.app.controller.ReservaController;
 import com.example.app.model.Reserva;
 import com.example.app.request.Reserva_Request;
+import com.example.app.view.adapter.ReservaAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -21,7 +21,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.example.app.R;
 
 public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClickListener {
-    private TextView btn_funcionario, btn_check_in, btn_limpeza, btn_apartamento, btn_hospedagem, btn_reserva;
+    private TextView btn_funcionario, btn_check_in, btn_limpeza, btn_apartamento, btn_hospedagem, btn_reserva, btn_relatorio;
     private Button button_menu;
     private Context context;
 
@@ -38,6 +38,7 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
         btn_hospedagem = findViewById(R.id.btn_hospedagem);
         btn_reserva = findViewById(R.id.btn_reserva);
         button_menu = findViewById(R.id.painel_btn_menu);
+        btn_relatorio = findViewById(R.id.btn_relatorio);
 
         button_menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +96,14 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
                 startActivity(i);
             }
         });
+
+        btn_relatorio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(PainelActivity.this, RelatorioActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -103,10 +112,12 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
             case R.id.perfil:
                 AlertDialog alerta;
 
-                LayoutInflater inflater = LayoutInflater.from(this.getApplicationContext());
+                LayoutInflater inflater = LayoutInflater.from(context);
                 View layout = inflater.inflate(R.layout.create_account, null);
                 final TextView titulo = layout.findViewById(R.id.textView2);
+                final TextView titulo2 = layout.findViewById(R.id.textview_criarconta);
                 titulo.setText("Alterar seus dados");
+                titulo2.setText("Informe seus dados");
 
             Button button_concluir_altera_conta = layout.findViewById(R.id.btnCreate);
 //                final EditText editText_conta_nome = layout.findViewById(R.id.alterar_conta_nome);
@@ -163,7 +174,7 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
         alertDialogBuilder
-                .setMessage( " deseja mesmo sair?")
+                .setMessage( "Deseja mesmo sair?")
                 .setCancelable(false)
                 .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
 

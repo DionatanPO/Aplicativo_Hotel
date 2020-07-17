@@ -1,13 +1,10 @@
 package com.example.app.request;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.android.volley.AuthFailureError;
@@ -16,15 +13,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.app.controller.LimpezaController;
 import com.example.app.model.Apartamento;
 import com.example.app.model.Url;
-import com.example.app.view.ApartamentoAdapter;
-import com.example.app.view.FuncionarioAdapter;
-import com.example.app.view.LimpezaAdapter;
+import com.example.app.view.adapter.ApartamentoAdapter;
+import com.example.app.view.adapter.LimpezaAdapter;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;

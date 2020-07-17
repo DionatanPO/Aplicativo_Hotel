@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="HardcodedDebugMode">
+        <activity android:name=".view.RelatorioActivity"></activity>
         <activity android:name=".view.ReservaActivity"></activity>
         <activity android:name=".view.ReservaAddActivity"></activity>
         <activity android:name=".view.HospedagemActivity"></activity>

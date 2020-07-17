@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.graphics.Canvas;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,6 +28,7 @@ import com.example.app.R;
 import com.example.app.controller.FuncionarioController;
 import com.example.app.model.Funcionario;
 import com.example.app.request.Funcionario_Request;
+import com.example.app.view.adapter.FuncionarioAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
