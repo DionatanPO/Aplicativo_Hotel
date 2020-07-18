@@ -1,7 +1,7 @@
 package com.example.app.model;
 
 public final class Url {
-    static String url = "http://192.168.0.5:8080";
+    static String url = "http://192.168.0.4:8080";
 
     public static String getUrl() {
         return url;

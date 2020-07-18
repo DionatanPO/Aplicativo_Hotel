@@ -7,4 +7,9 @@
     <color name="red">#a82323</color>
     <color name="roxo">#5271B3</color>
     <color name="alerta">#f9a825</color>
+    <color name="grafico1">#004d40</color>
+    <color name="grafico2">#5d4037</color>
+    <color name="grafico3">#d84315</color>
+    <color name="grafico4">#01579b</color>
+
 </resources>

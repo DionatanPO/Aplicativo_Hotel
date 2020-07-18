@@ -17,6 +17,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.app.model.Apartamento;
 import com.example.app.model.Url;
+import com.example.app.view.RelatorioActivity;
 import com.example.app.view.adapter.ApartamentoAdapter;
 import com.example.app.view.adapter.LimpezaAdapter;
 import com.google.gson.Gson;
@@ -96,6 +97,36 @@ public class Apartamento_Request {
 
         String url = ip + "/apartamento/todos";
 
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray jsonArray) {
+                        try {
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject apartamentos = jsonArray.getJSONObject(i);
+
+                                ap = new Gson().fromJson(apartamentos.toString(), Apartamento.class);
+                                apList.add(ap);
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println(error);
+            }
+        });
+        mRequestQueue.add(request);
+        return apList;
+    }
+    public List<Apartamento> bsucarTodos(final RelatorioActivity activity) {
+
+        String url = ip + "/apartamento/todos";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
@@ -110,6 +141,7 @@ public class Apartamento_Request {
                                 apList.add(ap);
 
                             }
+                            activity.request(apList);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

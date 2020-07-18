@@ -5,6 +5,7 @@
         <item>Ocupado</item>
         <item>Sujo</item>
         <item>Manutenção</item>
+        <item>Reservado</item>
     </string-array>
 
     <string-array name="cargosfum_array">
