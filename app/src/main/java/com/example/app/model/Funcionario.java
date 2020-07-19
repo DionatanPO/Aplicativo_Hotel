@@ -4,22 +4,23 @@ public class Funcionario {
     private Long id;
     private String cpf;
     private String nome;
-    private String email;
+    private String codidentificacao;
     private String senha;
     private String cargo;
     private String estado;
+    private String token;
 
     public Funcionario() {
     }
 
-    public Funcionario(Long id, String cpf, String nome, String email, String senha, String cargo, String estado) {
-        this.id = id;
-        this.cpf = cpf;
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.cargo = cargo;
-        this.estado = estado;
+
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getEstado() {
@@ -54,12 +55,12 @@ public class Funcionario {
         this.nome = nome;
     }
 
-    public String getEmail() {
-        return email;
+    public String getCodidentificacao() {
+        return codidentificacao;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCodidentificacao(String codidentificacao) {
+        this.codidentificacao = codidentificacao;
     }
 
     public String getSenha() {

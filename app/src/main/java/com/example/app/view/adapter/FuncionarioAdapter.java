@@ -58,7 +58,7 @@ public class FuncionarioAdapter extends RecyclerView.Adapter<FuncionarioAdapter.
     public void onBindViewHolder(FuncionarioViewHolder holder, int position) {
 
         holder.nome.setText(funcionarioslis.get(position).getNome());
-        holder.email.setText(funcionarioslis.get(position).getEmail());
+        holder.email.setText(funcionarioslis.get(position).getCodidentificacao());
         holder.cargo.setText(funcionarioslis.get(position).getCargo());
     }
 
@@ -114,7 +114,7 @@ public class FuncionarioAdapter extends RecyclerView.Adapter<FuncionarioAdapter.
 
                         fumNome.setText(funcionarioslis.get(pos).getNome());
                         fumcpf.setText(String.valueOf(funcionarioslis.get(pos).getCpf()));
-                        fumEmail.setText(funcionarioslis.get(pos).getEmail());
+                        fumEmail.setText(funcionarioslis.get(pos).getCodidentificacao());
 
 
 

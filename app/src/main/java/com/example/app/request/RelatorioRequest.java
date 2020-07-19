@@ -8,16 +8,20 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+
 import android.view.LayoutInflater;
 import android.view.View;
+
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 
+
 import com.android.volley.RequestQueue;
 
 import com.android.volley.toolbox.Volley;
+
 import com.example.app.R;
 import com.example.app.model.Url;
 
@@ -45,7 +49,7 @@ public class RelatorioRequest {
         alerta = builder.create();
         alerta.show();
 
-        String mUrl = ip + "/exporter/download/" + id;
+        String mUrl = ip + "/exporter/download/" + 1;
         if (ActivityCompat.checkSelfPermission(mCtx, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(mCtx, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions((Activity) mCtx, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         } else {

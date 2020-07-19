@@ -126,7 +126,7 @@
             android:layout_marginStart="8dp"
 
             android:layout_marginLeft="8dp"
-            android:text="E-mail"
+            android:text="Código de identificação"
             android:textStyle="bold" />
 
         <EditText
@@ -138,8 +138,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:ems="10"
-            android:hint="Ex: Maria@email.com"
-            android:inputType="textEmailAddress"
+            android:inputType="text"
             app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

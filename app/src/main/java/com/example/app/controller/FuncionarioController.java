@@ -23,26 +23,24 @@ public class FuncionarioController {
     }
 
 
-
     public boolean validateLogin(String email, String senha) {
-
-        funcionario.setEmail(email);
-        funcionario.setSenha(senha);
-
-
-        return true;
-
-
+        if (email.equals("") || senha.equals("")) {
+            return false;
+        } else {
+            funcionario.setCodidentificacao(email);
+            funcionario.setSenha(senha);
+            return true;
+        }
     }
 
     public String valirar_cadastro_Funcionario(String nome, String email, String cpf, String cargo, String senha, String senha2) {
-        if (cpf.equals("")||nome.equals("") || email.equals("") || cargo.equals("") || senha.equals("") || senha2.equals("")) {
+        if (cpf.equals("") || nome.equals("") || email.equals("") || cargo.equals("") || senha.equals("") || senha2.equals("")) {
 
             return null;
 
         } else {
             if (senha.equals(senha2)) {
-                funcionario.setEmail(email);
+                funcionario.setCodidentificacao(email);
                 funcionario.setSenha(senha);
                 funcionario.setCargo(cargo);
                 funcionario.setCpf(cpf);
@@ -61,7 +59,7 @@ public class FuncionarioController {
 
     public Funcionario create_account(String user_name, String email, String senha, String cargo) {
         funcionario.setNome(user_name);
-        funcionario.setEmail(email);
+        funcionario.setCodidentificacao(email);
         funcionario.setSenha(senha);
 
         funcionario.setCargo("Gerente");
@@ -71,14 +69,14 @@ public class FuncionarioController {
 
     }
 
-    public String valirar_alterar_funcionario(Long id,String nome, String email, String cpf, String cargo, String senha, String senha2) {
-        if (cpf.equals("")||nome.equals("") || email.equals("") || cargo.equals("") || senha.equals("") || senha2.equals("")) {
+    public String valirar_alterar_funcionario(Long id, String nome, String email, String cpf, String cargo, String senha, String senha2) {
+        if (cpf.equals("") || nome.equals("") || email.equals("") || cargo.equals("") || senha.equals("") || senha2.equals("")) {
 
             return null;
 
         } else {
             funcionario.setId(id);
-            funcionario.setEmail(email);
+            funcionario.setCodidentificacao(email);
             funcionario.setSenha(senha);
             funcionario.setCargo(cargo);
             funcionario.setCpf(cpf);
@@ -102,8 +100,9 @@ public class FuncionarioController {
         String json = gson.toJson(fum);
         return json;
     }
-    public Funcionario converter_json_funcionario(String json){
+
+    public Funcionario converter_json_funcionario(String json) {
         funcionario = new Gson().fromJson(json, Funcionario.class);
-        return  funcionario;
+        return funcionario;
     }
 }

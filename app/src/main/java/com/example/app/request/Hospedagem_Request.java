@@ -13,6 +13,7 @@ import com.android.volley.toolbox.Volley;
 
 import com.example.app.model.Hospedagem;
 import com.example.app.model.Url;
+import com.example.app.view.RelatorioActivity;
 import com.example.app.view.adapter.HospedagemAdapter;
 import com.google.gson.Gson;
 
@@ -39,8 +40,6 @@ public class Hospedagem_Request {
         this.mCtx = ctx;
         mRequestQueue = Volley.newRequestQueue(mCtx);
     }
-
-
 
 
     public List<Hospedagem> bsucarTodos() {
@@ -98,7 +97,6 @@ public class Hospedagem_Request {
 //    }
 
 
-
     public List<Hospedagem> bsucarTodosAtivos(final HospedagemAdapter funap) {
 
         String url = ip + "/hospedagem/todosAtivos";
@@ -119,7 +117,46 @@ public class Hospedagem_Request {
 
                             }
 
-                           funap.sethospedagemsList(hospedagemList);
+                            funap.sethospedagemsList(hospedagemList);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println(error);
+            }
+        });
+        mRequestQueue.add(request);
+
+        return hospedagemList;
+    }
+
+    public List<Hospedagem> bsucarTodosAtivos(final RelatorioActivity activity) {
+
+        String url = ip + "/hospedagem/todosAtivos";
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray jsonArray) {
+
+
+                        try {
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject hospedagems = jsonArray.getJSONObject(i);
+
+                                hospedagem = new Gson().fromJson(hospedagems.toString(), Hospedagem.class);
+                                hospedagemList.add(hospedagem);
+
+                            }
+
+                            activity.request2(hospedagemList);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
