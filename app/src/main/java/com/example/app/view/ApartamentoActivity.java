@@ -2,6 +2,7 @@ package com.example.app.view;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -27,36 +28,38 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.app.R;
 import com.example.app.controller.ApartamentoController;
 
+import com.example.app.model.Funcionario;
 import com.example.app.request.Apartamento_Request;
 import com.example.app.view.adapter.ApartamentoAdapter;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
+
+import static com.example.app.view.CustonToast.viewToast;
+import static com.example.app.view.CustonToast.viewToastAlerta;
 
 
 public class ApartamentoActivity extends AppCompatActivity {
 
     private ApartamentoAdapter apartamentoAdapter;
     private AlertDialog alerta;
-    Apartamento_Request apr;
-    ApartamentoController apc;
-    String json;
-    Button btn_add;
-    RecyclerView recyclerView;
+    private Apartamento_Request apr;
+    private ApartamentoController apc;
+    private String json, estado;
+    private Button btn_add;
+    private RecyclerView recyclerView;
     private ProgressBar progressBar;
-
-    Spinner spinner;
-    ArrayAdapter spinnerAdapter;
-    View view;
-    String estado;
-
+    private Spinner spinner;
+    private Funcionario funcionario;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apartamento);
+        funcionario = (Funcionario) getIntent().getSerializableExtra("funcionario");
+        context = this;
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.VISIBLE);
-
 
         btn_add = findViewById(R.id.fab_add_ap);
 
@@ -73,98 +76,70 @@ public class ApartamentoActivity extends AppCompatActivity {
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (funcionario.getCargo().equals("Camareira") || funcionario.getCargo().equals("Recepcionista")) {
+                    viewToastAlerta(context, "Funcionários não tem acesso a essa opção");
+                } else {
+                    LayoutInflater li = getLayoutInflater();
 
-                LayoutInflater li = getLayoutInflater();
+                    view = li.inflate(R.layout.alert_add_apartamento, null);
 
-                view = li.inflate(R.layout.alert_add_apartamento, null);
+                    view.findViewById(R.id.btnCadAp);
+                    final View finalView = view;
 
-                view.findViewById(R.id.btnCadAp);
-                final View finalView = view;
+                    spinner = (Spinner) view.findViewById(R.id.estados_spinner);
 
+                    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(ApartamentoActivity.this, R.array.estados_array, android.R.layout.simple_spinner_item);
 
-                spinner = (Spinner) view.findViewById(R.id.estados_spinner);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(ApartamentoActivity.this,
-                        R.array.estados_array, android.R.layout.simple_spinner_item);
-
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                spinner.setAdapter(adapter);
-                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        estado = (String) parent.getItemAtPosition(position);
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                        estado = "";
-                    }
-                });
-
-                view.findViewById(R.id.btnCadAp).setOnClickListener(new View.OnClickListener() {
-                    @SuppressLint("WrongConstant")
-                    public void onClick(View arg0) {
-
-                        EditText identificacao;
-                        EditText descricao;
-
-                        identificacao = finalView.findViewById(R.id.editText_identificacaoAP);
-                        descricao = finalView.findViewById(R.id.editText_DescricaoAp);
-
-
-                        apc = new ApartamentoController(ApartamentoActivity.this);
-                        apr = new Apartamento_Request(ApartamentoActivity.this);
-
-                        json = apc.valirar_cadastro_Apartamento(identificacao.getText().toString(), estado, descricao.getText().toString());
-                        if (json != null) {
-                            apr.cadastrarApartamento(json, apartamentoAdapter);
-                            alerta.dismiss();
-                            LayoutInflater inflater2 = LayoutInflater.from(ApartamentoActivity.this);
-                            View layout2 = inflater2.inflate(R.layout.custom_toast, null);
-
-                            TextView text = (TextView) layout2.findViewById(R.id.text);
-                            text.setText("Apartamento cadastrado!");
-
-                            Toast toast = new Toast(ApartamentoActivity.this);
-                            toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                            toast.setDuration(8000);
-                            toast.setView(layout2);
-                            toast.show();
-                        } else {
-                            LayoutInflater inflater2 = LayoutInflater.from(ApartamentoActivity.this);
-                            View layout2 = inflater2.inflate(R.layout.custom_toast, null);
-                            layout2.setBackgroundResource(R.color.alerta);
-                            TextView text = (TextView) layout2.findViewById(R.id.text);
-                            text.setText("Preencha todos os campos *");
-
-                            Toast toast = new Toast(ApartamentoActivity.this);
-
-                            toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                            toast.setDuration(8000);
-                            toast.setView(layout2);
-                            toast.show();
+                    spinner.setAdapter(adapter);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            estado = (String) parent.getItemAtPosition(position);
                         }
 
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                            estado = "";
+                        }
+                    });
 
-                    }
-                });
+                    view.findViewById(R.id.btnCadAp).setOnClickListener(new View.OnClickListener() {
+                        @SuppressLint("WrongConstant")
+                        public void onClick(View arg0) {
 
+                            EditText identificacao;
+                            EditText descricao;
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(ApartamentoActivity.this);
-                builder.setView(view);
-                alerta = builder.create();
-                alerta.show();
+                            identificacao = finalView.findViewById(R.id.editText_identificacaoAP);
+                            descricao = finalView.findViewById(R.id.editText_DescricaoAp);
 
+                            apc = new ApartamentoController(ApartamentoActivity.this);
+                            apr = new Apartamento_Request(ApartamentoActivity.this);
+
+                            json = apc.valirar_cadastro_Apartamento(identificacao.getText().toString(), estado, descricao.getText().toString());
+                            if (json != null) {
+                                apr.cadastrarApartamento(json, apartamentoAdapter);
+                                viewToast(context, "Apartamento cadastrado!");
+                            } else {
+                                viewToastAlerta(context, "Preencha todos os campos *");
+                            }
+                        }
+                    });
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ApartamentoActivity.this);
+                    builder.setView(view);
+                    alerta = builder.create();
+                    alerta.show();
+
+                }
             }
         });
-        ItemTouchHelper helper = new ItemTouchHelper(
-                new ItemTouchHandler(0,
-                        ItemTouchHelper.LEFT)
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHandler(0, ItemTouchHelper.LEFT)
         );
         helper.attachToRecyclerView(recyclerView);
     }
-
 
     public class ItemTouchHandler extends ItemTouchHelper.SimpleCallback {
 
@@ -185,33 +160,27 @@ public class ApartamentoActivity extends AppCompatActivity {
         public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
             final int position = viewHolder.getAdapterPosition();
 
+            if (funcionario.getCargo().equals("Camareira") || funcionario.getCargo().equals("Recepcionista")) {
+                viewToastAlerta(context, "Funcionários não tem acesso a essa opção");
+                apartamentoAdapter.notifyItemRemoved(position);
+            } else {
+                apc = new ApartamentoController(ApartamentoActivity.this);
+                apartamentoAdapter.getApartamentosList().get(position).setEstado("Desabilitado");
+
+                json = apc.converter_apartamento_json(apartamentoAdapter.getApartamentosList().get(position));
+
+                apr.alterar_Apartamento(json, apartamentoAdapter.getApartamentosList().get(position).getId());
 
 
-            apc = new ApartamentoController(ApartamentoActivity.this);
-            apartamentoAdapter.getApartamentosList().get(position).setEstado("Desabilitado");
-
-            json = apc.converter_apartamento_json(apartamentoAdapter.getApartamentosList().get(position));
-
-            apr.alterar_Apartamento(json, apartamentoAdapter.getApartamentosList().get(position).getId());
-
-
-            apartamentoAdapter.getApartamentosList().remove(position);
-            apartamentoAdapter.notifyItemRemoved(position);
-            LayoutInflater inflater2 = LayoutInflater.from(ApartamentoActivity.this);
-            View layout2 = inflater2.inflate(R.layout.custom_toast, null);
-
-            TextView text = (TextView) layout2.findViewById(R.id.text);
-            text.setText("Aparatamento apagado!");
-
-            Toast toast = new Toast(ApartamentoActivity.this);
-            toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-            toast.setDuration(8000);
-            toast.setView(layout2);
-            toast.show();
-
+                apartamentoAdapter.getApartamentosList().remove(position);
+                apartamentoAdapter.notifyItemRemoved(position);
+                viewToast(context, "Apartamento apagado!");
+            }
         }
+
         @Override
-        public void onChildDraw (Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive){
+        public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder
+                viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
 
             new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                     .addBackgroundColor(ContextCompat.getColor(ApartamentoActivity.this, R.color.red))
@@ -224,7 +193,6 @@ public class ApartamentoActivity extends AppCompatActivity {
     }
 
 
-
     public ApartamentoAdapter getApartamentoAdapter() {
         return apartamentoAdapter;
     }
@@ -233,8 +201,6 @@ public class ApartamentoActivity extends AppCompatActivity {
         this.apartamentoAdapter = apartamentoAdapter;
 
     }
-
-
 
 
 }

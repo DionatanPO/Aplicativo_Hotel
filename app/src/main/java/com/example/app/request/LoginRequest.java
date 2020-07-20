@@ -59,7 +59,6 @@ public class LoginRequest {
         alerta = builder.create();
         alerta.show();
 
-
         String url = ip + "/funcionario/login";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -71,6 +70,7 @@ public class LoginRequest {
 
                     if (funcionario != null) {
                         Intent i = new Intent(context, PainelActivity.class);
+                        i.putExtra("funcionario",funcionario);
                         context.startActivity(i);
                         alerta.cancel();
                         viewToast(context, "Logado com sucesso!");
@@ -82,6 +82,7 @@ public class LoginRequest {
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                    viewToastAlerta(context, "Usuário não encontrado ou senha invalida!");
                     alerta.cancel();
                 }
             }

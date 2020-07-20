@@ -105,7 +105,7 @@
             android:textStyle="bold" />
 
         <com.santalu.maskedittext.MaskEditText
-            android:id="@+id/editTextUserName2"
+            android:id="@+id/criar_conta_cpf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

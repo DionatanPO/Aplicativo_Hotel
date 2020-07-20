@@ -3,6 +3,7 @@ package com.example.app.view;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -24,6 +25,7 @@ import com.example.app.controller.ApartamentoController;
 import com.example.app.controller.CheckinController;
 import com.example.app.model.Apartamento;
 import com.example.app.model.Cal_Data;
+import com.example.app.model.Funcionario;
 import com.example.app.request.Apartamento_Request;
 import com.example.app.request.Checkin_Request;
 
@@ -31,45 +33,37 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.app.view.CustonToast.viewToast;
+
 
 public class CheckinActivity extends AppCompatActivity implements Spinner.OnItemSelectedListener {
-    String pagamento ;
-    int n_pessoas ;
-    Spinner spinner;
-    Spinner spinner2;
-    Spinner spinner_apartamento;
-
-    EditText nome_hospede;
-    EditText cpf;
-    EditText telefone;
-    EditText data_entrada;
-    EditText data_saida;
-    EditText v_hospedagem;
-
-    Button btn_concluir;
-    ArrayAdapter spinnerAdapter;
-
+    private String pagamento, json;
+    private int n_pessoas;
+    private Spinner spinner, spinner2, spinner_apartamento;
+    private EditText nome_hospede, cpf, telefone, data_entrada, data_saida, v_hospedagem;
+    private Button btn_concluir;
+    private ArrayAdapter spinnerAdapter;
     private List<Apartamento> apartamentoList;
     private Apartamento apartamento;
-
-
-    Cal_Data cal_data;
-    String json;
-    float valor_hospedagem;
-    private AlertDialog alerta;
-    TextView btn_hospedagem;
-
+    private Cal_Data cal_data;
+    private float valor_hospedagem;
+    private TextView btn_hospedagem;
+    private Context context;
+    private Funcionario funcionario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkin);
         btn_hospedagem = findViewById(R.id.btn_hospedagem);
+        context = this;
+        funcionario = (Funcionario) getIntent().getSerializableExtra("funcionario");
 
         btn_hospedagem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(CheckinActivity.this, HospedagemActivity.class);
+                i.putExtra("funcionario",funcionario);
                 startActivity(i);
             }
         });
@@ -86,7 +80,6 @@ public class CheckinActivity extends AppCompatActivity implements Spinner.OnItem
         v_hospedagem = findViewById(R.id.editText_valor_hospedagem);
 
         btn_concluir = findViewById(R.id.btnConcluir_hospedagem);
-
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.pagamento_array, android.R.layout.simple_spinner_item);
@@ -107,7 +100,6 @@ public class CheckinActivity extends AppCompatActivity implements Spinner.OnItem
         });
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
                 R.array.n_pessoas_array, android.R.layout.simple_spinner_item);
-
 
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -130,7 +122,6 @@ public class CheckinActivity extends AppCompatActivity implements Spinner.OnItem
         apartamento = new Apartamento();
         apartamentoList = new ArrayList<>();
 
-
         spinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, apartamentoList);
         apartamento_request.buscar_por_estado("Disponivel", "estado", apartamentoList, spinnerAdapter);
         spinner_apartamento.setAdapter(spinnerAdapter);
@@ -140,7 +131,6 @@ public class CheckinActivity extends AppCompatActivity implements Spinner.OnItem
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 apartamento = (Apartamento) parent.getItemAtPosition(position);
 
-
             }
 
             @Override
@@ -148,9 +138,7 @@ public class CheckinActivity extends AppCompatActivity implements Spinner.OnItem
                 apartamento = null;
             }
 
-
         });
-
 
         cal_data = new Cal_Data();
         List<String> horasList = new ArrayList<>();
@@ -164,18 +152,19 @@ public class CheckinActivity extends AppCompatActivity implements Spinner.OnItem
             @SuppressLint("WrongConstant")
             @Override
             public void onClick(View view) {
-                if (v_hospedagem.getText().length() != 0){
+                if (v_hospedagem.getText().length() != 0) {
                     valor_hospedagem = Float.parseFloat(v_hospedagem.getText().toString());
                 }
 
                 CheckinController checkinController = new CheckinController(CheckinActivity.this);
 
                 try {
-                    json = checkinController.valirar_checkin(
-                            apartamento,cpf.getText().toString(), nome_hospede.getText().toString(), telefone.getText().toString(), data_entrada.getText().toString(), data_saida.getText().toString(), pagamento, valor_hospedagem, n_pessoas);
+                    json = checkinController.valirar_checkin(funcionario,
+                            apartamento, cpf.getText().toString(), nome_hospede.getText().toString(), telefone.getText().toString(), data_entrada.getText().toString(), data_saida.getText().toString(), pagamento, valor_hospedagem, n_pessoas);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+
                 Checkin_Request checkin_request = new Checkin_Request(CheckinActivity.this);
                 if (json != null) {
                     checkin_request.cadastrar_hospedagem(json);
@@ -188,44 +177,20 @@ public class CheckinActivity extends AppCompatActivity implements Spinner.OnItem
                     spinner_apartamento.setAdapter(spinnerAdapter);
                     spinnerAdapter.notifyDataSetChanged();
 
-                    LayoutInflater inflater2 = LayoutInflater.from(CheckinActivity.this);
-                    View layout2 = inflater2.inflate(R.layout.custom_toast, null);
-
-                    TextView text = (TextView) layout2.findViewById(R.id.text);
-                    text.setText("Hospedagem cadastrada!");
-
-                    Toast toast = new Toast(CheckinActivity.this);
-
-                    toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                    toast.setDuration(8000);
-                    toast.setView(layout2);
-                    toast.show();
+                    viewToast(context, "Hospedagem cadastrada");
 
                 } else {
-                    LayoutInflater inflater2 = LayoutInflater.from(CheckinActivity.this);
-                    View layout2 = inflater2.inflate(R.layout.custom_toast, null);
-                    layout2.setBackgroundResource(R.color.alerta);
-                    TextView text = (TextView) layout2.findViewById(R.id.text);
-                    text.setText("Preencha todos os campos *");
+                    viewToast(context, "Preencha todos os campos *");
 
-                    Toast toast = new Toast(CheckinActivity.this);
-
-                    toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                    toast.setDuration(8000);
-                    toast.setView(layout2);
-                    toast.show();
                 }
 
             }
         });
 
-
     }
-
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
 
     }
 

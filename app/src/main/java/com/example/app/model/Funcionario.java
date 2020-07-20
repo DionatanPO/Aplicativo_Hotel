@@ -1,6 +1,8 @@
 package com.example.app.model;
 
-public class Funcionario {
+import java.io.Serializable;
+
+public class Funcionario implements Serializable {
     private Long id;
     private String cpf;
     private String nome;
@@ -12,8 +14,6 @@ public class Funcionario {
 
     public Funcionario() {
     }
-
-
 
     public String getToken() {
         return token;

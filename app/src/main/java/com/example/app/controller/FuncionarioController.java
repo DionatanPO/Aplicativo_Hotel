@@ -8,6 +8,9 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.app.view.CustonToast.viewToast;
+import static com.example.app.view.CustonToast.viewToastAlerta;
+
 
 public class FuncionarioController {
 
@@ -33,40 +36,40 @@ public class FuncionarioController {
         }
     }
 
-    public String valirar_cadastro_Funcionario(String nome, String email, String cpf, String cargo, String senha, String senha2) {
+
+    public Funcionario create_account(Context context, String nome, String email, String cpf, String senha, String senha2) {
+        if (cpf.equals("") || nome.equals("") || email.equals("") ||  senha.equals("") || senha2.equals("")) {
+            if (senha.equals(senha2)) {
+                funcionario.setNome(nome);
+                funcionario.setCodidentificacao(email);
+                funcionario.setSenha(senha);
+                funcionario.setCargo("Gerente");
+                funcionario.setCpf(cpf);
+                funcionario.setEstado("Abilitado");
+                return funcionario;
+            } else {
+                viewToastAlerta(context, "As senhas não correspondem");
+                return null;
+            }
+        }else {
+            return  null;
+        }
+    }
+
+    public Funcionario cadastrar_funcionario(String nome, String email, String cpf, String cargo, String senha, String senha2) {
         if (cpf.equals("") || nome.equals("") || email.equals("") || cargo.equals("") || senha.equals("") || senha2.equals("")) {
 
             return null;
 
         } else {
-            if (senha.equals(senha2)) {
-                funcionario.setCodidentificacao(email);
-                funcionario.setSenha(senha);
-                funcionario.setCargo(cargo);
-                funcionario.setCpf(cpf);
-                funcionario.setNome(nome);
-                funcionario.setEstado("Abilitado");
-
-                String json = gson.toJson(funcionario);
-                return json;
-            } else {
-                return "senha";
-            }
-
+            funcionario.setNome(nome);
+            funcionario.setCodidentificacao(email);
+            funcionario.setSenha(senha);
+            funcionario.setCargo(cargo);
+            funcionario.setCpf(cpf);
+            funcionario.setEstado("Abilitado");
+            return funcionario;
         }
-
-    }
-
-    public Funcionario create_account(String user_name, String email, String senha, String cargo) {
-        funcionario.setNome(user_name);
-        funcionario.setCodidentificacao(email);
-        funcionario.setSenha(senha);
-
-        funcionario.setCargo("Gerente");
-
-
-        return funcionario;
-
     }
 
     public String valirar_alterar_funcionario(Long id, String nome, String email, String cpf, String cargo, String senha, String senha2) {

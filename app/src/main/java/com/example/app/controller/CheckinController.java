@@ -32,7 +32,7 @@ public class CheckinController {
     }
 
 
-    public String valirar_checkin(Apartamento apartamento, String cpf,
+    public String valirar_checkin(Funcionario funcionario,Apartamento apartamento, String cpf,
                                   String nome, String telefone, String data_entrada, String data_saida, String tipo_pagamento, float valor_hospedagem, int n_pessoas) throws ParseException {
         if (cpf.equals("")||apartamento == null || nome.equals("") || data_entrada.equals("") || data_saida.equals("") || tipo_pagamento.equals("") || valor_hospedagem == 0) {
             json = null;
@@ -53,6 +53,7 @@ public class CheckinController {
 
             hospedagem.setApartamento(apartamento);
             hospedagem.setHospede(hospede);
+            hospedagem.setFuncionario_id(funcionario.getId());
             hospedagem.setData_saida(saida);
             hospedagem.setData_entrada(entrada);
             hospedagem.setTipo_pagamento(tipo_pagamento);

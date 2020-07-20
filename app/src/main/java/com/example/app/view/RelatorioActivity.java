@@ -2,7 +2,6 @@ package com.example.app.view;
 
 import android.content.DialogInterface;
 
-import android.os.Build;
 import android.os.Bundle;
 
 import android.view.View;
@@ -15,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.app.R;
 import com.example.app.model.Apartamento;
+import com.example.app.model.Funcionario;
 import com.example.app.model.Hospedagem;
 import com.example.app.request.Apartamento_Request;
 import com.example.app.request.Hospedagem_Request;
@@ -30,31 +30,46 @@ import java.util.List;
 import static android.graphics.Color.WHITE;
 
 
+
 public class RelatorioActivity extends AppCompatActivity {
     private Button btn_export;
     private List<Apartamento> apartamentos;
     private List<Hospedagem> hospedagemList;
     private Apartamento_Request apartamento_request;
     private Hospedagem_Request hospedagem_request;
-    private TextView relatorio_td, relatorio_tc, relatorio_tt;
+    private TextView relatorio_td, relatorio_tc, relatorio_tt, textView;
 
-    int apSujo = 0, apDisponivel = 0, apReservados = 0, apManuntencao = 0, apOcupado = 0;
+    private int apSujo = 0, apDisponivel = 0, apReservados = 0, apManuntencao = 0, apOcupado = 0;
+
+    private Funcionario funcionario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.relatorio);
 
+        funcionario = (Funcionario) getIntent().getSerializableExtra("funcionario");
+
         relatorio_td = findViewById(R.id.relatorio_td);
         relatorio_tc = findViewById(R.id.relatorio_tc);
         relatorio_tt = findViewById(R.id.relatorio_tt);
+        btn_export = findViewById(R.id.btn_export);
+        textView = findViewById(R.id.txt_eport);
+
+        if (funcionario.getCargo().equals("Camareira") || funcionario.getCargo().equals("Recepcionista")) {
+            relatorio_td.setVisibility(View.GONE);
+            relatorio_tc.setVisibility(View.GONE);
+            relatorio_tt.setVisibility(View.GONE);
+            btn_export.setVisibility(View.GONE);
+            textView.setVisibility(View.GONE);
+        }
 
         apartamento_request = new Apartamento_Request(this);
         hospedagem_request = new Hospedagem_Request(this);
         apartamento_request.bsucarTodos(this);
         hospedagem_request.bsucarTodosAtivos(this);
 
-        btn_export = findViewById(R.id.btn_export);
+
         btn_export.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -161,9 +176,10 @@ public class RelatorioActivity extends AppCompatActivity {
             }
         }
 
-        relatorio_td.setText(relatorio_td.getText().toString()+String.valueOf(totald));
-        relatorio_tc.setText(relatorio_tc.getText().toString()+String.valueOf(totalc));
-        relatorio_tt.setText(String.valueOf(totalc+totald));
+
+        relatorio_td.setText(relatorio_td.getText().toString() + String.valueOf(totald));
+        relatorio_tc.setText(relatorio_tc.getText().toString() + String.valueOf(totalc));
+        relatorio_tt.setText(String.valueOf(totalc + totald));
 
         final PieChart pieChart = findViewById(R.id.grafico2);
 
@@ -193,5 +209,6 @@ public class RelatorioActivity extends AppCompatActivity {
         pieChart.animate();
 
         pieChart.setVisibility(View.VISIBLE);
+
     }
 }

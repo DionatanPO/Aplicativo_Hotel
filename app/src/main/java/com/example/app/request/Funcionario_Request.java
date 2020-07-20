@@ -25,6 +25,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.app.view.CustonToast.viewToast;
+import static com.example.app.view.CustonToast.viewToastErro;
+
 
 public class Funcionario_Request {
     private RequestQueue mRequestQueue;
@@ -86,6 +89,50 @@ public class Funcionario_Request {
 
     }
 
+    public void cadastrarFuncionario(final String json, final Context context) {
+
+        String url = ip + "/funcionario/";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    fum = new Gson().fromJson(jsonObject.toString(), Funcionario.class);
+                    viewToast(context, "Conta criada com sucesso");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    viewToastErro(context, "Ops! Algo Não deu certo, tente novament");
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println(error);
+                viewToastErro(context, "Ops Algo Não deu certo, tente novament");
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return json == null ? null : json.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    return null;
+                }
+
+            }
+
+        };
+
+        mRequestQueue.add(stringRequest);
+
+    }
 
     public List<Funcionario> bsucarTodos() {
 
@@ -182,7 +229,7 @@ public class Funcionario_Request {
         mRequestQueue.add(stringRequest);
     }
 
-    public List<Funcionario> bsucarTodosAtivos(final FuncionarioAdapter funap,final ProgressBar progressBar) {
+    public List<Funcionario> bsucarTodosAtivos(final FuncionarioAdapter funap, final ProgressBar progressBar) {
 
         String url = ip + "/funcionario/todosAtivos";
 
@@ -203,7 +250,7 @@ public class Funcionario_Request {
 
                             }
 
-                           funap.setFuncionarioslis(fumList, progressBar);
+                            funap.setFuncionarioslis(fumList, progressBar);
 
                         } catch (JSONException e) {
                             e.printStackTrace();

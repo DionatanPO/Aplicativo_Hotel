@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,17 +20,24 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.app.R;
+import com.example.app.model.Funcionario;
+
+import static android.graphics.Color.GRAY;
+import static com.example.app.view.CustonToast.viewToast;
+import static com.example.app.view.CustonToast.viewToastAlerta;
 
 public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClickListener {
     private TextView btn_funcionario, btn_check_in, btn_limpeza, btn_apartamento, btn_hospedagem, btn_reserva, btn_relatorio;
     private Button button_menu;
     private Context context;
+    private Funcionario funcionario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_panel);
         context = this;
+        funcionario = (Funcionario) getIntent().getSerializableExtra("funcionario");
 
         btn_funcionario = findViewById(R.id.buttonFuncionarios);
         btn_check_in = findViewById(R.id.btn_check_in);
@@ -50,12 +58,18 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
             }
         });
 
-//       btn_funcionario.setVisibility(View.INVISIBLE);
         btn_funcionario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(PainelActivity.this, FuncionarioActivity.class);
-                startActivity(i);
+
+                if(funcionario.getCargo().equals("Camareira")||funcionario.getCargo().equals("Recepcionista")){
+                    viewToastAlerta(context, "Funcionários não tem acesso a essa opção");
+                }else {
+                    Intent i = new Intent(PainelActivity.this, FuncionarioActivity.class);
+                    i.putExtra("funcionario", funcionario);
+                    startActivity(i);
+                }
+
             }
         });
         btn_check_in.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +91,7 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(PainelActivity.this, ApartamentoActivity.class);
+                i.putExtra("funcionario", funcionario);
                 startActivity(i);
             }
         });
@@ -85,6 +100,7 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(PainelActivity.this, HospedagemActivity.class);
+                i.putExtra("funcionario", funcionario);
                 startActivity(i);
             }
         });
@@ -93,6 +109,7 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(PainelActivity.this, ReservaActivity.class);
+                i.putExtra("funcionario", funcionario);
                 startActivity(i);
             }
         });
@@ -101,6 +118,7 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(PainelActivity.this, RelatorioActivity.class);
+                i.putExtra("funcionario", funcionario);
                 startActivity(i);
             }
         });
