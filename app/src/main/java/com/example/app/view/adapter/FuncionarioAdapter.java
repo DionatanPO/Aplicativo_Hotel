@@ -152,7 +152,7 @@ public class FuncionarioAdapter extends RecyclerView.Adapter<FuncionarioAdapter.
                                 func = new FuncionarioController(ctx);
                                 funR = new Funcionario_Request(ctx);
 
-                                json = func.valirar_alterar_funcionario(funId, fumNome.getText().toString(), fumEmail.getText().toString(), fumcpf.getText().toString()
+                                json = func.valirar_alterar_funcionario(funId,funcionarioslis.get(pos).getAdministrador_id(),fumNome.getText().toString(), fumEmail.getText().toString(), fumcpf.getText().toString()
                                         , cargos, fumSenha.getText().toString(), fumSenha2.getText().toString());
                                 if (json != null) {
                                     funR.alterar_funcionario(json, funId);

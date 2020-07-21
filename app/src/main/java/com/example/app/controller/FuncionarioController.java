@@ -37,59 +37,75 @@ public class FuncionarioController {
     }
 
 
-    public Funcionario create_account(Context context, String nome, String email, String cpf, String senha, String senha2) {
-        if (cpf.equals("") || nome.equals("") || email.equals("") ||  senha.equals("") || senha2.equals("")) {
+    public String create_account(String nome, String email, String cpf, String senha, String senha2) {
+        if (cpf.equals("") || nome.equals("") || email.equals("") || senha.equals("") || senha2.equals("")) {
+
+
+            viewToastAlerta(context, "Preencha todos os campos");
+            return null;
+        } else {
             if (senha.equals(senha2)) {
                 funcionario.setNome(nome);
                 funcionario.setCodidentificacao(email);
                 funcionario.setSenha(senha);
-                funcionario.setCargo("Gerente");
+                funcionario.setCargo("Administrador");
                 funcionario.setCpf(cpf);
                 funcionario.setEstado("Abilitado");
-                return funcionario;
+               String json = converter_funcionario_json(funcionario);
+                return json;
             } else {
                 viewToastAlerta(context, "As senhas não correspondem");
                 return null;
             }
-        }else {
-            return  null;
         }
     }
 
-    public Funcionario cadastrar_funcionario(String nome, String email, String cpf, String cargo, String senha, String senha2) {
+    public String cadastrar_funcionario(Long id, String nome, String email, String cpf, String cargo, String senha, String senha2) {
         if (cpf.equals("") || nome.equals("") || email.equals("") || cargo.equals("") || senha.equals("") || senha2.equals("")) {
 
+            viewToastAlerta(context, "Por favor, preencha todos os campos");
             return null;
-
         } else {
-            funcionario.setNome(nome);
-            funcionario.setCodidentificacao(email);
-            funcionario.setSenha(senha);
-            funcionario.setCargo(cargo);
-            funcionario.setCpf(cpf);
-            funcionario.setEstado("Abilitado");
-            return funcionario;
+            if (senha.equals(senha2)) {
+                funcionario.setAdministrador_id(id);
+                funcionario.setNome(nome);
+                funcionario.setCodidentificacao(email);
+                funcionario.setSenha(senha);
+                funcionario.setCargo(cargo);
+                funcionario.setCpf(cpf);
+                funcionario.setEstado("Abilitado");
+                String json =converter_funcionario_json(funcionario);
+
+                return json;
+            } else {
+                viewToastAlerta(context, "As senhas não correspondem");
+                return null;
+            }
         }
     }
 
-    public String valirar_alterar_funcionario(Long id, String nome, String email, String cpf, String cargo, String senha, String senha2) {
+    public String valirar_alterar_funcionario(Long id, Long ida, String nome, String email, String cpf, String cargo, String senha, String senha2) {
         if (cpf.equals("") || nome.equals("") || email.equals("") || cargo.equals("") || senha.equals("") || senha2.equals("")) {
 
+            viewToastAlerta(context, "Por favor, preencha todos os campos");
             return null;
-
         } else {
-            funcionario.setId(id);
-            funcionario.setCodidentificacao(email);
-            funcionario.setSenha(senha);
-            funcionario.setCargo(cargo);
-            funcionario.setCpf(cpf);
-            funcionario.setNome(nome);
-            funcionario.setEstado("Abilitado");
+            if (senha.equals(senha2)) {
+                funcionario.setId(id);
+                funcionario.setAdministrador_id(ida);
+                funcionario.setNome(nome);
+                funcionario.setCodidentificacao(email);
+                funcionario.setSenha(senha);
+                funcionario.setCargo(cargo);
+                funcionario.setCpf(cpf);
+                funcionario.setEstado("Abilitado");
 
-
-            String json = gson.toJson(funcionario);
-            return json;
-
+               String json = converter_funcionario_json(funcionario);
+                return json;
+            } else {
+                viewToastAlerta(context, "As senhas não correspondem");
+                return null;
+            }
         }
     }
 

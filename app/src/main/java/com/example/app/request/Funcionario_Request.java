@@ -1,6 +1,7 @@
 package com.example.app.request;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -14,6 +15,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.app.model.Funcionario;
 import com.example.app.model.Url;
+import com.example.app.view.Create_Account;
+import com.example.app.view.LoginActivity;
 import com.example.app.view.adapter.FuncionarioAdapter;
 import com.google.gson.Gson;
 
@@ -31,7 +34,7 @@ import static com.example.app.view.CustonToast.viewToastErro;
 
 public class Funcionario_Request {
     private RequestQueue mRequestQueue;
-    private Context mCtx;
+    private Context context;
     private List<Funcionario> fumList = new ArrayList<>();
     private Url url = new Url();
     private String ip = url.getUrl();
@@ -39,8 +42,8 @@ public class Funcionario_Request {
     Funcionario fum = new Funcionario();
 
     public Funcionario_Request(Context ctx) {
-        this.mCtx = ctx;
-        mRequestQueue = Volley.newRequestQueue(mCtx);
+        this.context = ctx;
+        mRequestQueue = Volley.newRequestQueue(context);
     }
 
 
@@ -56,16 +59,17 @@ public class Funcionario_Request {
                     JSONObject jsonObject = new JSONObject(response);
                     fum = new Gson().fromJson(jsonObject.toString(), Funcionario.class);
                     funadp.addFuncionarioo(fum);
-
+                    viewToast(context, "Funcionário cadastrado");
                 } catch (Exception e) {
                     e.printStackTrace();
-
+                    viewToastErro(context, "Ops! Algo deu errado");
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println(error);
+                viewToastErro(context, "Ops! Algo deu errado");
             }
         }) {
             @Override
@@ -89,7 +93,7 @@ public class Funcionario_Request {
 
     }
 
-    public void cadastrarFuncionario(final String json, final Context context) {
+    public void cadastrarFuncionario(final String json) {
 
         String url = ip + "/funcionario/";
 
@@ -100,6 +104,8 @@ public class Funcionario_Request {
                     JSONObject jsonObject = new JSONObject(response);
                     fum = new Gson().fromJson(jsonObject.toString(), Funcionario.class);
                     viewToast(context, "Conta criada com sucesso");
+                    Intent i = new Intent(context, LoginActivity.class);
+                    context.startActivity(i);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -229,16 +235,14 @@ public class Funcionario_Request {
         mRequestQueue.add(stringRequest);
     }
 
-    public List<Funcionario> bsucarTodosAtivos(final FuncionarioAdapter funap, final ProgressBar progressBar) {
+    public List<Funcionario> bsucarTodosAtivos(final FuncionarioAdapter funap, final ProgressBar progressBar, Long id) {
 
-        String url = ip + "/funcionario/todosAtivos";
+        String url = ip + "/funcionario/todosAtivos/"+id;
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray jsonArray) {
-
-
                         try {
 
                             for (int i = 0; i < jsonArray.length(); i++) {

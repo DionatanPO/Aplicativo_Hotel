@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -35,32 +36,39 @@ import java.util.List;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
+import static com.example.app.view.CustonToast.viewToast;
+import static com.example.app.view.CustonToast.viewToastAlerta;
+
 
 public class FuncionarioActivity extends Activity {
+
     private FuncionarioAdapter funcionarioAdapter;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    FuncionarioController funC;
-    Funcionario_Request funR;
-    Button btn_add;
-    String json;
-    Spinner spinner;
-    ArrayAdapter spinnerAdapter;
-    View view;
-    String cargo;
-    String cpf;
+    private FuncionarioController funC;
+    private Funcionario_Request funR;
+    private Button btn_add;
+    private String json, cargo, cpf;
+    private Spinner spinner;
+    private ArrayAdapter spinnerAdapter;
+    private View view;
     private AlertDialog alerta;
-    ProgressBar progressBar;
-    ProgressDialog progressDialog;
+    private ProgressBar progressBar;
+    private ProgressDialog progressDialog;
     private List<Funcionario> fumList = new ArrayList<>();
-    TextView textView;
+    private TextView textView;
+    private Context context;
+    private Funcionario funcionario;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_funcionarios);
+        context = this;
+        funcionario = (Funcionario) getIntent().getSerializableExtra("funcionario");
+
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         textView = findViewById(R.id.msn_fun);
 
@@ -68,13 +76,12 @@ public class FuncionarioActivity extends Activity {
 
         funcionarioAdapter = new FuncionarioAdapter(this, fumList, textView);
 
-        funR.bsucarTodosAtivos(funcionarioAdapter, progressBar);
-
+        funR.bsucarTodosAtivos(funcionarioAdapter, progressBar, funcionario.getId());
 
         btn_add = findViewById(R.id.fab_add);
 
-
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -132,60 +139,20 @@ public class FuncionarioActivity extends Activity {
                     @SuppressLint("WrongConstant")
                     public void onClick(View arg0) {
 
-
                         cpf = fumcpf.getText().toString();
-
 
                         funC = new FuncionarioController(FuncionarioActivity.this);
                         funR = new Funcionario_Request(FuncionarioActivity.this);
 
-                        json = funC.valirar_cadastro_Funcionario(
+                        json = funC.cadastrar_funcionario(funcionario.getId(),
                                 fumNome.getText().toString(), fumEmail.getText().toString(), cpf
                                 , cargo, fumSenha.getText().toString(), fumSenha2.getText().toString());
+
                         if (json != null) {
-                            if (json.equals("senha")) {
-                                LayoutInflater inflater2 = LayoutInflater.from(FuncionarioActivity.this);
-                                View layout2 = inflater2.inflate(R.layout.custom_toast, null);
-                                layout2.setBackgroundResource(R.color.alerta);
-                                TextView text = (TextView) layout2.findViewById(R.id.text);
-                                text.setText("Essas senhas não coincidem");
-
-                                Toast toast = new Toast(FuncionarioActivity.this);
-
-                                toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                toast.setDuration(8000);
-                                toast.setView(layout2);
-                                toast.show();
-                            } else {
-                                funR.cadastrarFuncionario(json, funcionarioAdapter);
-                                alerta.dismiss();
-                                LayoutInflater inflater2 = LayoutInflater.from(FuncionarioActivity.this);
-                                View layout2 = inflater2.inflate(R.layout.custom_toast, null);
-
-                                TextView text = (TextView) layout2.findViewById(R.id.text);
-                                text.setText("Funcionário cadastrado!");
-
-                                Toast toast = new Toast(FuncionarioActivity.this);
-
-                                toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                toast.setDuration(8000);
-                                toast.setView(layout2);
-                                toast.show();
-                            }
+                            funR.cadastrarFuncionario(json, funcionarioAdapter);
 
                         } else {
-                            LayoutInflater inflater2 = LayoutInflater.from(FuncionarioActivity.this);
-                            View layout2 = inflater2.inflate(R.layout.custom_toast, null);
-                            layout2.setBackgroundResource(R.color.alerta);
-                            TextView text = (TextView) layout2.findViewById(R.id.text);
-                            text.setText("Preencha todos os campos! *");
-
-                            Toast toast = new Toast(FuncionarioActivity.this);
-
-                            toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                            toast.setDuration(8000);
-                            toast.setView(layout2);
-                            toast.show();
+                            viewToastAlerta(context, "Prencha todos os campos");
                         }
                     }
                 });
@@ -222,7 +189,6 @@ public class FuncionarioActivity extends Activity {
         public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
             final int position = viewHolder.getAdapterPosition();
 
-
             funC = new FuncionarioController(FuncionarioActivity.this);
             funcionarioAdapter.getFuncionarioslist().get(position).setEstado("Desabilitado");
 
@@ -236,22 +202,12 @@ public class FuncionarioActivity extends Activity {
             if (funcionarioAdapter.getFuncionarioslist().size() <= 0) {
                 textView.setVisibility(View.VISIBLE);
             }
-            LayoutInflater inflater2 = LayoutInflater.from(FuncionarioActivity.this);
-            View layout2 = inflater2.inflate(R.layout.custom_toast, null);
 
-            TextView text = (TextView) layout2.findViewById(R.id.text);
-            text.setText("Funcionário apagado!");
-
-            Toast toast = new Toast(FuncionarioActivity.this);
-            toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-            toast.setDuration(8000);
-            toast.setView(layout2);
-            toast.show();
-
-
+            viewToast(context, "Funcionário apagado!");
         }
+
         @Override
-        public void onChildDraw (Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive){
+        public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
 
             new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                     .addBackgroundColor(ContextCompat.getColor(FuncionarioActivity.this, R.color.red))

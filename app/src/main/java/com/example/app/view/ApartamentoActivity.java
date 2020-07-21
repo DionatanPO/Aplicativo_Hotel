@@ -161,7 +161,7 @@ public class ApartamentoActivity extends AppCompatActivity {
             final int position = viewHolder.getAdapterPosition();
 
             if (funcionario.getCargo().equals("Camareira") || funcionario.getCargo().equals("Recepcionista")) {
-                viewToastAlerta(context, "Funcionários não tem acesso a essa opção");
+                viewToastAlerta(context, "Funcionários não podem efetuar está açãp");
                 apartamentoAdapter.notifyItemRemoved(position);
             } else {
                 apc = new ApartamentoController(ApartamentoActivity.this);
@@ -170,7 +170,6 @@ public class ApartamentoActivity extends AppCompatActivity {
                 json = apc.converter_apartamento_json(apartamentoAdapter.getApartamentosList().get(position));
 
                 apr.alterar_Apartamento(json, apartamentoAdapter.getApartamentosList().get(position).getId());
-
 
                 apartamentoAdapter.getApartamentosList().remove(position);
                 apartamentoAdapter.notifyItemRemoved(position);

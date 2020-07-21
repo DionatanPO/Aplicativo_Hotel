@@ -42,13 +42,9 @@ public class Create_Account extends AppCompatActivity {
         btn_create_account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (funC.create_account(context, namee.getText().toString(), email.getText().toString(), criar_conta_cpf.getText().toString(), senha.getText().toString(), editTextSenha2.getText().toString()) != null) {
-                   String json = funC.converter_funcionario_json(funC.create_account(context, namee.getText().toString(), email.getText().toString(), criar_conta_cpf.getText().toString(), senha.getText().toString(), editTextSenha2.getText().toString()));
-                    funcionario_request.cadastrarFuncionario(json, context);
-                    Intent i = new Intent(Create_Account.this,LoginActivity.class);
-                    startActivity(i);
-
+                String json = funC.create_account(namee.getText().toString(), email.getText().toString(), criar_conta_cpf.getText().toString(), senha.getText().toString(), editTextSenha2.getText().toString());
+                if (json != null) {
+                    funcionario_request.cadastrarFuncionario(json);
                 }
             }
         });
