@@ -53,7 +53,7 @@ public class CheckinController {
 
             hospedagem.setApartamento(apartamento);
             hospedagem.setHospede(hospede);
-            hospedagem.setFuncionario_id(funcionario.getId());
+            hospedagem.setFuncionario(funcionario);
             hospedagem.setData_saida(saida);
             hospedagem.setData_entrada(entrada);
             hospedagem.setTipo_pagamento(tipo_pagamento);

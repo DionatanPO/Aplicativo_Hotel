@@ -25,27 +25,24 @@ import com.example.app.request.Funcionario_Request;
 
 import java.util.List;
 
+import static com.example.app.view.CustonToast.viewToast;
+import static com.example.app.view.CustonToast.viewToastAlerta;
+
 public class FuncionarioAdapter extends RecyclerView.Adapter<FuncionarioAdapter.FuncionarioViewHolder> {
-    Context ctx;
-    List<Funcionario> funcionarioslis;
+    private Context ctx;
+    private List<Funcionario> funcionarioslis;
     private AlertDialog alerta;
-    String json;
-    FuncionarioController func;
-    Funcionario_Request funR;
-    String cargos;
-    TextView txt;
+    private String json, cargos;
+    private FuncionarioController func;
+    private Funcionario_Request funR;
+    private TextView txt;
 
-
-
-    public FuncionarioAdapter(Context ctx, List<Funcionario> funcionarios, TextView text ) {
+    public FuncionarioAdapter(Context ctx, List<Funcionario> funcionarios, TextView text) {
         this.ctx = ctx;
         funcionarioslis = funcionarios;
         notifyDataSetChanged();
-        txt= text;
+        txt = text;
     }
-
-
-
 
     @NonNull
     @Override
@@ -73,16 +70,11 @@ public class FuncionarioAdapter extends RecyclerView.Adapter<FuncionarioAdapter.
         TextView email;
         TextView cargo;
 
-
-
-
         public FuncionarioViewHolder(View itemView) {
             super(itemView);
             nome = itemView.findViewById(R.id.cardNome);
             email = itemView.findViewById(R.id.cardEmail);
             cargo = itemView.findViewById(R.id.cardCargo);
-
-
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -105,7 +97,7 @@ public class FuncionarioAdapter extends RecyclerView.Adapter<FuncionarioAdapter.
 
                         titulo.setText("   Alterar dados do Funcionário");
 
-                        final EditText fumNome =finalView.findViewById(R.id.editTextFunNome);
+                        final EditText fumNome = finalView.findViewById(R.id.editTextFunNome);
                         final EditText fumcpf = finalView.findViewById(R.id.editTextFumCpf);
                         final EditText fumEmail = finalView.findViewById(R.id.editTextFumEmail);
 
@@ -115,7 +107,6 @@ public class FuncionarioAdapter extends RecyclerView.Adapter<FuncionarioAdapter.
                         fumNome.setText(funcionarioslis.get(pos).getNome());
                         fumcpf.setText(String.valueOf(funcionarioslis.get(pos).getCpf()));
                         fumEmail.setText(funcionarioslis.get(pos).getCodidentificacao());
-
 
 
                         Spinner spinner = (Spinner) layout.findViewById(R.id.cargosFum_spinner);
@@ -142,46 +133,23 @@ public class FuncionarioAdapter extends RecyclerView.Adapter<FuncionarioAdapter.
                             @SuppressLint("WrongConstant")
                             public void onClick(View arg0) {
 
-
-
                                 Long funId;
-
 
                                 funId = funcionarioslis.get(pos).getId();
 
                                 func = new FuncionarioController(ctx);
                                 funR = new Funcionario_Request(ctx);
 
-                                json = func.valirar_alterar_funcionario(funId,funcionarioslis.get(pos).getAdministrador_id(),fumNome.getText().toString(), fumEmail.getText().toString(), fumcpf.getText().toString()
+                                json = func.valirar_alterar_funcionario(funId, funcionarioslis.get(pos).getAdministrador_id(), fumNome.getText().toString(), fumEmail.getText().toString(), fumcpf.getText().toString()
                                         , cargos, fumSenha.getText().toString(), fumSenha2.getText().toString());
                                 if (json != null) {
                                     funR.alterar_funcionario(json, funId);
                                     alerta.dismiss();
                                     atualizar(pos, func.converter_json_funcionario(json));
-                                    LayoutInflater inflater2 = LayoutInflater.from(ctx);
-                                    View layout2 = inflater2.inflate(R.layout.custom_toast, null);
-                                    TextView text = (TextView) layout2.findViewById(R.id.text);
-                                    text.setText("Funcioná,rio alterado");
 
-                                    Toast toast = new Toast(ctx);
-
-                                    toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                    toast.setDuration(9000);
-                                    toast.setView(layout2);
-                                    toast.show();
                                 } else {
-                                    LayoutInflater inflater2 = LayoutInflater.from(ctx);
-                                    View layout2 = inflater2.inflate(R.layout.custom_toast, null);
-                                    layout2.setBackgroundResource(R.color.alerta);
-                                    TextView text = (TextView) layout2.findViewById(R.id.text);
-                                    text.setText("Preencha todos os campos *");
+                                    viewToastAlerta(ctx, "Preencha todos os campos *");
 
-                                    Toast toast = new Toast(ctx);
-
-                                    toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                    toast.setDuration(9000);
-                                    toast.setView(layout2);
-                                    toast.show();
                                 }
 
                             }
@@ -192,12 +160,10 @@ public class FuncionarioAdapter extends RecyclerView.Adapter<FuncionarioAdapter.
                         alerta = builder.create();
                         alerta.show();
 
-
                     }
 
                 }
             });
-
 
         }
     }
@@ -210,26 +176,25 @@ public class FuncionarioAdapter extends RecyclerView.Adapter<FuncionarioAdapter.
         this.funcionarioslis = funcionarioslis;
         notifyDataSetChanged();
         progressBar.setVisibility(View.GONE);
-       if(funcionarioslis.size()>0){
-           txt.setVisibility(View.GONE);
-       }
+        if (funcionarioslis.size() > 0) {
+            txt.setVisibility(View.GONE);
+        }
 
     }
 
     public void addFuncionarioo(Funcionario fum) {
-
         getFuncionarioslist().add(fum);
         notifyDataSetChanged();
-        if(funcionarioslis.size()>0){
+        if (funcionarioslis.size() > 0) {
             txt.setVisibility(View.GONE);
         }
     }
-    public void atualizar(int pos, Funcionario fun) {
 
+    public void atualizar(int pos, Funcionario fun) {
         funcionarioslis.set(pos, fun);
         notifyItemChanged(pos);
         notifyDataSetChanged();
-        if(funcionarioslis.size()>0){
+        if (funcionarioslis.size() > 0) {
             txt.setVisibility(View.GONE);
         }
     }

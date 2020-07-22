@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -20,7 +21,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.app.R;
+import com.example.app.controller.FuncionarioController;
 import com.example.app.model.Funcionario;
+import com.example.app.request.Funcionario_Request;
 
 import static android.graphics.Color.GRAY;
 import static com.example.app.view.CustonToast.viewToast;
@@ -31,6 +34,10 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
     private Button button_menu;
     private Context context;
     private Funcionario funcionario;
+    private EditText namee, email, senha, criar_conta_cpf, editTextSenha2;
+    private FuncionarioController funC;
+    private Funcionario_Request funcionario_request;
+    private AlertDialog alerta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +69,9 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
             @Override
             public void onClick(View view) {
 
-                if(funcionario.getCargo().equals("Camareira")||funcionario.getCargo().equals("Recepcionista")){
+                if (funcionario.getCargo().equals("Camareira") || funcionario.getCargo().equals("Recepcionista")) {
                     viewToastAlerta(context, "Funcionários não tem acesso a essa opção");
-                }else {
+                } else {
                     Intent i = new Intent(PainelActivity.this, FuncionarioActivity.class);
                     i.putExtra("funcionario", funcionario);
                     startActivity(i);
@@ -128,46 +135,41 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
     public boolean onMenuItemClick(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.perfil:
-                AlertDialog alerta;
+
 
                 LayoutInflater inflater = LayoutInflater.from(context);
                 View layout = inflater.inflate(R.layout.create_account, null);
                 final TextView titulo = layout.findViewById(R.id.textView2);
                 final TextView titulo2 = layout.findViewById(R.id.textview_criarconta);
+
                 titulo.setText("Alterar seus dados");
                 titulo2.setText("Informe seus dados");
 
-            Button button_concluir_altera_conta = layout.findViewById(R.id.btnCreate);
-//                final EditText editText_conta_nome = layout.findViewById(R.id.alterar_conta_nome);
-//                final EditText editText_conta_fazenda = layout.findViewById(R.id.alterar_conta_fazenda);
-//                final EditText editText_conta_senha = layout.findViewById(R.id.alterar_conta_senha);
-//                final EditText editText_conta_identificacao = layout.findViewById(R.id.alterar_conta_identificacao);
-//
-//                if (users != null) {
-//                    editText_conta_nome.setText(users.getNome());
-//                    editText_conta_identificacao.setText(users.getIdentificacao());
-//                    editText_conta_fazenda.setText(users.getFazenda());
-//                    editText_conta_senha.setText("");
-//
-//
-//                }
-//
+                Button button_altera_conta = layout.findViewById(R.id.btnCreate);
 
-                button_concluir_altera_conta.setOnClickListener(new View.OnClickListener() {
+                namee = layout.findViewById(R.id.editTextUserName);
+                namee.setText(funcionario.getNome());
+                email = layout.findViewById(R.id.editTextEmail);
+                email.setText(funcionario.getCodidentificacao());
+                senha = layout.findViewById(R.id.editTextPassword);
+                criar_conta_cpf = layout.findViewById(R.id.criar_conta_cpf);
+                criar_conta_cpf.setText(funcionario.getCpf());
+                editTextSenha2 = layout.findViewById(R.id.editTextSenha2);
+
+                funC = new FuncionarioController(context);
+                funcionario_request = new Funcionario_Request(context);
+
+                button_altera_conta.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        String json = funC.valirar_alterar_funcionario(funcionario.getId(), funcionario.getAdministrador_id(), namee.getText().toString(), email.getText().toString(), criar_conta_cpf.getText().toString(), funcionario.getCargo(), senha.getText().toString(), editTextSenha2.getText().toString());
+                        if (json != null) {
+                            funcionario_request.alterar_funcionario(json, funcionario.getId());
+                            alerta.cancel();
+                        }
 
-//                        String json = usersController.valirar_alterar_users(users.getId(), editText_conta_nome.getText().toString(),
-//                                editText_conta_fazenda.getText().toString(), editText_conta_identificacao.getText().toString(), editText_conta_senha.getText().toString());
-//                        if (json != null) {
-//                            usuarioRequest.alterarUsuario(json, token);
-//                            users = usersController.converter_json_users(json);
-//                        } else {
-//                            viewToastAlerta(context, "Por favor, preencha os campos obrigatórios *");
-//                        }
                     }
                 });
-
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -192,7 +194,7 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
         alertDialogBuilder
-                .setMessage( "Deseja mesmo sair?")
+                .setMessage("Deseja mesmo sair?")
                 .setCancelable(false)
                 .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
 
@@ -208,7 +210,6 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
                 })
                 .setNegativeButton("Não", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
                         dialog.cancel();
                     }
                 });

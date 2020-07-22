@@ -237,7 +237,7 @@ public class Funcionario_Request {
 
     public List<Funcionario> bsucarTodosAtivos(final FuncionarioAdapter funap, final ProgressBar progressBar, Long id) {
 
-        String url = ip + "/funcionario/todosAtivos/"+id;
+        String url = ip + "/funcionario/todosAtivos/" + id;
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
@@ -282,12 +282,10 @@ public class Funcionario_Request {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     fum = new Gson().fromJson(jsonObject.toString(), Funcionario.class);
-//
-
-
+                    viewToast(context, "Dados alterados!");
                 } catch (Exception e) {
                     e.printStackTrace();
-
+                    viewToastErro(context, "Ops! Algo deu errado");
                 }
 
             }
@@ -295,7 +293,7 @@ public class Funcionario_Request {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println(error);
-
+                viewToastErro(context, "Ops! Algo deu errado");
             }
         }) {
             @Override

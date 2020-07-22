@@ -1,6 +1,5 @@
 package com.example.app.model;
 
-
 import java.util.Date;
 
 public class Hospedagem {
@@ -8,7 +7,7 @@ public class Hospedagem {
     private Hospede hospede;
     private Date data_entrada;
     private Date data_saida;
-    private Long funcionario_id;
+    private Funcionario funcionario;
     private int n_pessoas;
     private Apartamento apartamento;
     private String tipo_pagamento;
@@ -18,17 +17,25 @@ public class Hospedagem {
     public Hospedagem() {
     }
 
-    public Hospedagem(Long id, Hospede hospede, Date data_entrada, Date data_saida, Long funcionario_id, int n_pessoas, Apartamento apartamento, String tipo_pagamento, String estado, Float valor_hospedagem) {
+    public Hospedagem(Long id, Hospede hospede, Date data_entrada, Date data_saida, Funcionario funcionario, int n_pessoas, Apartamento apartamento, String tipo_pagamento, String estado, Float valor_hospedagem) {
         this.id = id;
         this.hospede = hospede;
         this.data_entrada = data_entrada;
         this.data_saida = data_saida;
-        this.funcionario_id = funcionario_id;
+        this.funcionario = funcionario;
         this.n_pessoas = n_pessoas;
         this.apartamento = apartamento;
         this.tipo_pagamento = tipo_pagamento;
         this.estado = estado;
         this.valor_hospedagem = valor_hospedagem;
+    }
+
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
     }
 
     public int getN_pessoas() {
@@ -47,13 +54,6 @@ public class Hospedagem {
         this.estado = estado;
     }
 
-    public Long getFuncionario_id() {
-        return funcionario_id;
-    }
-
-    public void setFuncionario_id(Long funcionario_id) {
-        this.funcionario_id = funcionario_id;
-    }
 
     public Apartamento getApartamento() {
         return apartamento;

@@ -11,12 +11,11 @@ import java.util.List;
 import static com.example.app.view.CustonToast.viewToast;
 import static com.example.app.view.CustonToast.viewToastAlerta;
 
-
 public class FuncionarioController {
 
     private Context context;
-    Gson gson = new Gson();
-    Funcionario funcionario = new Funcionario();
+    private Gson gson = new Gson();
+    private Funcionario funcionario = new Funcionario();
 
     public FuncionarioController() {
     }
@@ -24,7 +23,6 @@ public class FuncionarioController {
     public FuncionarioController(Context ctx) {
         this.context = ctx;
     }
-
 
     public boolean validateLogin(String email, String senha) {
         if (email.equals("") || senha.equals("")) {
@@ -39,7 +37,6 @@ public class FuncionarioController {
 
     public String create_account(String nome, String email, String cpf, String senha, String senha2) {
         if (cpf.equals("") || nome.equals("") || email.equals("") || senha.equals("") || senha2.equals("")) {
-
 
             viewToastAlerta(context, "Preencha todos os campos");
             return null;
@@ -63,7 +60,7 @@ public class FuncionarioController {
     public String cadastrar_funcionario(Long id, String nome, String email, String cpf, String cargo, String senha, String senha2) {
         if (cpf.equals("") || nome.equals("") || email.equals("") || cargo.equals("") || senha.equals("") || senha2.equals("")) {
 
-            viewToastAlerta(context, "Por favor, preencha todos os campos");
+            viewToastAlerta(context, "Preencha todos os campos");
             return null;
         } else {
             if (senha.equals(senha2)) {
@@ -85,9 +82,9 @@ public class FuncionarioController {
     }
 
     public String valirar_alterar_funcionario(Long id, Long ida, String nome, String email, String cpf, String cargo, String senha, String senha2) {
-        if (cpf.equals("") || nome.equals("") || email.equals("") || cargo.equals("") || senha.equals("") || senha2.equals("")) {
+        if (cpf.equals("") || nome.equals("") || email.equals("") || cargo.equals("")) {
 
-            viewToastAlerta(context, "Por favor, preencha todos os campos");
+            viewToastAlerta(context, "Preencha todos os campos");
             return null;
         } else {
             if (senha.equals(senha2)) {
@@ -111,7 +108,6 @@ public class FuncionarioController {
 
     public List<Funcionario> getAll() {
         List<Funcionario> funcionarios = new ArrayList<Funcionario>();
-
         return funcionarios;
     }
 

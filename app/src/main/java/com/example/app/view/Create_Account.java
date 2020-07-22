@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +19,7 @@ import com.example.app.request.Funcionario_Request;
 public class Create_Account extends AppCompatActivity {
     private Button btn_create_account;
     private Context context;
-    private TextView namee, email, senha, criar_conta_cpf, editTextSenha2;
+    private EditText namee, email, senha, criar_conta_cpf, editTextSenha2;
     private FuncionarioController funC;
     private Funcionario_Request funcionario_request;
 

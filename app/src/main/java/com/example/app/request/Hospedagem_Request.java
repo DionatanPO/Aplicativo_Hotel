@@ -97,18 +97,16 @@ public class Hospedagem_Request {
 //    }
 
 
-    public List<Hospedagem> bsucarTodosAtivos(final HospedagemAdapter funap) {
+    public List<Hospedagem> bsucarTodosAtivos(final HospedagemAdapter funap, Long gerente_id) {
 
-        String url = ip + "/hospedagem/todosAtivos";
+        String url = ip + "/hospedagem/todas/"+gerente_id;
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray jsonArray) {
 
-
                         try {
-
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject hospedagems = jsonArray.getJSONObject(i);
 

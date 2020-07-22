@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
 import com.example.app.controller.CheckinController;
+import com.example.app.model.Funcionario;
 import com.example.app.model.Hospedagem;
 import com.example.app.request.Hospedagem_Request;
 import com.example.app.view.adapter.HospedagemAdapter;
@@ -34,44 +36,43 @@ import java.util.List;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
+import static com.example.app.view.CustonToast.viewToast;
 
 public class HospedagemActivity extends Activity {
+
     private HospedagemAdapter hospedagemAdapter;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    CheckinController checkinController;
-    Hospedagem_Request hospedagem_request;
-    Button btn_add;
-    String json;
-    Spinner spinner;
-    ArrayAdapter spinnerAdapter;
-    View view;
-    String cargo;
-    String cpf;
-    private AlertDialog alerta;
-    ProgressBar progressBar;
-    ProgressDialog progressDialog;
+    private CheckinController checkinController;
+    private Hospedagem_Request hospedagem_request;
+    private Button btn_add;
+    private String json;
+    private ProgressBar progressBar;
+    private Context context;
     private List<Hospedagem> fumList = new ArrayList<>();
-
+    private Funcionario funcionario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospedagem);
+        context = this;
+        funcionario = (Funcionario) getIntent().getSerializableExtra("funcionario");
 
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-
 
         hospedagem_request = new Hospedagem_Request(this);
 
         hospedagemAdapter = new HospedagemAdapter(this, fumList);
 
-        hospedagem_request.bsucarTodosAtivos(hospedagemAdapter);
+        if (funcionario.getAdministrador_id() == null) {
+            hospedagem_request.bsucarTodosAtivos(hospedagemAdapter, funcionario.getId());
+        } else {
+            hospedagem_request.bsucarTodosAtivos(hospedagemAdapter, funcionario.getAdministrador_id());
+        }
 
 
         btn_add = findViewById(R.id.fab_add);
-
 
         recyclerView = (RecyclerView) findViewById(R.id.hospedagem_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -79,7 +80,6 @@ public class HospedagemActivity extends Activity {
         recyclerView.setLayoutManager(layoutManager);
 
         recyclerView.setAdapter(hospedagemAdapter);
-
 
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +96,6 @@ public class HospedagemActivity extends Activity {
         helper.attachToRecyclerView(recyclerView);
 
     }
-
 
     public class ItemTouchHandler extends ItemTouchHelper.SimpleCallback {
 
@@ -125,23 +124,12 @@ public class HospedagemActivity extends Activity {
             hospedagemAdapter.getHospedagemsList().remove(position);
             hospedagemAdapter.notifyItemRemoved(position);
 
-            LayoutInflater inflater2 = LayoutInflater.from(HospedagemActivity.this);
-            View layout2 = inflater2.inflate(R.layout.custom_toast, null);
-
-            TextView text = (TextView) layout2.findViewById(R.id.text);
-            text.setText("Hospedagem apagada!");
-
-            Toast toast = new Toast(HospedagemActivity.this);
-            toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-            toast.setDuration(8000);
-            toast.setView(layout2);
-            toast.show();
-
+            viewToast(context, "Hospedagem apagada!");
 
         }
 
         @Override
-        public void onChildDraw (Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive){
+        public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
 
             new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                     .addBackgroundColor(ContextCompat.getColor(HospedagemActivity.this, R.color.red))
