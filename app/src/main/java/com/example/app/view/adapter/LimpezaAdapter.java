@@ -21,26 +21,30 @@ import com.example.app.R;
 import com.example.app.controller.ApartamentoController;
 import com.example.app.controller.LimpezaController;
 import com.example.app.model.Apartamento;
+import com.example.app.model.Funcionario;
 import com.example.app.request.Apartamento_Request;
 import com.example.app.request.Limpeza_Request;
 
 import java.util.List;
 
 import static android.view.View.GONE;
+import static com.example.app.view.CustonToast.viewToast;
+import static com.example.app.view.CustonToast.viewToastAlerta;
 
 public class LimpezaAdapter extends RecyclerView.Adapter<LimpezaAdapter.ApartamentoViewHolder> {
-    Context ctx;
-    List<Apartamento> apartamentosList;
-    String est;
+    private Context ctx;
+    private List<Apartamento> apartamentosList;
+    private String est, json;
     private AlertDialog alerta;
-    Apartamento_Request apr;
-    ApartamentoController apc;
-    String json;
+    private Apartamento_Request apr;
+    private ApartamentoController apc;
+    private Funcionario funcionario;
 
 
-    public LimpezaAdapter(Context ctx, List<Apartamento> apartamentos) {
+    public LimpezaAdapter(Context ctx, List<Apartamento> apartamentos, Funcionario funcionario) {
         this.ctx = ctx;
         apartamentosList = apartamentos;
+        this.funcionario = funcionario;
 
     }
 
@@ -71,7 +75,6 @@ public class LimpezaAdapter extends RecyclerView.Adapter<LimpezaAdapter.Apartame
         TextView identificacao;
         TextView estado;
 
-
         public ApartamentoViewHolder(final View itemView) {
             super(itemView);
             identificacao = itemView.findViewById(R.id.identificacao_limpeza_card);
@@ -86,27 +89,20 @@ public class LimpezaAdapter extends RecyclerView.Adapter<LimpezaAdapter.Apartame
 
                     if (pos != RecyclerView.NO_POSITION) {
 
-                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(ctx);
                         LayoutInflater inflater = LayoutInflater.from(ctx);
-                        View layout = inflater.inflate(R.layout.alert_add_apartamento, null);
-
+                        View layout = inflater.inflate(R.layout.alert_limpeza_apartamento, null);
 
                         layout.findViewById(R.id.btnCadAp);
                         final View finalView = layout;
 
                         TextView titulo;
-                        titulo = finalView.findViewById(R.id.txt_titulo);
+                        final TextView txtObs;
+                        titulo = layout.findViewById(R.id.txt_titulo);
+                        txtObs = layout.findViewById(R.id.txtObs);
 
-                        titulo.setText("   Alterar estado do Apartamento");
-                        final EditText identificacao;
-                        final EditText descricao;
+                        titulo.setText("Alterar estado do Apartamento");
 
-
-                        identificacao = finalView.findViewById(R.id.editText_identificacaoAP);
-                        descricao = finalView.findViewById(R.id.editText_DescricaoAp);
-                        identificacao.setVisibility(GONE);
-
-                        descricao.setVisibility(GONE);
+                        final EditText descricao = layout.findViewById(R.id.editText_DescricaoAp);
 
                         Spinner spinner = (Spinner) layout.findViewById(R.id.estados_spinner);
 
@@ -120,6 +116,13 @@ public class LimpezaAdapter extends RecyclerView.Adapter<LimpezaAdapter.Apartame
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 est = (String) parent.getItemAtPosition(position);
+                                if (est.equals("Manutenção")) {
+                                    txtObs.setVisibility(View.VISIBLE);
+                                    descricao.setVisibility(View.VISIBLE);
+                                } else {
+                                    txtObs.setVisibility(GONE);
+                                    descricao.setVisibility(GONE);
+                                }
                             }
 
                             @Override
@@ -134,55 +137,42 @@ public class LimpezaAdapter extends RecyclerView.Adapter<LimpezaAdapter.Apartame
                             public void onClick(View arg0) {
 
                                 Long apId;
-
-
                                 apId = apartamentosList.get(pos).getId();
                                 System.out.println(apId);
 
                                 apc = new ApartamentoController(ctx);
                                 apr = new Apartamento_Request(ctx);
 
-                                json = apc.valirar_alterar_Apartamento(apId, apartamentosList.get(pos).getIdentificacao().toString(), est, apartamentosList.get(pos).getDescricao());
+                                LimpezaController limpezaController = new LimpezaController(ctx);
+                                Limpeza_Request limpeza_request = new Limpeza_Request(ctx);
+
+                                json = apc.valirar_alterar_Apartamento(
+                                        funcionario, apartamentosList.get(pos).getId(), apartamentosList.get(pos).getIdentificacao().toString()
+                                        , est, apartamentosList.get(pos).getDescricao());
+
 
                                 if (json != null) {
-                                    if (apc.converter_json_apartamento_(json).getEstado().equals("Disponível")) {
-                                        LimpezaController limpezaController = new LimpezaController(ctx);
-                                        Limpeza_Request limpeza_request = new Limpeza_Request(ctx);
-                                        limpeza_request.cadastrar_limpeza(limpezaController.valirar_cadastro_lipenza(apartamentosList.get(pos)));
+                                    apr.alterar_Apartamento(json, apId);
+
+                                    if (est.equals("Manutenção")) {
+
+                                        limpeza_request.cadastrar_limpeza(limpezaController.valirar_cadastro_lipenza(apc.converter_json_apartamento_(json), funcionario));
+                                    } else {
+
+                                        limpeza_request.cadastrar_limpeza(limpezaController.valirar_cadastro_lipenza(apc.converter_json_apartamento_(json), funcionario));
                                     }
 
-                                    apr.alterar_Apartamento(json, apId);
+
                                     alerta.dismiss();
                                     getApartamentosList().remove(pos);
                                     notifyDataSetChanged();
 
+                                    viewToast(ctx, "Estado do ap alterado!");
 
-
-                                    LayoutInflater inflater2 = LayoutInflater.from(ctx);
-                                    View layout2 = inflater2.inflate(R.layout.custom_toast, null);
-
-                                    TextView text = (TextView) layout2.findViewById(R.id.text);
-                                    text.setText("Estado do ap alterado!");
-
-                                    Toast toast = new Toast(ctx);
-                                    toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                    toast.setDuration(8000);
-                                    toast.setView(layout2);
-                                    toast.show();
 
                                 } else {
-                                    LayoutInflater inflater2 = LayoutInflater.from(ctx);
-                                    View layout2 = inflater2.inflate(R.layout.custom_toast, null);
-                                    layout2.setBackgroundResource(R.color.alerta);
-                                    TextView text = (TextView) layout2.findViewById(R.id.text);
-                                    text.setText("Preencha todos os campos *");
+                                    viewToastAlerta(ctx, "Preencha todos os campos ");
 
-                                    Toast toast = new Toast(ctx);
-
-                                    toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                    toast.setDuration(9000);
-                                    toast.setView(layout2);
-                                    toast.show();
                                 }
 
                             }
@@ -193,12 +183,10 @@ public class LimpezaAdapter extends RecyclerView.Adapter<LimpezaAdapter.Apartame
                         alerta = builder.create();
                         alerta.show();
 
-
                     }
 
                 }
             });
-
 
         }
 

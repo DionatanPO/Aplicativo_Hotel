@@ -3,6 +3,7 @@ package com.example.app.controller;
 import android.content.Context;
 
 import com.example.app.model.Apartamento;
+import com.example.app.model.Funcionario;
 import com.example.app.request.Apartamento_Request;
 import com.google.gson.Gson;
 
@@ -17,12 +18,13 @@ public class ApartamentoController {
     }
 
 
-    public String valirar_cadastro_Apartamento(String identificacao, String estado, String descricao) {
+    public String valirar_cadastro_Apartamento(Funcionario funcionario, String identificacao, String estado, String descricao) {
         if (identificacao.equals("") || estado.equals("")) {
 
             return null;
 
         } else {
+            ap.setFuncionario(funcionario);
             ap.setIdentificacao(identificacao);
             ap.setEstado(estado);
             ap.setDescricao(descricao);
@@ -34,12 +36,13 @@ public class ApartamentoController {
     }
 
 
-    public String valirar_alterar_Apartamento(Long id,String identificacao, String estado, String descricao) {
+    public String valirar_alterar_Apartamento(Funcionario funcionario, Long id,String identificacao, String estado, String descricao) {
         if (identificacao.equals("") || estado.equals("")) {
 
             return null;
 
         } else {
+            ap.setFuncionario(funcionario);
             ap.setId(id);
             ap.setIdentificacao(identificacao);
             ap.setEstado(estado);

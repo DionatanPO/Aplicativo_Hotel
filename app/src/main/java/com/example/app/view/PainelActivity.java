@@ -83,6 +83,7 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(PainelActivity.this, CheckinActivity.class);
+                i.putExtra("funcionario", funcionario);
                 startActivity(i);
             }
         });
@@ -91,6 +92,7 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(PainelActivity.this, LimpezaActivity.class);
+                i.putExtra("funcionario", funcionario);
                 startActivity(i);
             }
         });

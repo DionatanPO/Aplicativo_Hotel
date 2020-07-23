@@ -65,7 +65,7 @@ public class ApartamentoActivity extends AppCompatActivity {
 
         apr = new Apartamento_Request(this);
 
-        apartamentoAdapter = new ApartamentoAdapter(this, apr.bsucarTodosAtivos(progressBar));
+        apartamentoAdapter = new ApartamentoAdapter(this, apr.bsucarTodosAtivos(progressBar,funcionario.getId()),funcionario);
 
         recyclerView = findViewById(R.id.apartamento_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -118,7 +118,7 @@ public class ApartamentoActivity extends AppCompatActivity {
                             apc = new ApartamentoController(ApartamentoActivity.this);
                             apr = new Apartamento_Request(ApartamentoActivity.this);
 
-                            json = apc.valirar_cadastro_Apartamento(identificacao.getText().toString(), estado, descricao.getText().toString());
+                            json = apc.valirar_cadastro_Apartamento(funcionario,identificacao.getText().toString(), estado, descricao.getText().toString());
                             if (json != null) {
                                 apr.cadastrarApartamento(json, apartamentoAdapter);
                                 viewToast(context, "Apartamento cadastrado!");

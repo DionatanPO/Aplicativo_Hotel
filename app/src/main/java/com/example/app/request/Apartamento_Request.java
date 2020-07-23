@@ -179,9 +179,9 @@ public class Apartamento_Request {
 //    }
 
 
-    public List<Apartamento> bsucarTodosAtivos(final ProgressBar progressBar) {
+    public List<Apartamento> bsucarTodosAtivos(final ProgressBar progressBar, Long id) {
 
-        String url = ip + "/apartamento/todosAtivos";
+        String url = ip + "/apartamento/todos/"+id;
 
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -300,10 +300,10 @@ public class Apartamento_Request {
 //        return apList;
     }
 
-    public void buscar_por_estado(String value, String key, final LimpezaAdapter lad, final TextView tv) {
+    public void buscar_por_estado( final LimpezaAdapter lad, final TextView tv, Long id) {
 
 
-        final String url = ip + "/apartamento/estado/?" + key + "=" + value;
+        final String url = ip + "/apartamento/todos/"+id;
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override

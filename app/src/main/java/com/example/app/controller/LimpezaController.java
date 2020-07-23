@@ -3,6 +3,7 @@ package com.example.app.controller;
 import android.content.Context;
 
 import com.example.app.model.Apartamento;
+import com.example.app.model.Funcionario;
 import com.example.app.model.Limpeza;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,19 +26,19 @@ public class LimpezaController {
     }
 
 
-    public String valirar_cadastro_lipenza(Apartamento apartamento) {
+    public String valirar_cadastro_lipenza(Apartamento apartamento, Funcionario funcionario) {
         Date dataHoraAtual = new Date();
         Date d = new Date();
-
         DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         String data = new SimpleDateFormat("yyyy-MM-dd").format(dataHoraAtual);
+
         try {
             d = fmt.parse(data);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         java.sql.Date data_limpeza = new java.sql.Date(d.getTime());
-
+            limpeza.setFuncionario(funcionario);
             limpeza.setApartamento(apartamento);
             limpeza.setData_limpeza(data_limpeza);
             String json = gson.toJson(limpeza);

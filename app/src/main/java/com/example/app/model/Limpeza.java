@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Limpeza {
 
-    private Long id;
+    private Long l_id;
 
     private Apartamento apartamento;
 
@@ -17,19 +17,12 @@ public class Limpeza {
     public Limpeza() {
     }
 
-    public Limpeza(Long id, Apartamento apartamento, Funcionario funcionario, Date data_limpeza) {
-        this.id = id;
-        this.apartamento = apartamento;
-        this.funcionario = funcionario;
-        this.data_limpeza = data_limpeza;
+    public Long getL_id() {
+        return l_id;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setL_id(Long l_id) {
+        this.l_id = l_id;
     }
 
     public Apartamento getApartamento() {

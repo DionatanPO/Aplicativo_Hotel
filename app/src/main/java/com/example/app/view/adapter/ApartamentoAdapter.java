@@ -19,23 +19,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.app.R;
 import com.example.app.controller.ApartamentoController;
 import com.example.app.model.Apartamento;
+import com.example.app.model.Funcionario;
 import com.example.app.request.Apartamento_Request;
 
 import java.util.List;
 
 public class ApartamentoAdapter extends RecyclerView.Adapter<ApartamentoAdapter.ApartamentoViewHolder> {
-    Context ctx;
-    List<Apartamento> apartamentosList;
-    String est;
+   private Context ctx;
+    private List<Apartamento> apartamentosList;
+    private String est,json;
     private AlertDialog alerta;
-    Apartamento_Request apr;
-    ApartamentoController apc;
-    String json;
+    private Apartamento_Request apr;
+    private ApartamentoController apc;
+    private Funcionario  funcionario;
 
 
-    public ApartamentoAdapter(Context ctx, List<Apartamento> apartamentos) {
+    public ApartamentoAdapter(Context ctx, List<Apartamento> apartamentos, Funcionario funcionario) {
         this.ctx = ctx;
         apartamentosList = apartamentos;
+        this.funcionario = funcionario;
 
     }
 
@@ -142,7 +144,7 @@ public class ApartamentoAdapter extends RecyclerView.Adapter<ApartamentoAdapter.
                                 apc = new ApartamentoController(ctx);
                                 apr = new Apartamento_Request(ctx);
 
-                                json = apc.valirar_alterar_Apartamento(apId, identificacao.getText().toString(), est, descricao.getText().toString());
+                                json = apc.valirar_alterar_Apartamento(funcionario,apId, identificacao.getText().toString(), est, descricao.getText().toString());
                                 if (json != null) {
                                     apr.alterar_Apartamento(json, apId);
                                     alerta.dismiss();
