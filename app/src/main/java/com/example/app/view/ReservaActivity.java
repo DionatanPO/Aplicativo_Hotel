@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
 import com.example.app.controller.ReservaController;
+import com.example.app.model.Funcionario;
 import com.example.app.model.Reserva;
 import com.example.app.request.Reserva_Request;
 import com.example.app.view.adapter.ReservaAdapter;
@@ -55,21 +56,22 @@ public class ReservaActivity extends Activity {
     ProgressBar progressBar;
     ProgressDialog progressDialog;
     private List<Reserva> reservaList = new ArrayList<>();
+    private Funcionario funcionario;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserva);
-
+        funcionario = (Funcionario) getIntent().getSerializableExtra("funcionario");
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
 
         reserva_request = new Reserva_Request(this);
 
-        reservaAdapter = new ReservaAdapter(this, reservaList);
+        reservaAdapter = new ReservaAdapter(this, reservaList, funcionario);
 
-       reserva_request.bsucarTodosAtivos(reservaAdapter);
+        reserva_request.bsucarTodosAtivos(reservaAdapter);
 
 
         btn_add = findViewById(R.id.fab_add);
@@ -168,9 +170,10 @@ public class ReservaActivity extends Activity {
         reservaAdapter.notifyDataSetChanged();
 
     }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         startActivity(new Intent(this, PainelActivity.class));
         finishAffinity();
         return;

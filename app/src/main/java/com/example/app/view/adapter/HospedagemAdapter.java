@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.app.R;
 import com.example.app.controller.CheckinController;
 import com.example.app.model.Apartamento;
+import com.example.app.model.Funcionario;
 import com.example.app.model.Hospedagem;
 import com.example.app.request.Apartamento_Request;
 import com.example.app.request.Hospedagem_Request;
@@ -31,42 +32,31 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.app.view.CustonToast.viewToast;
+import static com.example.app.view.CustonToast.viewToastAlerta;
+
 public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.HospedagemViewHolder> {
-    Context ctx;
-    List<Hospedagem> hospedagemsList;
-    String est;
+    private Context ctx;
+    private List<Hospedagem> hospedagemsList;
+    private String est, json, pagamento;
     private AlertDialog alerta;
-    Hospedagem_Request hospedagem_request;
-    CheckinController checkin_controller;
-    String json;
-
-
-    String pagamento;
-    Spinner spinner;
-    Spinner spinner2;
-    Spinner spinner_apartamento;
-
-
-    int n_pessoas;
-
-    EditText nome_hospede;
-    EditText cpf;
-    EditText telefone;
-    EditText data_entrada;
-    EditText data_saida;
-    EditText v_hospedagem;
-    EditText valor_hospedagem;
-
-    ArrayAdapter spinnerAdapter;
-
+    private Hospedagem_Request hospedagem_request;
+    private CheckinController checkin_controller;
+    private Spinner spinner;
+    private Spinner spinner2;
+    private Spinner spinner_apartamento;
+    private int n_pessoas;
+    private EditText nome_hospede, cpf, telefone, data_entrada, data_saida, v_hospedagem, valor_hospedagem;
+    private ArrayAdapter spinnerAdapter;
     private List<Apartamento> apartamentoList;
     private Apartamento apartamento;
+    private Funcionario funcionario;
 
 
-    public HospedagemAdapter(Context ctx, List<Hospedagem> hospedagems) {
+    public HospedagemAdapter(Context ctx, List<Hospedagem> hospedagems, Funcionario funcionario) {
         this.ctx = ctx;
         hospedagemsList = hospedagems;
-
+        this.funcionario = funcionario;
     }
 
     @NonNull
@@ -152,7 +142,6 @@ public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.Ho
                         LayoutInflater inflater = LayoutInflater.from(ctx);
                         View layout = inflater.inflate(R.layout.alert_add_hospedagem, null);
 
-
                         layout.findViewById(R.id.btnCadAp);
                         final View finalView = layout;
 
@@ -161,13 +150,11 @@ public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.Ho
 
                         titulo.setText("  Alterar dados hospedagem");
 
-
                         spinner = finalView.findViewById(R.id.pagamento_spinner);
                         spinner2 = finalView.findViewById(R.id.n_pessoas_spinner);
                         spinner_apartamento = finalView.findViewById(R.id.apartamento_spinner);
 
                         nome_hospede = finalView.findViewById(R.id.editText_hospede_nome);
-
 
                         nome_hospede.setText(hospedagemsList.get(pos).getHospede().getNome());
 
@@ -234,9 +221,8 @@ public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.Ho
                         apartamentoList = new ArrayList<>();
                         apartamentoList.add(hospedagemsList.get(pos).getApartamento());
 
-
                         spinnerAdapter = new ArrayAdapter(ctx, android.R.layout.simple_spinner_dropdown_item, apartamentoList);
-                        apartamento_request.buscar_por_estado("Disponivel", "estado", apartamentoList, spinnerAdapter);
+                        apartamento_request.buscar_por_estado(apartamentoList, spinnerAdapter, funcionario.getAdministrador_id());
                         spinner_apartamento.setAdapter(spinnerAdapter);
 
                         spinner_apartamento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -244,14 +230,12 @@ public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.Ho
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 apartamento = (Apartamento) parent.getItemAtPosition(position);
 
-
                             }
 
                             @Override
                             public void onNothingSelected(AdapterView<?> parent) {
                                 apartamento = null;
                             }
-
 
                         });
 
@@ -270,7 +254,7 @@ public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.Ho
                                 hospedagem_request = new Hospedagem_Request(ctx);
 
                                 try {
-                                    json = checkin_controller.valirar_checkin_altera(apId, apartamento, cpf.getText().toString(), nome_hospede.getText().toString(), telefone.getText().toString(), data_entrada.getText().toString(), data_saida.getText().toString(), pagamento, Float.parseFloat(valor_hospedagem.getText().toString()), n_pessoas);
+                                    json = checkin_controller.valirar_checkin_altera(funcionario,apId, apartamento, cpf.getText().toString(), nome_hospede.getText().toString(), telefone.getText().toString(), data_entrada.getText().toString(), data_saida.getText().toString(), pagamento, Float.parseFloat(valor_hospedagem.getText().toString()), n_pessoas);
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
@@ -278,32 +262,12 @@ public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.Ho
                                     hospedagem_request.alterar_hospedagem(json, apId);
                                     alerta.dismiss();
                                     atualizar(pos, checkin_controller.converter_json_hospedagem(json));
-                                    LayoutInflater inflater2 = LayoutInflater.from(ctx);
-                                    View layout2 = inflater2.inflate(R.layout.custom_toast, null);
 
-                                    TextView text = (TextView) layout2.findViewById(R.id.text);
-                                    text.setText("Hospedagem alterada!");
-
-                                    Toast toast = new Toast(ctx);
-
-                                    toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                    toast.setDuration(9000);
-                                    toast.setView(layout2);
-                                    toast.show();
+                                    viewToast(ctx, "Hospedagem alterada");
 
                                 } else {
-                                    LayoutInflater inflater2 = LayoutInflater.from(ctx);
-                                    View layout2 = inflater2.inflate(R.layout.custom_toast, null);
-                                    layout2.setBackgroundResource(R.color.alerta);
-                                    TextView text = (TextView) layout2.findViewById(R.id.text);
-                                    text.setText("Preencha todos os campos! *");
+                                    viewToastAlerta(ctx,"Preencha todos os campos!*");
 
-                                    Toast toast = new Toast(ctx);
-
-                                    toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                    toast.setDuration(8000);
-                                    toast.setView(layout2);
-                                    toast.show();
                                 }
 
                             }

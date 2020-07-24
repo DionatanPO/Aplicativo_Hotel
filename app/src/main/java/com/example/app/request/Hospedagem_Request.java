@@ -134,15 +134,14 @@ public class Hospedagem_Request {
         return hospedagemList;
     }
 
-    public List<Hospedagem> bsucarTodosAtivos(final RelatorioActivity activity) {
+    public List<Hospedagem> bsucarTodosAtivos(final RelatorioActivity activity,Long id) {
 
-        String url = ip + "/hospedagem/todosAtivos";
+        String url = ip + "/hospedagem/todas/"+id;
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray jsonArray) {
-
 
                         try {
 

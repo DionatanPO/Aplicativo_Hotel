@@ -16,6 +16,7 @@ import com.example.app.model.Limpeza;
 import com.example.app.model.Url;
 import com.example.app.view.adapter.LimpezaAdapter;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +34,8 @@ public class Limpeza_Request {
     private List<Limpeza> limpezaList = new ArrayList<>();
     private Url url = new Url();
     private String ip = url.getUrl();
+    Gson gson = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd").create();
 
     private Apartamento ap;
     private Limpeza limpeza = new Limpeza();
@@ -134,12 +137,14 @@ public class Limpeza_Request {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject l = jsonArray.getJSONObject(i);
 
-                                limpeza = new Gson().fromJson(l.toString(), Limpeza.class);
-                                limpezaList.add(limpeza);
+                                limpeza =  gson.fromJson(l.toString(), Limpeza.class);
+
+                                apList.add(limpeza.getApartamento());
 
                             }
                             lad.setApartamentosList(apList);
                             tv.setText(String.valueOf(apList.size()));
+                            lad.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

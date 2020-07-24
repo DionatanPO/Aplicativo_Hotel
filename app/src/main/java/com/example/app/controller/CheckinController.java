@@ -74,7 +74,7 @@ public class CheckinController {
     }
 
 
-    public String valirar_checkin_altera(Long id, Apartamento apartamento, String cpf,
+    public String valirar_checkin_altera(Funcionario funcionario,Long id, Apartamento apartamento, String cpf,
                                   String nome, String telefone, String data_entrada, String data_saida, String tipo_pagamento, float valor_hospedagem, int n_pessoas) throws ParseException {
         if (cpf.equals("")||apartamento == null || nome.equals("") || data_entrada.equals("") || data_saida.equals("") || tipo_pagamento.equals("") || valor_hospedagem == 0) {
             json = null;
@@ -88,7 +88,7 @@ public class CheckinController {
             d = fmt.parse(data_saida);
             java.sql.Date saida = new java.sql.Date(d.getTime());
 
-
+            hospedagem.setFuncionario(funcionario);
             hospede.setNome(nome);
             hospede.setTelefone(telefone);
             hospede.setCpf(cpf);

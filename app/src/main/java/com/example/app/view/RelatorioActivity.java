@@ -66,8 +66,8 @@ public class RelatorioActivity extends AppCompatActivity {
 
         apartamento_request = new Apartamento_Request(this);
         hospedagem_request = new Hospedagem_Request(this);
-        apartamento_request.bsucarTodos(this);
-        hospedagem_request.bsucarTodosAtivos(this);
+        apartamento_request.bsucarTodos(this,funcionario.getAdministrador_id());
+        hospedagem_request.bsucarTodosAtivos(this,funcionario.getAdministrador_id());
 
 
         btn_export.setOnClickListener(new View.OnClickListener() {

@@ -93,40 +93,11 @@ public class Apartamento_Request {
 
     }
 
-    public List<Apartamento> bsucarTodos() {
 
-        String url = ip + "/apartamento/todos";
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray jsonArray) {
-                        try {
+    public List<Apartamento> bsucarTodos(final RelatorioActivity activity, Long id) {
 
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject apartamentos = jsonArray.getJSONObject(i);
-
-                                ap = new Gson().fromJson(apartamentos.toString(), Apartamento.class);
-                                apList.add(ap);
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println(error);
-            }
-        });
-        mRequestQueue.add(request);
-        return apList;
-    }
-    public List<Apartamento> bsucarTodos(final RelatorioActivity activity) {
-
-        String url = ip + "/apartamento/todos";
+        String url = ip + "/apartamento/todos/"+id;
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
@@ -158,31 +129,10 @@ public class Apartamento_Request {
     }
 
 
-//    public void delete_id(Long id) {
-//
-//        String url = ip+"/apartamento/"+id;
-//
-//        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                Toast.makeText(mCtx, "Apagado", Toast.LENGTH_LONG).show();
-//
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(mCtx, "Apagado", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//        mRequestQueue.add(stringRequest);
-//    }
-
 
     public List<Apartamento> bsucarTodosAtivos(final ProgressBar progressBar, Long id) {
 
         String url = ip + "/apartamento/todos/"+id;
-
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
@@ -263,10 +213,9 @@ public class Apartamento_Request {
 
     }
 
-    public void buscar_por_estado(String value, String key, final List<Apartamento> list, final ArrayAdapter ar) {
+    public void buscar_por_estado(final List<Apartamento> list, final ArrayAdapter ar, Long id ) {
 
-
-        final String url = ip + "/apartamento/estado/?" + key + "=" + value;
+        final String url = ip + "/apartamento/todos/"+id;
 
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -297,10 +246,9 @@ public class Apartamento_Request {
         });
 
         mRequestQueue.add(request);
-//        return apList;
     }
 
-    public void buscar_por_estado( final LimpezaAdapter lad, final TextView tv, Long id) {
+    public void buscar_por_estado(final LimpezaAdapter lad, final TextView tv, Long id) {
 
 
         final String url = ip + "/apartamento/todos/"+id;
@@ -335,47 +283,6 @@ public class Apartamento_Request {
         mRequestQueue.add(request);
     }
 
-//    public void buscar_por_estado(String value, String key, final LimpezaAdapter lad, final TextView tv, final List<Apartamento> apartamentoList) {
-//
-//
-//        final String url = ip + "/apartamento/estado/?" + key + "=" + value;
-//        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
-//                new Response.Listener<JSONArray>() {
-//                    @Override
-//                    public void onResponse(JSONArray jsonArray) {
-//                        try {
-//
-//                            for (int i = 0; i < jsonArray.length(); i++) {
-//                                JSONObject produtos = jsonArray.getJSONObject(i);
-//
-//                                ap = new Gson().fromJson(produtos.toString(), Apartamento.class);
-//                                apList.add(ap);
-//                                apartamentoList.add(ap);
-//
-//
-//                            }
-//                            lad.setApartamentosList(apList);
-//                            tv.setText(String.valueOf(apList.size()));
-//                            LimpezaController limpezaController = new LimpezaController(mCtx);
-//                            Limpeza_Request limpeza_request = new Limpeza_Request(mCtx);
-//
-//                            limpeza_request.cadastrar_limpeza(limpezaController.valirar_cadastro_lipenza(apartamentoList));
-//
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                System.out.println(error);
-//
-//            }
-//        });
-//        mRequestQueue.add(request);
-//    }
 }
 
 

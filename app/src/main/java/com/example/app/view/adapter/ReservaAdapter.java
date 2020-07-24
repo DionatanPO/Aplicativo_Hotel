@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.app.R;
 import com.example.app.controller.ReservaController;
 import com.example.app.model.Apartamento;
+import com.example.app.model.Funcionario;
 import com.example.app.model.Reserva;
 import com.example.app.request.Apartamento_Request;
 import com.example.app.request.Reserva_Request;
@@ -60,12 +61,13 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
 
     private List<Apartamento> apartamentoList;
     private Apartamento apartamento;
+    private Funcionario funcionario;
 
 
-    public ReservaAdapter(Context ctx, List<Reserva> reservas) {
+    public ReservaAdapter(Context ctx, List<Reserva> reservas, Funcionario funcionario) {
         this.ctx = ctx;
         reservasList = reservas;
-
+        this.funcionario = funcionario;
     }
 
     @NonNull
@@ -220,7 +222,7 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
 
 
                         spinnerAdapter = new ArrayAdapter(ctx, android.R.layout.simple_spinner_dropdown_item, apartamentoList);
-                        apartamento_request.buscar_por_estado("Disponivel", "estado", apartamentoList, spinnerAdapter);
+                        apartamento_request.buscar_por_estado(apartamentoList, spinnerAdapter, funcionario.getAdministrador_id());
                         spinner_apartamento.setAdapter(spinnerAdapter);
 
                         spinner_apartamento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -254,7 +256,7 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
                                 reserva_request = new Reserva_Request(ctx);
 
                                 try {
-                                    json = reserva_controller.valirar_reserva_altera(apId, apartamento, nome_hospede.getText().toString(), telefone.getText().toString(), data_entrada.getText().toString(), data_saida.getText().toString(),  n_pessoas);
+                                    json = reserva_controller.valirar_reserva_altera(apId, apartamento, nome_hospede.getText().toString(), telefone.getText().toString(), data_entrada.getText().toString(), data_saida.getText().toString(), n_pessoas);
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }

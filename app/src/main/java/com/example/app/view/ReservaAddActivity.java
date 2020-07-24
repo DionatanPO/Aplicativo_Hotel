@@ -24,6 +24,7 @@ import com.example.app.controller.ApartamentoController;
 import com.example.app.controller.ReservaController;
 import com.example.app.model.Apartamento;
 import com.example.app.model.Cal_Data;
+import com.example.app.model.Funcionario;
 import com.example.app.request.Apartamento_Request;
 import com.example.app.request.Reserva_Request;
 
@@ -34,7 +35,7 @@ import java.util.List;
 
 public class ReservaAddActivity extends AppCompatActivity implements Spinner.OnItemSelectedListener {
 
-    int n_pessoas ;
+    int n_pessoas;
     Spinner spinner2;
     Spinner spinner_apartamento;
 
@@ -47,13 +48,13 @@ public class ReservaAddActivity extends AppCompatActivity implements Spinner.OnI
     Cal_Data cal_data;
     String json;
     TextView btn_reserva;
-
+    private Funcionario funcionario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_reserva);
-
+        funcionario = (Funcionario) getIntent().getSerializableExtra("funcionario");
         btn_concluir = findViewById(R.id.btnConcluir_reserva);
 
 
@@ -63,7 +64,6 @@ public class ReservaAddActivity extends AppCompatActivity implements Spinner.OnI
         telefone = findViewById(R.id.reserva_telefone);
         data_entrada = findViewById(R.id.reservaData_entrada);
         data_saida = findViewById(R.id.reservaData_saida);
-
 
 
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
@@ -93,7 +93,7 @@ public class ReservaAddActivity extends AppCompatActivity implements Spinner.OnI
 
 
         spinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, apartamentoList);
-        apartamento_request.buscar_por_estado("Disponivel", "estado", apartamentoList, spinnerAdapter);
+        apartamento_request.buscar_por_estado(apartamentoList, spinnerAdapter, funcionario.getAdministrador_id());
         spinner_apartamento.setAdapter(spinnerAdapter);
 
         spinner_apartamento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -129,7 +129,7 @@ public class ReservaAddActivity extends AppCompatActivity implements Spinner.OnI
 
                 try {
                     json = (String) reservaController.valirar_reserva(
-                            apartamento, nome_hospede.getText().toString(), telefone.getText().toString(), data_entrada.getText().toString(), data_saida.getText().toString(),n_pessoas);
+                            apartamento, nome_hospede.getText().toString(), telefone.getText().toString(), data_entrada.getText().toString(), data_saida.getText().toString(), n_pessoas);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -190,7 +190,7 @@ public class ReservaAddActivity extends AppCompatActivity implements Spinner.OnI
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         startActivity(new Intent(this, ReservaActivity.class));
         finishAffinity();
         return;

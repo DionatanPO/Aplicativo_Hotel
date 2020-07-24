@@ -63,7 +63,7 @@ public class HospedagemActivity extends Activity {
 
         hospedagem_request = new Hospedagem_Request(this);
 
-        hospedagemAdapter = new HospedagemAdapter(this, fumList);
+        hospedagemAdapter = new HospedagemAdapter(this, fumList, funcionario);
 
         if (funcionario.getAdministrador_id() == null) {
             hospedagem_request.bsucarTodosAtivos(hospedagemAdapter, funcionario.getId());

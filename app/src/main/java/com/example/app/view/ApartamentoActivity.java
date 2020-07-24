@@ -65,7 +65,7 @@ public class ApartamentoActivity extends AppCompatActivity {
 
         apr = new Apartamento_Request(this);
 
-        apartamentoAdapter = new ApartamentoAdapter(this, apr.bsucarTodosAtivos(progressBar,funcionario.getId()),funcionario);
+        apartamentoAdapter = new ApartamentoAdapter(this, apr.bsucarTodosAtivos(progressBar,funcionario.getAdministrador_id()),funcionario);
 
         recyclerView = findViewById(R.id.apartamento_recycler_view);
         recyclerView.setHasFixedSize(true);
