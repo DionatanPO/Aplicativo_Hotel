@@ -2,6 +2,7 @@ package com.example.app.view;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,31 +33,33 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.app.view.CustonToast.viewToast;
+import static com.example.app.view.CustonToast.viewToastAlerta;
+
 
 public class ReservaAddActivity extends AppCompatActivity implements Spinner.OnItemSelectedListener {
 
-    int n_pessoas;
-    Spinner spinner2;
-    Spinner spinner_apartamento;
-
-    EditText nome_hospede, telefone, data_entrada, data_saida;
-
-    Button btn_concluir;
-    ArrayAdapter spinnerAdapter;
+    private int n_pessoas;
+    private Spinner spinner2;
+    private Spinner spinner_apartamento;
+    private EditText nome_hospede, telefone, data_entrada, data_saida, cpf, valor;
+    private Button btn_concluir;
+    private ArrayAdapter spinnerAdapter;
     private List<Apartamento> apartamentoList;
     private Apartamento apartamento;
-    Cal_Data cal_data;
-    String json;
-    TextView btn_reserva;
+    private Cal_Data cal_data;
+    private String json;
+    private TextView btn_reserva;
     private Funcionario funcionario;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_reserva);
+        context = this;
         funcionario = (Funcionario) getIntent().getSerializableExtra("funcionario");
         btn_concluir = findViewById(R.id.btnConcluir_reserva);
-
 
         spinner2 = findViewById(R.id.reserva_n_pessoas_spinner);
         spinner_apartamento = findViewById(R.id.reserva_apartamento_spinner);
@@ -64,11 +67,11 @@ public class ReservaAddActivity extends AppCompatActivity implements Spinner.OnI
         telefone = findViewById(R.id.reserva_telefone);
         data_entrada = findViewById(R.id.reservaData_entrada);
         data_saida = findViewById(R.id.reservaData_saida);
-
+        cpf = findViewById(R.id.editText_cpf);
+        valor = findViewById(R.id.editText_valor_hospedagem);
 
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
                 R.array.n_pessoas_array, android.R.layout.simple_spinner_item);
-
 
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -91,9 +94,9 @@ public class ReservaAddActivity extends AppCompatActivity implements Spinner.OnI
         apartamento = new Apartamento();
         apartamentoList = new ArrayList<>();
 
-
         spinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, apartamentoList);
-        apartamento_request.buscar_por_estado(apartamentoList, spinnerAdapter, funcionario.getAdministrador_id());
+        apartamento_request.buscarDisponiveis(apartamentoList, spinnerAdapter, funcionario.getAdministrador_id());
+
         spinner_apartamento.setAdapter(spinnerAdapter);
 
         spinner_apartamento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -118,22 +121,24 @@ public class ReservaAddActivity extends AppCompatActivity implements Spinner.OnI
         data_entrada.setText(horasList.get(0));
         data_saida.setText(horasList.get(1));
 
-
         btn_concluir.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("WrongConstant")
             @Override
             public void onClick(View view) {
 
-
                 ReservaController reservaController = new ReservaController(ReservaAddActivity.this);
 
                 try {
-                    json = (String) reservaController.valirar_reserva(
-                            apartamento, nome_hospede.getText().toString(), telefone.getText().toString(), data_entrada.getText().toString(), data_saida.getText().toString(), n_pessoas);
+                    json = (String) reservaController.valirar_reserva(funcionario,
+                            apartamento, nome_hospede.getText().toString(), telefone.getText().toString(),
+                            data_entrada.getText().toString(), data_saida.getText().toString(),
+                            n_pessoas, cpf.getText().toString(),Float.parseFloat(valor.getText().toString()));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+
                 Reserva_Request reserva_request = new Reserva_Request(ReservaAddActivity.this);
+
                 if (json != null) {
                     reserva_request.cadastrar_reserva(json);
                     apartamento.setEstado("Reservado");
@@ -145,32 +150,10 @@ public class ReservaAddActivity extends AppCompatActivity implements Spinner.OnI
                     spinner_apartamento.setAdapter(spinnerAdapter);
                     spinnerAdapter.notifyDataSetChanged();
 
-                    LayoutInflater inflater2 = LayoutInflater.from(ReservaAddActivity.this);
-                    View layout2 = inflater2.inflate(R.layout.custom_toast, null);
-
-                    TextView text = (TextView) layout2.findViewById(R.id.text);
-                    text.setText("reserva cadastrada!");
-
-                    Toast toast = new Toast(ReservaAddActivity.this);
-
-                    toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                    toast.setDuration(8000);
-                    toast.setView(layout2);
-                    toast.show();
 
                 } else {
-                    LayoutInflater inflater2 = LayoutInflater.from(ReservaAddActivity.this);
-                    View layout2 = inflater2.inflate(R.layout.custom_toast, null);
-                    layout2.setBackgroundResource(R.color.alerta);
-                    TextView text = (TextView) layout2.findViewById(R.id.text);
-                    text.setText("Preencha todos os campos *");
 
-                    Toast toast = new Toast(ReservaAddActivity.this);
-
-                    toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                    toast.setDuration(8000);
-                    toast.setView(layout2);
-                    toast.show();
+                    viewToastAlerta(context, "Preencha todos os campos *");
                 }
 
             }
@@ -188,11 +171,5 @@ public class ReservaAddActivity extends AppCompatActivity implements Spinner.OnI
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(this, ReservaActivity.class));
-        finishAffinity();
-        return;
-    }
+
 }

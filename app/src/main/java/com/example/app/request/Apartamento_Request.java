@@ -4,8 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -19,7 +17,6 @@ import com.example.app.model.Apartamento;
 import com.example.app.model.Url;
 import com.example.app.view.RelatorioActivity;
 import com.example.app.view.adapter.ApartamentoAdapter;
-import com.example.app.view.adapter.LimpezaAdapter;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -248,10 +245,11 @@ public class Apartamento_Request {
         mRequestQueue.add(request);
     }
 
-    public void buscar_por_estado(final LimpezaAdapter lad, final TextView tv, Long id) {
+    public void buscarDisponiveis(final List<Apartamento> list, final ArrayAdapter ar, Long id ) {
+
+        final String url = ip + "/apartamento/todosDisponivel/"+id;
 
 
-        final String url = ip + "/apartamento/todos/"+id;
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -263,11 +261,10 @@ public class Apartamento_Request {
 
                                 ap = new Gson().fromJson(produtos.toString(), Apartamento.class);
                                 apList.add(ap);
-
+                                list.add(ap);
 
                             }
-                            lad.setApartamentosList(apList);
-                            tv.setText(String.valueOf(apList.size()));
+                            ar.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -277,9 +274,9 @@ public class Apartamento_Request {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println(error);
-
             }
         });
+
         mRequestQueue.add(request);
     }
 

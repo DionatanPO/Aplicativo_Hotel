@@ -21,7 +21,7 @@
 
         <TextView
 
-            android:layout_width="290dp"
+            android:layout_width="wrap_content"
             android:layout_height="29dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
@@ -34,7 +34,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.148"
+            app:layout_constraintHorizontal_bias="0.50"
             app:layout_constraintStart_toStartOf="parent" />
 
 
@@ -81,7 +81,28 @@
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
             app:layout_constraintVertical_bias="0.925" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="CPF"
+            android:textStyle="bold" />
 
+        <com.santalu.maskedittext.MaskEditText
+            android:id="@+id/editText_cpf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintBottom_toTopOf="@+id/editTextEmail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:met_mask="###.###.###-##" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -158,8 +179,32 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
+                android:text="Valor"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:text="Nº pessoa"
                 android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editText_valor_hospedagem"
+                android:layout_width="115dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                />
+
+            <Spinner
+                android:id="@+id/reserva_n_pessoas_spinner"
+                android:layout_width="140dp"
+                android:layout_height="35dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -168,20 +213,18 @@
                 android:text="Apartamento"
                 android:textStyle="bold" />
 
-            <Spinner
-                android:id="@+id/reserva_n_pessoas_spinner"
-                android:layout_width="140dp"
-                android:layout_height="35dp" />
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/reserva_apartamento_spinner"
                 android:layout_width="140dp"
                 android:layout_height="35dp"
                 android:layout_marginBottom="70dp" />
-
-
-
 
 
         </GridLayout>

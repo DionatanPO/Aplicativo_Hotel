@@ -30,9 +30,44 @@ public class ReservaController {
         this.ctx = ctx;
     }
 
+    public String valirar_reserva(Funcionario funcionario, Apartamento apartamento,
+                                  String nome, String telefone, String data_entrada, String data_saida,
+                                  int n_pessoas, String cpf, float valor) throws ParseException {
+        if (apartamento == null || nome.equals("") || data_entrada.equals("") || data_saida.equals("")) {
+            json = null;
+        } else {
 
-    public String valirar_reserva(Apartamento apartamento,
-                                  String nome, String telefone, String data_entrada, String data_saida, int n_pessoas) throws ParseException {
+            java.util.Date d = new java.util.Date();
+
+            DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+            d = fmt.parse(data_entrada);
+            Date entrada = new Date(d.getTime());
+            d = fmt.parse(data_saida);
+            Date saida = new Date(d.getTime());
+
+            hospede.setCpf(cpf);
+            hospede.setNome(nome);
+            hospede.setTelefone(telefone);
+            reserva.setApartamento(apartamento);
+            reserva.setHospede(hospede);
+            reserva.setData_saida(saida);
+            reserva.setData_entrada(entrada);
+            reserva.setFuncionario(funcionario);
+            reserva.setEstado("Ativado");
+            reserva.setN_pessoas(n_pessoas);
+            reserva.setValor(valor);
+
+            json = gson.toJson(reserva);
+
+
+        }
+        return json;
+    }
+
+
+    public String valirar_reserva_altera(Funcionario funcionario, Long id, Apartamento apartamento,
+                                         String nome, String telefone, String data_entrada,
+                                         String data_saida, int n_pessoas, String cpf, float valor) throws ParseException {
         if (apartamento == null || nome.equals("") || data_entrada.equals("") || data_saida.equals("")) {
             json = null;
         } else {
@@ -46,47 +81,16 @@ public class ReservaController {
             Date saida = new Date(d.getTime());
 
             hospede.setNome(nome);
-            hospede.setTelefone(telefone);
-            reserva.setApartamento(apartamento);
-            reserva.setHospede(hospede);
-            reserva.setData_saida(saida);
-            reserva.setData_entrada(entrada);
-            reserva.setEstado("Ativado");
-
-            reserva.setN_pessoas(n_pessoas);
-
-
-            json = gson.toJson(reserva);
-
-
-        }
-        return json;
-    }
-
-
-    public String valirar_reserva_altera(Long id, Apartamento apartamento,
-                                         String nome, String telefone, String data_entrada, String data_saida, int n_pessoas) throws ParseException {
-        if ( apartamento == null || nome.equals("") || data_entrada.equals("") || data_saida.equals("")) {
-            json = null;
-        } else {
-
-            java.util.Date d = new java.util.Date();
-
-            DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
-            d = fmt.parse(data_entrada);
-            Date entrada = new Date(d.getTime());
-            d = fmt.parse(data_saida);
-            Date saida = new Date(d.getTime());
-
-            hospede.setNome(nome);
+            hospede.setCpf(cpf);
             hospede.setTelefone(telefone);
             reserva.setId(id);
             reserva.setApartamento(apartamento);
             reserva.setHospede(hospede);
             reserva.setData_saida(saida);
             reserva.setData_entrada(entrada);
-           reserva.setN_pessoas(n_pessoas);
-
+            reserva.setN_pessoas(n_pessoas);
+            reserva.setFuncionario(funcionario);
+            reserva.setValor(valor);
             json = gson.toJson(reserva);
 
         }

@@ -25,6 +25,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.app.view.CustonToast.viewToast;
+
 public class Reserva_Request {
     private RequestQueue mRequestQueue;
     private Context mCtx;
@@ -32,10 +34,10 @@ public class Reserva_Request {
     private List<Reserva> reservaList = new ArrayList<>();
     private Url url = new Url();
     private String ip = url.getUrl();
- Gson gson = new GsonBuilder()
+    private Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd").create();
-    Apartamento ap;
-    Reserva reserva = new Reserva();
+    private Apartamento ap;
+    private Reserva reserva = new Reserva();
 
     public Reserva_Request(Context ctx) {
         this.mCtx = ctx;
@@ -52,8 +54,8 @@ public class Reserva_Request {
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    reserva = new Gson().fromJson(jsonObject.toString(), Reserva.class);
-
+                    reserva = gson.fromJson(jsonObject.toString(), Reserva.class);
+                    viewToast(mCtx, "Reserva cadastrada!");
                 } catch (Exception e) {
                     e.printStackTrace();
 
@@ -170,37 +172,16 @@ public class Reserva_Request {
     }
 
 
-//    public void delete_id(Long id) {
-//
-//        String url = ip+"/reserva/"+id;
-//
-//        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                Toast.makeText(mCtx, "Apagado", Toast.LENGTH_LONG).show();
-//
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(mCtx, "Apagado", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//        mRequestQueue.add(stringRequest);
-//    }
 
 
+    public List<Reserva> bsucarTodosAtivos(final ReservaAdapter funap, Long id) {
 
-    public List<Reserva> bsucarTodosAtivos(final ReservaAdapter funap) {
-
-        String url = ip + "/reserva/todosAtivos";
+        String url = ip + "/reserva/todosAtivos/"+id;
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray jsonArray) {
-
 
                         try {
 
@@ -277,4 +258,4 @@ public class Reserva_Request {
         return true;
 
     }
-    }
+}

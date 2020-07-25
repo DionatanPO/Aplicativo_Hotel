@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Build;
@@ -37,26 +38,21 @@ import java.util.List;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
+import static com.example.app.view.CustonToast.viewToast;
+
 
 public class ReservaActivity extends Activity {
     private ReservaAdapter reservaAdapter;
     private RecyclerView recyclerView;
-
     private RecyclerView.LayoutManager layoutManager;
-    ReservaController reservaController;
-    Reserva_Request reserva_request;
-    Button btn_add;
-    String json;
-    Spinner spinner;
-    ArrayAdapter spinnerAdapter;
-    View view;
-    String cargo;
-    String cpf;
-    private AlertDialog alerta;
-    ProgressBar progressBar;
-    ProgressDialog progressDialog;
+    private ReservaController reservaController;
+    private Reserva_Request reserva_request;
+    private String json;
+    private Button btn_add;
+    private ProgressBar progressBar;
     private List<Reserva> reservaList = new ArrayList<>();
     private Funcionario funcionario;
+    private Context context;
 
 
     @Override
@@ -65,17 +61,15 @@ public class ReservaActivity extends Activity {
         setContentView(R.layout.activity_reserva);
         funcionario = (Funcionario) getIntent().getSerializableExtra("funcionario");
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-
+        context = this;
 
         reserva_request = new Reserva_Request(this);
 
         reservaAdapter = new ReservaAdapter(this, reservaList, funcionario);
 
-        reserva_request.bsucarTodosAtivos(reservaAdapter);
-
+        reserva_request.bsucarTodosAtivos(reservaAdapter, funcionario.getAdministrador_id());
 
         btn_add = findViewById(R.id.fab_add);
-
 
         recyclerView = (RecyclerView) findViewById(R.id.reserva_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -84,11 +78,11 @@ public class ReservaActivity extends Activity {
 
         recyclerView.setAdapter(reservaAdapter);
 
-
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(ReservaActivity.this, ReservaAddActivity.class);
+                i.putExtra("funcionario", funcionario);
                 startActivity(i);
 
             }
@@ -126,21 +120,10 @@ public class ReservaActivity extends Activity {
 
             reserva_request.alterar_reserva(json, reservaAdapter.getReservasList().get(position).getId());
 
-
             reservaAdapter.getReservasList().remove(position);
             reservaAdapter.notifyItemRemoved(position);
 
-            LayoutInflater inflater2 = LayoutInflater.from(ReservaActivity.this);
-            View layout2 = inflater2.inflate(R.layout.custom_toast, null);
-
-            TextView text = (TextView) layout2.findViewById(R.id.text);
-            text.setText("Reserva apagada!");
-
-            Toast toast = new Toast(ReservaActivity.this);
-            toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-            toast.setDuration(8000);
-            toast.setView(layout2);
-            toast.show();
+            viewToast(context, "Reserva apagada!");
 
 
         }
@@ -171,13 +154,7 @@ public class ReservaActivity extends Activity {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(this, PainelActivity.class));
-        finishAffinity();
-        return;
-    }
+
 }
 
 

@@ -28,7 +28,7 @@
         <item>6</item>
     </string-array>
 
-    <string name="m1">Informe os dados para check-in</string>
-    <string name="m2">Informe os dados para reserva</string>
+    <string name="m1">Cadastrar check-in</string>
+    <string name="m2">Cadastrar reserva</string>
 </resources>
 

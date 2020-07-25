@@ -8,10 +8,10 @@ import com.example.app.request.Apartamento_Request;
 import com.google.gson.Gson;
 
 public class ApartamentoController {
-    Gson gson = new Gson();
-    Context ctx;
-    Apartamento ap = new Apartamento();
-    String json;
+    private Gson gson = new Gson();
+    private Context ctx;
+    private Apartamento ap = new Apartamento();
+    private String json;
 
     public ApartamentoController(Context ctx) {
         this.ctx = ctx;

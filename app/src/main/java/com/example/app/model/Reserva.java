@@ -4,12 +4,13 @@ package com.example.app.model;
 import com.example.app.model.Apartamento;
 import com.example.app.model.Hospede;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  * @author Dionatan
  */
-public class Reserva {
+public class Reserva implements Serializable {
     private Long id;
     private Date data_entrada;
     private Date data_saida;
@@ -18,6 +19,8 @@ public class Reserva {
     private Funcionario funcionario;
     private String estado;
     private int n_pessoas;
+    private float valor;
+
 
     public Reserva() {
     }
@@ -41,6 +44,14 @@ public class Reserva {
         this.funcionario = funcionario;
         this.estado = estado;
         this.n_pessoas = n_pessoas;
+    }
+
+    public float getValor() {
+        return valor;
+    }
+
+    public void setValor(float valor) {
+        this.valor = valor;
     }
 
     public Funcionario getFuncionario() {
