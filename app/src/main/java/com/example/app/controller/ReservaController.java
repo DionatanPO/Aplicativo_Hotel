@@ -91,7 +91,9 @@ public class ReservaController {
             reserva.setN_pessoas(n_pessoas);
             reserva.setFuncionario(funcionario);
             reserva.setValor(valor);
+            reserva.setEstado("Ativado");
             json = gson.toJson(reserva);
+
 
         }
         return json;
@@ -103,7 +105,7 @@ public class ReservaController {
     }
 
     public Reserva converter_json_reserva(String json) {
-        reserva = new Gson().fromJson(json, Reserva.class);
+        reserva =  gson.fromJson(json, Reserva.class);
         return reserva;
     }
 }

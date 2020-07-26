@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
+import com.example.app.controller.ApartamentoController;
 import com.example.app.controller.ReservaController;
 import com.example.app.model.Apartamento;
 import com.example.app.model.Funcionario;
@@ -27,6 +28,8 @@ import com.example.app.model.Reserva;
 import com.example.app.request.Apartamento_Request;
 import com.example.app.request.Reserva_Request;
 import com.example.app.view.CheckinActivity;
+import com.example.app.view.PainelActivity;
+import com.example.app.view.RelatorioActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -70,7 +73,7 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
     public void onBindViewHolder(ReservaViewHolder holder, final int position) {
 
         holder.apartamento_card.setText(reservasList.get(position).getApartamento().getIdentificacao());
-        holder.reserva_id.setText(holder.reserva_id.getText()+String.valueOf(reservasList.get(position).getId()));
+        holder.reserva_id.setText(holder.reserva_id.getText() + String.valueOf(reservasList.get(position).getId()));
 
         String data_e = new SimpleDateFormat("dd/MM/yyyy").format(reservasList.get(position).getData_entrada());
         holder.data_entrada_card.setText(data_e);
@@ -113,10 +116,18 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
                     final int pos = getAdapterPosition();
 
                     if (pos != RecyclerView.NO_POSITION) {
-                        System.out.println(reservasList.get(pos).getHospede().getNome());
+
                         Intent intent = new Intent(ctx, CheckinActivity.class);
-                        intent.putExtra("reserva", reservasList.get(pos));
+                        intent.putExtra("reserva_hospede", reservasList.get(pos).getHospede());
+                        intent.putExtra("reserva_data_entrada", reservasList.get(pos).getData_entrada());
+                        intent.putExtra("reserva_data_saida", reservasList.get(pos).getData_saida());
+                        intent.putExtra("reserva_n_pessoas", reservasList.get(pos).getN_pessoas());
+                        intent.putExtra("reserva_valor", reservasList.get(pos).getValor());
+                        intent.putExtra("reserva_apartamento", reservasList.get(pos).getApartamento());
+                        intent.putExtra("reserva_id", reservasList.get(pos).getId());
+                        intent.putExtra("funcionario_r", funcionario);
                         ctx.startActivity(intent);
+
                     }
                 }
             });
@@ -210,7 +221,7 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
                             }
                         });
 
-                        Apartamento_Request apartamento_request = new Apartamento_Request(ctx);
+                        final Apartamento_Request apartamento_request = new Apartamento_Request(ctx);
 
                         apartamento = new Apartamento();
                         apartamentoList = new ArrayList<>();
@@ -261,7 +272,26 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
                                 if (json != null) {
                                     reserva_request.alterar_reserva(json, apId);
                                     alerta.dismiss();
+                                    ApartamentoController apartamentoController = new ApartamentoController(ctx);
+
+                                    if (reservasList.get(pos).getApartamento().getIdentificacao().equals(apartamento.getIdentificacao())) {
+                                        apartamento.setEstado("Reservado");
+                                        String apjson = apartamentoController.converter_apartamento_json(apartamento);
+                                        apartamento_request.alterar_Apartamento(apjson, apartamento.getId());
+
+                                    } else {
+                                        reservasList.get(pos).getApartamento().setEstado("Disponível");
+                                        String apjson = apartamentoController.converter_apartamento_json(reservasList.get(pos).getApartamento());
+                                        apartamento_request.alterar_Apartamento(apjson, reservasList.get(pos).getId());
+
+                                        apartamento.setEstado("Reservado");
+                                        apjson = apartamentoController.converter_apartamento_json(apartamento);
+                                        apartamento_request.alterar_Apartamento(apjson, apartamento.getId());
+
+                                    }
                                     atualizar(pos, reserva_controller.converter_json_reserva(json));
+
+
 
                                     viewToast(ctx, "Reserva alterada!");
 

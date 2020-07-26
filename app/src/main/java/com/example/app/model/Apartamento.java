@@ -1,6 +1,8 @@
 package com.example.app.model;
 
-public class Apartamento {
+import java.io.Serializable;
+
+public class Apartamento implements Serializable {
 
     private long id;
     private String identificacao;

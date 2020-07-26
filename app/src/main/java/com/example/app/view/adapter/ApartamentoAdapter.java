@@ -24,14 +24,17 @@ import com.example.app.request.Apartamento_Request;
 
 import java.util.List;
 
+import static com.example.app.view.CustonToast.viewToast;
+import static com.example.app.view.CustonToast.viewToastAlerta;
+
 public class ApartamentoAdapter extends RecyclerView.Adapter<ApartamentoAdapter.ApartamentoViewHolder> {
-   private Context ctx;
+    private Context ctx;
     private List<Apartamento> apartamentosList;
-    private String est,json;
+    private String est, json;
     private AlertDialog alerta;
     private Apartamento_Request apr;
     private ApartamentoController apc;
-    private Funcionario  funcionario;
+    private Funcionario funcionario;
 
 
     public ApartamentoAdapter(Context ctx, List<Apartamento> apartamentos, Funcionario funcionario) {
@@ -50,8 +53,6 @@ public class ApartamentoAdapter extends RecyclerView.Adapter<ApartamentoAdapter.
 
     @Override
     public void onBindViewHolder(ApartamentoViewHolder holder, final int position) {
-
-
 
 
         holder.identificacao.setText(apartamentosList.get(position).getIdentificacao());
@@ -100,10 +101,9 @@ public class ApartamentoAdapter extends RecyclerView.Adapter<ApartamentoAdapter.
                         TextView titulo;
                         titulo = finalView.findViewById(R.id.txt_titulo);
 
-                        titulo.setText("   Alterar dados do Apartamento");
+                        titulo.setText("Alterar dados do apartamento");
                         final EditText identificacao;
                         final EditText descricao;
-
 
 
                         identificacao = finalView.findViewById(R.id.editText_identificacaoAP);
@@ -144,38 +144,17 @@ public class ApartamentoAdapter extends RecyclerView.Adapter<ApartamentoAdapter.
                                 apc = new ApartamentoController(ctx);
                                 apr = new Apartamento_Request(ctx);
 
-                                json = apc.valirar_alterar_Apartamento(funcionario,apId, identificacao.getText().toString(), est, descricao.getText().toString());
+                                json = apc.valirar_alterar_Apartamento(funcionario, apId, identificacao.getText().toString(), est, descricao.getText().toString());
                                 if (json != null) {
                                     apr.alterar_Apartamento(json, apId);
                                     alerta.dismiss();
                                     atualizar(pos, apc.converter_json_apartamento_(json));
 
-                                    LayoutInflater inflater2 = LayoutInflater.from(ctx);
-                                    View layout2 = inflater2.inflate(R.layout.custom_toast, null);
-
-                                    TextView text = (TextView) layout2.findViewById(R.id.text);
-                                    text.setText("Apartamento alterado");
-
-                                    Toast toast = new Toast(ctx);
-
-                                    toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                    toast.setDuration(9000);
-                                    toast.setView(layout2);
-                                    toast.show();
+                                    viewToast(ctx, "Apartamento alterado!");
 
                                 } else {
-                                    LayoutInflater inflater2 = LayoutInflater.from(ctx);
-                                    View layout2 = inflater2.inflate(R.layout.custom_toast, null);
-                                    layout2.setBackgroundResource(R.color.alerta);
-                                    TextView text = (TextView) layout2.findViewById(R.id.text);
-                                    text.setText("Preencha todos os campos *");
+                                    viewToastAlerta(ctx, "Preencha todos os campos *");
 
-                                    Toast toast = new Toast(ctx);
-
-                                    toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                    toast.setDuration(9000);
-                                    toast.setView(layout2);
-                                    toast.show();
                                 }
 
                             }

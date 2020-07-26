@@ -174,7 +174,6 @@ public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.Ho
 
                         valor_hospedagem = finalView.findViewById(R.id.editText_valor_hospedagem);
 
-                        System.out.println(String.valueOf(hospedagemsList.get(pos).getValor_hospedagem()));
 
                         valor_hospedagem.setText(String.valueOf(hospedagemsList.get(pos).getValor_hospedagem()));
 

@@ -212,7 +212,7 @@ public class Apartamento_Request {
 
     public void buscar_por_estado(final List<Apartamento> list, final ArrayAdapter ar, Long id ) {
 
-        final String url = ip + "/apartamento/todos/"+id;
+        final String url = ip + "/apartamento/todosDisponivel/"+id;
 
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,

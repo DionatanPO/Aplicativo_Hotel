@@ -7,9 +7,6 @@ import com.example.app.model.Hospede;
 import java.io.Serializable;
 import java.sql.Date;
 
-/**
- * @author Dionatan
- */
 public class Reserva implements Serializable {
     private Long id;
     private Date data_entrada;
@@ -21,30 +18,9 @@ public class Reserva implements Serializable {
     private int n_pessoas;
     private float valor;
 
-
     public Reserva() {
     }
 
-    public Reserva(Long id, Date data_entrada, Date data_saida, Hospede hospede, Apartamento apartamento, String estado, int n_pessoas) {
-        this.id = id;
-        this.data_entrada = data_entrada;
-        this.data_saida = data_saida;
-        this.hospede = hospede;
-        this.apartamento = apartamento;
-        this.estado = estado;
-        this.n_pessoas = n_pessoas;
-    }
-
-    public Reserva(Long id, Date data_entrada, Date data_saida, Hospede hospede, Apartamento apartamento, Funcionario funcionario, String estado, int n_pessoas) {
-        this.id = id;
-        this.data_entrada = data_entrada;
-        this.data_saida = data_saida;
-        this.hospede = hospede;
-        this.apartamento = apartamento;
-        this.funcionario = funcionario;
-        this.estado = estado;
-        this.n_pessoas = n_pessoas;
-    }
 
     public float getValor() {
         return valor;

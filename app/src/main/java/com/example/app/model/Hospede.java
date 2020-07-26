@@ -1,6 +1,8 @@
 package com.example.app.model;
 
-public class Hospede {
+import java.io.Serializable;
+
+public class Hospede implements Serializable {
     private Long id;
     private String nome;
     private String cpf;
@@ -9,13 +11,6 @@ public class Hospede {
 
     public Hospede() {
 
-    }
-
-    public Hospede(Long id, String nome, String cpf, String telefone) {
-        this.id = id;
-        this.nome = nome;
-        this.cpf = cpf;
-        this.telefone = telefone;
     }
 
     public String getCpf() {

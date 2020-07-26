@@ -23,13 +23,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.app.R;
 import com.example.app.controller.ApartamentoController;
 import com.example.app.controller.CheckinController;
+import com.example.app.controller.ReservaController;
 import com.example.app.model.Apartamento;
 import com.example.app.model.Cal_Data;
 import com.example.app.model.Funcionario;
+import com.example.app.model.Hospede;
+import com.example.app.model.Reserva;
 import com.example.app.request.Apartamento_Request;
 import com.example.app.request.Checkin_Request;
+import com.example.app.request.Reserva_Request;
 
+import java.sql.Date;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +56,7 @@ public class CheckinActivity extends AppCompatActivity implements Spinner.OnItem
     private TextView btn_hospedagem;
     private Context context;
     private Funcionario funcionario;
+    private Reserva reserva;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +64,14 @@ public class CheckinActivity extends AppCompatActivity implements Spinner.OnItem
         setContentView(R.layout.activity_checkin);
         btn_hospedagem = findViewById(R.id.btn_hospedagem);
         context = this;
+
         funcionario = (Funcionario) getIntent().getSerializableExtra("funcionario");
 
         btn_hospedagem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(CheckinActivity.this, HospedagemActivity.class);
-                i.putExtra("funcionario",funcionario);
+                i.putExtra("funcionario", funcionario);
                 startActivity(i);
             }
         });
@@ -122,6 +130,39 @@ public class CheckinActivity extends AppCompatActivity implements Spinner.OnItem
         apartamento = new Apartamento();
         apartamentoList = new ArrayList<>();
 
+        Funcionario f = (Funcionario) getIntent().getSerializableExtra("funcionario_r");
+
+        if (f != null) {
+            funcionario = f;
+            reserva = new Reserva();
+            reserva.setHospede((Hospede) getIntent().getSerializableExtra("reserva_hospede"));
+            reserva.setData_entrada((Date) getIntent().getSerializableExtra("reserva_data_entrada"));
+            reserva.setData_saida((Date) getIntent().getSerializableExtra("reserva_data_saida"));
+            reserva.setN_pessoas((int) getIntent().getSerializableExtra("reserva_n_pessoas"));
+            reserva.setValor((float) getIntent().getSerializableExtra("reserva_valor"));
+            reserva.setId((Long) getIntent().getSerializableExtra("reserva_id"));
+            reserva.setApartamento((Apartamento) getIntent().getSerializableExtra("reserva_apartamento"));
+
+
+            nome_hospede.setText(reserva.getHospede().getNome());
+
+            cpf.setText(reserva.getHospede().getCpf());
+
+            telefone.setText(reserva.getHospede().getTelefone());
+
+            String data_e = new SimpleDateFormat("dd/MM/yyyy").format(reserva.getData_entrada());
+
+            data_entrada.setText(data_e);
+
+            String data_s = new SimpleDateFormat("dd/MM/yyyy").format(reserva.getData_saida());
+            data_saida.setText(data_s);
+
+            valor_hospedagem = reserva.getValor();
+            v_hospedagem.setText(String.valueOf(valor_hospedagem));
+            apartamentoList.add(reserva.getApartamento());
+
+        }
+
         spinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, apartamentoList);
         apartamento_request.buscarDisponiveis(apartamentoList, spinnerAdapter, funcionario.getAdministrador_id());
 
@@ -177,6 +218,14 @@ public class CheckinActivity extends AppCompatActivity implements Spinner.OnItem
 
                     spinner_apartamento.setAdapter(spinnerAdapter);
                     spinnerAdapter.notifyDataSetChanged();
+                    if (reserva != null) {
+                        Reserva_Request reserva_request = new Reserva_Request(context);
+                        ReservaController reservaController = new ReservaController(context);
+                        reserva.setEstado("Concluida");
+                        String json = reservaController.converter_reserva_json(reserva);
+
+                        reserva_request.alterar_reserva(json, reserva.getId());
+                    }
 
                     viewToast(context, "Hospedagem cadastrada");
 
