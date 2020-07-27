@@ -85,6 +85,7 @@ public class HospedagemActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(HospedagemActivity.this, CheckinActivity.class);
+                i.putExtra("funcionario",funcionario);
                 startActivity(i);
             }
         });

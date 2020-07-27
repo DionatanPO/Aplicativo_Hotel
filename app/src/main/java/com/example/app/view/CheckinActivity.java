@@ -166,6 +166,8 @@ public class CheckinActivity extends AppCompatActivity implements Spinner.OnItem
         spinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, apartamentoList);
         apartamento_request.buscarDisponiveis(apartamentoList, spinnerAdapter, funcionario.getAdministrador_id());
 
+
+
         spinner_apartamento.setAdapter(spinnerAdapter);
 
         spinner_apartamento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

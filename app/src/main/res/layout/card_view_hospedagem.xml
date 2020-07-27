@@ -20,7 +20,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
 
             android:layout_width="match_parent"
-            android:layout_height="190dp">
+            android:layout_height="200dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
 
@@ -255,6 +255,15 @@ android:elevation="3dp"
                 android:text="Pg"
                 app:layout_constraintStart_toEndOf="@+id/textView344fdgfdsgf"
                 app:layout_constraintTop_toBottomOf="@+id/editTextData_entrada_card" />
+
+            <Button
+                android:id="@+id/card_view_hmenu"
+                android:layout_width="45dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_baseline_more_vert_24"
+                android:backgroundTint="@color/roxo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

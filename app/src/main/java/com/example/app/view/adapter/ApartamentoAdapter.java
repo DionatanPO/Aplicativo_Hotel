@@ -2,6 +2,9 @@ package com.example.app.view.adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
@@ -21,6 +25,7 @@ import com.example.app.controller.ApartamentoController;
 import com.example.app.model.Apartamento;
 import com.example.app.model.Funcionario;
 import com.example.app.request.Apartamento_Request;
+import com.example.app.view.LoginActivity;
 
 import java.util.List;
 
@@ -90,87 +95,110 @@ public class ApartamentoAdapter extends RecyclerView.Adapter<ApartamentoAdapter.
 
                     if (pos != RecyclerView.NO_POSITION) {
 
-                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(ctx);
-                        LayoutInflater inflater = LayoutInflater.from(ctx);
-                        View layout = inflater.inflate(R.layout.alert_add_apartamento, null);
+                        if (apartamentosList.get(pos).getEstado().equals("Ocupado") || apartamentosList.get(pos).getEstado().equals("Reservado")) {
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ctx);
+
+                            alertDialogBuilder
+                                    .setMessage("O apartamento " + apartamentosList.get(pos).getIdentificacao() + " não pode ser alterado no momento, pois se encontra: " + apartamentosList.get(pos).getEstado())
+                                    .setCancelable(false)
+                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                                        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                                        public void onClick(DialogInterface dialog, int id) {
+
+                                            dialog.cancel();
+                                        }
+                                    })
+                                    .setNegativeButton("", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                            AlertDialog alertDialog = alertDialogBuilder.create();
+                            alertDialog.show();
+                        } else {
+
+                            AlertDialog.Builder mBuilder = new AlertDialog.Builder(ctx);
+                            LayoutInflater inflater = LayoutInflater.from(ctx);
+                            View layout = inflater.inflate(R.layout.alert_add_apartamento, null);
 
 
-                        layout.findViewById(R.id.btnCadAp);
-                        final View finalView = layout;
+                            layout.findViewById(R.id.btnCadAp);
+                            final View finalView = layout;
 
-                        TextView titulo;
-                        titulo = finalView.findViewById(R.id.txt_titulo);
+                            TextView titulo;
+                            titulo = finalView.findViewById(R.id.txt_titulo);
 
-                        titulo.setText("Alterar dados do apartamento");
-                        final EditText identificacao;
-                        final EditText descricao;
-
-
-                        identificacao = finalView.findViewById(R.id.editText_identificacaoAP);
-                        descricao = finalView.findViewById(R.id.editText_DescricaoAp);
-                        identificacao.setText(apartamentosList.get(pos).getIdentificacao());
-                        descricao.setText(apartamentosList.get(pos).getDescricao());
-
-                        Spinner spinner = (Spinner) layout.findViewById(R.id.estados_spinner);
-
-                        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(ctx,
-                                R.array.estados_array, android.R.layout.simple_spinner_item);
-
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                        spinner.setAdapter(adapter);
-                        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                est = (String) parent.getItemAtPosition(position);
-                            }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
-                                est = "";
-                            }
-                        });
+                            titulo.setText("Alterar dados do apartamento");
+                            final EditText identificacao;
+                            final EditText descricao;
 
 
-                        layout.findViewById(R.id.btnCadAp).setOnClickListener(new View.OnClickListener() {
-                            public void onClick(View arg0) {
+                            identificacao = finalView.findViewById(R.id.editText_identificacaoAP);
+                            descricao = finalView.findViewById(R.id.editText_DescricaoAp);
+                            identificacao.setText(apartamentosList.get(pos).getIdentificacao());
+                            descricao.setText(apartamentosList.get(pos).getDescricao());
 
-                                Long apId;
+                            Spinner spinner = (Spinner) layout.findViewById(R.id.estados_spinner);
 
+                            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(ctx,
+                                    R.array.estados_array, android.R.layout.simple_spinner_item);
 
-                                apId = apartamentosList.get(pos).getId();
-                                System.out.println(apId);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-                                apc = new ApartamentoController(ctx);
-                                apr = new Apartamento_Request(ctx);
-
-                                json = apc.valirar_alterar_Apartamento(funcionario, apId, identificacao.getText().toString(), est, descricao.getText().toString());
-                                if (json != null) {
-                                    apr.alterar_Apartamento(json, apId);
-                                    alerta.dismiss();
-                                    atualizar(pos, apc.converter_json_apartamento_(json));
-
-                                    viewToast(ctx, "Apartamento alterado!");
-
-                                } else {
-                                    viewToastAlerta(ctx, "Preencha todos os campos *");
-
+                            spinner.setAdapter(adapter);
+                            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    est = (String) parent.getItemAtPosition(position);
                                 }
 
-                            }
-                        });
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+                                    est = "";
+                                }
+                            });
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-                        builder.setView(layout);
-                        alerta = builder.create();
-                        alerta.show();
 
+                            layout.findViewById(R.id.btnCadAp).setOnClickListener(new View.OnClickListener() {
+                                public void onClick(View arg0) {
+
+                                    Long apId;
+
+
+                                    apId = apartamentosList.get(pos).getId();
+                                    System.out.println(apId);
+
+                                    apc = new ApartamentoController(ctx);
+                                    apr = new Apartamento_Request(ctx);
+
+                                    json = apc.valirar_alterar_Apartamento(funcionario, apId, identificacao.getText().toString(), est, descricao.getText().toString());
+                                    if (json != null) {
+                                        apr.alterar_Apartamento(json, apId);
+                                        alerta.dismiss();
+                                        atualizar(pos, apc.converter_json_apartamento_(json));
+
+                                        viewToast(ctx, "Apartamento alterado!");
+
+                                    } else {
+                                        viewToastAlerta(ctx, "Preencha todos os campos *");
+
+                                    }
+
+                                }
+                            });
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                            builder.setView(layout);
+                            alerta = builder.create();
+                            alerta.show();
+                        }
 
                     }
 
                 }
             });
-
 
         }
 

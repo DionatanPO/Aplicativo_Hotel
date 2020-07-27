@@ -27,9 +27,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
+import com.example.app.controller.ApartamentoController;
 import com.example.app.controller.ReservaController;
 import com.example.app.model.Funcionario;
 import com.example.app.model.Reserva;
+import com.example.app.request.Apartamento_Request;
 import com.example.app.request.Reserva_Request;
 import com.example.app.view.adapter.ReservaAdapter;
 
@@ -120,9 +122,18 @@ public class ReservaActivity extends Activity {
 
             reserva_request.alterar_reserva(json, reservaAdapter.getReservasList().get(position).getId());
 
+
+
+            ApartamentoController apc = new ApartamentoController(context);
+            reservaAdapter.getReservasList().get(position).getApartamento().setEstado("Disponível");
+
+            json = apc.converter_apartamento_json(reservaAdapter.getReservasList().get(position).getApartamento());
+
+            Apartamento_Request apr = new Apartamento_Request(context);
+            apr.alterar_Apartamento(json, reservaAdapter.getReservasList().get(position).getApartamento().getId());
+
             reservaAdapter.getReservasList().remove(position);
             reservaAdapter.notifyItemRemoved(position);
-
             viewToast(context, "Reserva apagada!");
 
 

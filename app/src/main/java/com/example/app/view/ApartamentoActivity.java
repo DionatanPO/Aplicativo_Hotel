@@ -3,7 +3,9 @@ package com.example.app.view;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Canvas;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -65,7 +68,7 @@ public class ApartamentoActivity extends AppCompatActivity {
 
         apr = new Apartamento_Request(this);
 
-        apartamentoAdapter = new ApartamentoAdapter(this, apr.bsucarTodosAtivos(progressBar,funcionario.getAdministrador_id()),funcionario);
+        apartamentoAdapter = new ApartamentoAdapter(this, apr.bsucarTodosAtivos(progressBar, funcionario.getAdministrador_id()), funcionario);
 
         recyclerView = findViewById(R.id.apartamento_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -118,7 +121,7 @@ public class ApartamentoActivity extends AppCompatActivity {
                             apc = new ApartamentoController(ApartamentoActivity.this);
                             apr = new Apartamento_Request(ApartamentoActivity.this);
 
-                            json = apc.valirar_cadastro_Apartamento(funcionario,identificacao.getText().toString(), estado, descricao.getText().toString());
+                            json = apc.valirar_cadastro_Apartamento(funcionario, identificacao.getText().toString(), estado, descricao.getText().toString());
                             if (json != null) {
                                 apr.cadastrarApartamento(json, apartamentoAdapter);
                                 viewToast(context, "Apartamento cadastrado!");
@@ -164,16 +167,42 @@ public class ApartamentoActivity extends AppCompatActivity {
                 viewToastAlerta(context, "Funcionários não podem efetuar está açãp");
                 apartamentoAdapter.notifyItemRemoved(position);
             } else {
-                apc = new ApartamentoController(ApartamentoActivity.this);
-                apartamentoAdapter.getApartamentosList().get(position).setEstado("Desabilitado");
+                if (apartamentoAdapter.getApartamentosList().get(position).getEstado().equals("Ocupado") ||
+                        apartamentoAdapter.getApartamentosList().get(position).getEstado().equals("Reservado")) {
+                    apartamentoAdapter.notifyItemRemoved(position);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
-                json = apc.converter_apartamento_json(apartamentoAdapter.getApartamentosList().get(position));
+                    alertDialogBuilder
+                            .setMessage("O apartamento " + apartamentoAdapter.getApartamentosList().get(position).getIdentificacao() + " não pode ser apagado no momento, pois se encontra: " + apartamentoAdapter.getApartamentosList().get(position).getEstado())
+                            .setCancelable(false)
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
-                apr.alterar_Apartamento(json, apartamentoAdapter.getApartamentosList().get(position).getId());
+                                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                                public void onClick(DialogInterface dialog, int id) {
 
-                apartamentoAdapter.getApartamentosList().remove(position);
-                apartamentoAdapter.notifyItemRemoved(position);
-                viewToast(context, "Apartamento apagado!");
+                                    dialog.cancel();
+                                }
+                            })
+                            .setNegativeButton("", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+                } else {
+                    apc = new ApartamentoController(ApartamentoActivity.this);
+                    apartamentoAdapter.getApartamentosList().get(position).setEstado("Desabilitado");
+
+                    json = apc.converter_apartamento_json(apartamentoAdapter.getApartamentosList().get(position));
+
+                    apr.alterar_Apartamento(json, apartamentoAdapter.getApartamentosList().get(position).getId());
+
+                    apartamentoAdapter.getApartamentosList().remove(position);
+                    apartamentoAdapter.notifyItemRemoved(position);
+                    viewToast(context, "Apartamento apagado!");
+                }
             }
         }
 

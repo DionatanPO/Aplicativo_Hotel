@@ -3,13 +3,17 @@ package com.example.app.view.adapter;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -17,15 +21,19 @@ import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
+import com.example.app.controller.ApartamentoController;
 import com.example.app.controller.CheckinController;
 import com.example.app.model.Apartamento;
 import com.example.app.model.Funcionario;
 import com.example.app.model.Hospedagem;
 import com.example.app.request.Apartamento_Request;
 import com.example.app.request.Hospedagem_Request;
+import com.example.app.view.HospedagemActivity;
+import com.example.app.view.LoginActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -108,6 +116,7 @@ public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.Ho
         TextView n_pessoas_card;
         TextView tipo_pagamento_card;
         TextView apartamento_card;
+        Button menu;
 
 
         public HospedagemViewHolder(final View itemView) {
@@ -122,6 +131,61 @@ public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.Ho
             n_pessoas_card = itemView.findViewById(R.id.editText_n_pessoas_card);
             tipo_pagamento_card = itemView.findViewById(R.id.editText_tipo_pagamento_card);
             apartamento_card = itemView.findViewById(R.id.editText_apartamento_card);
+            menu = itemView.findViewById(R.id.card_view_hmenu);
+
+            menu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final int pos = getAdapterPosition();
+                    String m;
+                    if (hospedagemsList.get(pos).getTipo_pagamento().equals("Não Pago")) {
+                        m = "Lembrando que ainda não foi efetuado o pagamento da diária. Deseja mesmo asim efetuar o check-out?";
+                    } else {
+                        m = "Tudo ok. Deseja efetuar o check-out?";
+                    }
+
+                    if (pos != RecyclerView.NO_POSITION) {
+                        androidx.appcompat.app.AlertDialog.Builder alertDialogBuilder = new androidx.appcompat.app.AlertDialog.Builder(ctx);
+                        alertDialogBuilder.setTitle("Check-out");
+
+                        alertDialogBuilder
+                                .setMessage(m)
+                                .setCancelable(false)
+                                .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+
+                                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                                    public void onClick(DialogInterface dialog, int id) {
+
+                                        checkin_controller = new CheckinController(ctx);
+                                        hospedagem_request = new Hospedagem_Request(ctx);
+                                        hospedagemsList.get(pos).setEstado("Concluido");
+
+                                        json = checkin_controller.converter_hospedagem_json(hospedagemsList.get(pos));
+
+                                        hospedagem_request.alterar_hospedagem(json, hospedagemsList.get(pos).getId());
+
+                                        ApartamentoController apartamentoController = new ApartamentoController(ctx);
+                                        hospedagemsList.get(pos).getApartamento().setEstado("Sujo");
+                                        String json = apartamentoController.converter_apartamento_json(hospedagemsList.get(pos).getApartamento());
+                                        Apartamento_Request apartamento_request = new Apartamento_Request(ctx);
+                                        apartamento_request.alterar_Apartamento(json, hospedagemsList.get(pos).getApartamento().getId());
+
+                                        getHospedagemsList().remove(pos);
+                                        notifyDataSetChanged();
+                                        dialog.cancel();
+                                    }
+                                })
+                                .setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        androidx.appcompat.app.AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
+                    }
+                }
+            });
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -253,7 +317,7 @@ public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.Ho
                                 hospedagem_request = new Hospedagem_Request(ctx);
 
                                 try {
-                                    json = checkin_controller.valirar_checkin_altera(funcionario,apId, apartamento, cpf.getText().toString(), nome_hospede.getText().toString(), telefone.getText().toString(), data_entrada.getText().toString(), data_saida.getText().toString(), pagamento, Float.parseFloat(valor_hospedagem.getText().toString()), n_pessoas);
+                                    json = checkin_controller.valirar_checkin_altera(funcionario, apId, apartamento, cpf.getText().toString(), nome_hospede.getText().toString(), telefone.getText().toString(), data_entrada.getText().toString(), data_saida.getText().toString(), pagamento, Float.parseFloat(valor_hospedagem.getText().toString()), n_pessoas);
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
@@ -265,7 +329,7 @@ public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.Ho
                                     viewToast(ctx, "Hospedagem alterada");
 
                                 } else {
-                                    viewToastAlerta(ctx,"Preencha todos os campos!*");
+                                    viewToastAlerta(ctx, "Preencha todos os campos!*");
 
                                 }
 

@@ -1,9 +1,15 @@
 package com.example.app.request;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -15,6 +21,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.app.model.Apartamento;
 import com.example.app.model.Url;
+import com.example.app.view.LoginActivity;
 import com.example.app.view.RelatorioActivity;
 import com.example.app.view.adapter.ApartamentoAdapter;
 import com.google.gson.Gson;
@@ -264,7 +271,32 @@ public class Apartamento_Request {
                                 list.add(ap);
 
                             }
+
                             ar.notifyDataSetChanged();
+                            if(apList.size()==0){
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mCtx);
+
+                                alertDialogBuilder
+                                        .setMessage("Hotel lotado! Nenhum apartamento disponível no momento")
+                                        .setCancelable(false)
+                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                                            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                                            public void onClick(DialogInterface dialog, int id) {
+
+                                                dialog.cancel();
+                                            }
+                                        })
+                                        .setNegativeButton("", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                            }
+                                        });
+
+                                AlertDialog alertDialog = alertDialogBuilder.create();
+                                alertDialog.show();
+                            }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

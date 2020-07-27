@@ -40,6 +40,7 @@ import static com.example.app.view.CustonToast.viewToast;
 import static com.example.app.view.CustonToast.viewToastAlerta;
 
 public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaViewHolder> {
+
     private Context ctx;
     private List<Reserva> reservasList;
     private String est;
@@ -168,7 +169,6 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
                         nome_hospede.setText(reservasList.get(pos).getHospede().getNome());
 
                         cpf = finalView.findViewById(R.id.editText_cpf);
-
 
                         cpf.setText(reservasList.get(pos).getHospede().getCpf());
 
