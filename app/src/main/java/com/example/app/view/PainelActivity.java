@@ -30,7 +30,7 @@ import static com.example.app.view.CustonToast.viewToast;
 import static com.example.app.view.CustonToast.viewToastAlerta;
 
 public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClickListener {
-    private TextView btn_funcionario, btn_check_in, btn_limpeza, btn_apartamento, btn_hospedagem, btn_reserva, btn_relatorio;
+    private TextView btn_funcionario, btn_check_in, btn_limpeza, btn_apartamento, btn_hospedagem, btn_reserva, btn_relatorio, btn_manutencao;
     private Button button_menu;
     private Context context;
     private Funcionario funcionario;
@@ -54,6 +54,7 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
         btn_reserva = findViewById(R.id.btn_reserva);
         button_menu = findViewById(R.id.painel_btn_menu);
         btn_relatorio = findViewById(R.id.btn_relatorio);
+        btn_manutencao = findViewById(R.id.btn_manuntecao);
 
         button_menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +125,14 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
         });
 
         btn_relatorio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(PainelActivity.this, RelatorioActivity.class);
+                i.putExtra("funcionario", funcionario);
+                startActivity(i);
+            }
+        });
+        btn_manutencao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(PainelActivity.this, RelatorioActivity.class);

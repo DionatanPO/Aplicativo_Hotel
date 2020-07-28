@@ -25,7 +25,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="12dp"
-            android:text="Informe os dados do funcionário"
+            android:text="Cadastrar funcionário"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

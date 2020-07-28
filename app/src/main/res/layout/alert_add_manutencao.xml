@@ -25,7 +25,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="124dp"
             android:layout_marginRight="124dp"
-            android:src="@drawable/ic_chave"
+            android:src="@drawable/ic_manutencao_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -39,7 +39,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="16dp"
-            android:text="Cadastrar apartamento"
+            android:text="Cadastrar manutenção"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -66,17 +66,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
         app:layout_constraintVertical_bias="0.174">
+        <TextView
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Apartamento"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/apartamento_spinner"
+            android:layout_width="140dp"
+            android:layout_height="35dp"
+            />
 
         <TextView
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:text="Identificação"
+            android:text="Observação"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <EditText
-            android:id="@+id/editText_identificacaoAP"
+            android:id="@+id/add_manutencao_observacao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -93,40 +105,6 @@
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
             app:layout_constraintVertical_bias="0.925" />
 
-        <TextView
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:text="Descrição"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editText_DescricaoAp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:ems="10"
-            android:hint=""
-            android:inputType="textEmailAddress"
-            app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-        <TextView
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:text="Estado"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Spinner
-            android:id="@+id/estados_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="35dp" />
 
 
         <Button

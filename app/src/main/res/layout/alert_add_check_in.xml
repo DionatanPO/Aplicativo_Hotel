@@ -17,14 +17,15 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:layout_width="224dp"
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
             android:layout_height="22dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="52dp"
-            android:text="Informe os dados para o check-in"
+            android:text="Cadastrar check-in"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

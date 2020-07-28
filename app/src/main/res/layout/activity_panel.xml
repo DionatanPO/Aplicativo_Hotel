@@ -4,13 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
 
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="266dp"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:foregroundGravity="center"
+            android:layout_width="60dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/ic_casa"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+
+            android:id="@+id/painel_btn_menu"
+            android:layout_width="45dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/ic_baseline_menu_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.971"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Painel"
+            android:textColor="@color/white"
+            android:textSize="28dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.235" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <GridLayout
-
-        android:layout_width="290dp"
+android:foregroundGravity="center"
+        android:layout_width="wrap_content"
         android:layout_height="494dp"
-        android:layout_marginStart="75dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="110dp"
         android:layout_marginEnd="8dp"
@@ -32,7 +89,7 @@
             android:elevation="3dp"
             android:paddingTop="20dp"
             android:text="Check-in"
-            android:textAlignment="center"
+           android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark"
             android:translationZ="5dp" />
 
@@ -119,66 +176,21 @@
             android:textColor="@color/colorPrimary"
             android:gravity="center_horizontal" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
 
-            android:id="@+id/constraintLayout"
-            android:layout_width="match_parent"
-            android:layout_height="266dp"
-            android:layout_row="0"
-            android:layout_column="7"
-            android:background="@color/colorPrimary">
+            android:id="@+id/btn_manuntecao"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/borda_circle"
+            android:drawableTop="@drawable/ic_manutencao_icon"
+            android:elevation="3dp"
+            android:paddingTop="23dp"
+            android:text="Manutenção"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:gravity="center_horizontal" />
 
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:src="@drawable/ic_casa"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-
-                android:id="@+id/painel_btn_menu"
-                android:layout_width="45dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/ic_baseline_menu_24"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.971"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="42dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="Painel"
-                android:textColor="@color/white"
-                android:textSize="28dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.501"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.235" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </GridLayout>
 

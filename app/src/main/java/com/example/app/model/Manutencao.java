@@ -13,13 +13,21 @@ public class Manutencao {
     private Long id;
     private Date data_solicitacao;
     private Funcionario funcionario;
-    private String descricao;
+    private String observacao;
+    private String estado;
     private Apartamento apartamento;
 
     public Manutencao() {
     }
-    
-    
+
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 
     public Long getId() {
         return id;
@@ -45,12 +53,12 @@ public class Manutencao {
         this.funcionario = funcionario;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getObservacao() {
+        return observacao;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
     }
 
     public Apartamento getApartamento() {
