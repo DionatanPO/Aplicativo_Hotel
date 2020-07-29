@@ -6,19 +6,19 @@ import com.example.app.model.Apartamento;
 import com.example.app.model.Funcionario;
 import com.example.app.model.Manutencao;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-
 public class ManutencaoController {
 
     private Context context;
     private Manutencao manutencao;
-    private Gson gson = new Gson();
-
+    Gson gson = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd").create();
 
     public ManutencaoController(Context ctx) {
         this.context = ctx;
@@ -74,7 +74,7 @@ public class ManutencaoController {
     }
 
     public Manutencao converter_json_manutencao(String json) {
-        manutencao = new Gson().fromJson(json, Manutencao.class);
+        manutencao = gson.fromJson(json, Manutencao.class);
         return manutencao;
     }
 }

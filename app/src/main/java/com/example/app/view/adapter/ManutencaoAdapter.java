@@ -65,13 +65,13 @@ public class ManutencaoAdapter extends RecyclerView.Adapter<ManutencaoAdapter.Ma
     @Override
     public void onBindViewHolder(ManutencaoViewHolder holder, int position) {
 
-        holder.ap.setText(manutencaoslis.get(position).getApartamento().getIdentificacao());
+        holder.ap.setText("AP "+manutencaoslis.get(position).getApartamento().getIdentificacao());
 
         String data_e = new SimpleDateFormat("dd/MM/yyyy").format(manutencaoslis.get(position).getData_solicitacao());
-        holder.data.setText(data_e);
+        holder.data.setText("Data da solicitação: "+data_e);
 
-        holder.funcionario_nome.setText(manutencaoslis.get(position).getFuncionario().getNome());
-        holder.observacao.setText(manutencaoslis.get(position).getObservacao());
+        holder.funcionario_nome.setText("Solicitada por: "+manutencaoslis.get(position).getFuncionario().getNome());
+        holder.observacao.setText("Observação: "+manutencaoslis.get(position).getObservacao());
     }
 
     @Override
@@ -123,6 +123,8 @@ public class ManutencaoAdapter extends RecyclerView.Adapter<ManutencaoAdapter.Ma
 
                         apartamentoList.add(manutencaoslis.get(pos).getApartamento());
 
+                        spinner_apartamento = finalView.findViewById(R.id.apartamento_spinner);
+
                         spinnerAdapter = new ArrayAdapter(ctx, android.R.layout.simple_spinner_dropdown_item, apartamentoList);
                         apartamento_request.buscar_por_estado(apartamentoList, spinnerAdapter, funcinario.getAdministrador_id());
                         spinner_apartamento.setAdapter(spinnerAdapter);
@@ -156,7 +158,7 @@ public class ManutencaoAdapter extends RecyclerView.Adapter<ManutencaoAdapter.Ma
                                 if (json != null) {
 
                                     if (manutencaoslis.get(pos).getApartamento().getIdentificacao().equals(apartamento.getIdentificacao())) {
-                                        apartamento.setEstado("Reservado");
+                                        apartamento.setEstado("Manutenção");
                                         String apjson = apartamentoController.converter_apartamento_json(apartamento);
                                         apartamento_request.alterar_Apartamento(apjson, apartamento.getId());
 
@@ -218,6 +220,8 @@ public class ManutencaoAdapter extends RecyclerView.Adapter<ManutencaoAdapter.Ma
     }
 
     public void atualizar(int pos, Manutencao fun) {
+
+        notifyDataSetChanged();
         manutencaoslis.set(pos, fun);
         notifyItemChanged(pos);
         notifyDataSetChanged();

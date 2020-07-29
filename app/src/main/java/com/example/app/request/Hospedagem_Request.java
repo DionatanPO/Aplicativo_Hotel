@@ -1,6 +1,8 @@
 package com.example.app.request;
 
 import android.content.Context;
+import android.view.View;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -76,30 +78,9 @@ public class Hospedagem_Request {
     }
 
 
-//    public void delete_id(Long id) {
-//
-//        String url = ip+"/hospedagem/"+id;
-//
-//        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                Toast.makeText(mCtx, "Apagado", Toast.LENGTH_LONG).show();
-//
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(mCtx, "Apagado", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//        mRequestQueue.add(stringRequest);
-//    }
+    public List<Hospedagem> bsucarTodosAtivos(final HospedagemAdapter funap, Long gerente_id, final TextView textView) {
 
-
-    public List<Hospedagem> bsucarTodosAtivos(final HospedagemAdapter funap, Long gerente_id) {
-
-        String url = ip + "/hospedagem/todas/"+gerente_id;
+        String url = ip + "/hospedagem/todas/" + gerente_id;
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
@@ -114,7 +95,11 @@ public class Hospedagem_Request {
                                 hospedagemList.add(hospedagem);
 
                             }
-
+                            if (hospedagemList.size() > 0) {
+                                textView.setVisibility(View.GONE);
+                            } else {
+                                textView.setVisibility(View.VISIBLE);
+                            }
                             funap.sethospedagemsList(hospedagemList);
 
                         } catch (JSONException e) {
@@ -134,9 +119,9 @@ public class Hospedagem_Request {
         return hospedagemList;
     }
 
-    public List<Hospedagem> bsucarTodosAtivos(final RelatorioActivity activity,Long id) {
+    public List<Hospedagem> bsucarTodosAtivos(final RelatorioActivity activity, Long id) {
 
-        String url = ip + "/hospedagem/todas/"+id;
+        String url = ip + "/hospedagem/todas/" + id;
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {

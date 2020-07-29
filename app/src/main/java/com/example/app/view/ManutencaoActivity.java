@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
+import com.example.app.controller.ApartamentoController;
 import com.example.app.controller.ManutencaoController;
 import com.example.app.model.Apartamento;
 import com.example.app.model.Funcionario;
@@ -52,7 +53,7 @@ public class ManutencaoActivity extends Activity {
     private Manutencao_Request manutencao_request;
     private Button btn_add;
     private String json;
-    private Spinner  spinner_apartamento;
+    private Spinner spinner_apartamento;
     private ArrayAdapter spinnerAdapter;
     private View view;
     private AlertDialog alerta;
@@ -63,26 +64,27 @@ public class ManutencaoActivity extends Activity {
     private Context context;
     private Funcionario funcionario;
     private Apartamento_Request apartamento_request;
+    private ApartamentoController apartamentoController;
     private Apartamento apartamento;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_funcionarios);
+        setContentView(R.layout.activity_manutencaos);
+        context = this;
 
         apartamento_request = new Apartamento_Request(context);
-
-        context = this;
+        apartamentoController = new ApartamentoController(context);
 
         funcionario = (Funcionario) getIntent().getSerializableExtra("funcionario");
 
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         textView = findViewById(R.id.msn_fun);
 
-        manutencao_request = new Manutencao_Request(this);
+        manutencao_request = new Manutencao_Request(context);
 
-        manutencaoAdapter = new ManutencaoAdapter(this, manutencaoList, textView);
+        manutencaoAdapter = new ManutencaoAdapter(this, manutencaoList, textView, funcionario);
 
         manutencao_request.bsucarTodosAtivos(manutencaoAdapter, progressBar, funcionario.getId());
 
@@ -113,7 +115,7 @@ public class ManutencaoActivity extends Activity {
                 view = li.inflate(R.layout.alert_add_manutencao, null);
 
                 view.findViewById(R.id.btnCadAp);
-
+                spinner_apartamento = view.findViewById(R.id.apartamento_spinner);
                 final EditText observacao = view.findViewById(R.id.add_manutencao_observacao);
 
                 spinnerAdapter = new ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, apartamentoList);
@@ -135,7 +137,6 @@ public class ManutencaoActivity extends Activity {
 
                 });
 
-
                 view.findViewById(R.id.btn_Consluir_Fun).setOnClickListener(new View.OnClickListener() {
                     @SuppressLint("WrongConstant")
                     public void onClick(View arg0) {
@@ -143,7 +144,7 @@ public class ManutencaoActivity extends Activity {
                         manutencaoController = new ManutencaoController(ManutencaoActivity.this);
                         manutencao_request = new Manutencao_Request(ManutencaoActivity.this);
 
-                        json = manutencaoController.cadastrar(funcionario,observacao.getText().toString(),apartamento);
+                        json = manutencaoController.cadastrar(funcionario, observacao.getText().toString(), apartamento);
 
                         if (json != null) {
                             manutencao_request.cadastrarManutencao(json, manutencaoAdapter);
@@ -193,6 +194,9 @@ public class ManutencaoActivity extends Activity {
 
             manutencao_request.alterar_manutencao(json, manutencaoAdapter.getManutencaoslist().get(position).getId());
 
+            manutencaoAdapter.getManutencaoslist().get(position).getApartamento().setEstado("Disponível");
+            String apjson = apartamentoController.converter_apartamento_json(manutencaoAdapter.getManutencaoslist().get(position).getApartamento());
+            apartamento_request.alterar_Apartamento(apjson, manutencaoAdapter.getManutencaoslist().get(position).getApartamento().getId());
 
             manutencaoAdapter.getManutencaoslist().remove(position);
             manutencaoAdapter.notifyItemRemoved(position);
@@ -200,7 +204,7 @@ public class ManutencaoActivity extends Activity {
                 textView.setVisibility(View.VISIBLE);
             }
 
-            viewToast(context, "Funcionário apagado!");
+            viewToast(context, "Manutenção apagado!");
         }
 
         @Override

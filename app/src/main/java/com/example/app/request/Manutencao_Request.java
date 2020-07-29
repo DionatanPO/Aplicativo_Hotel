@@ -18,6 +18,7 @@ import com.example.app.model.Url;
 import com.example.app.view.LoginActivity;
 import com.example.app.view.adapter.ManutencaoAdapter;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +39,8 @@ public class Manutencao_Request {
     private Url url = new Url();
     private String ip = url.getUrl();
     private Manutencao manutencao = new Manutencao();
+    Gson gson = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd").create();
 
     public Manutencao_Request(Context ctx) {
         this.context = ctx;
@@ -54,7 +57,7 @@ public class Manutencao_Request {
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    manutencao = new Gson().fromJson(jsonObject.toString(), Manutencao.class);
+                    manutencao = gson.fromJson(jsonObject.toString(), Manutencao.class);
                     funadp.addManutencaoo(manutencao);
                     viewToast(context, "Manutenção cadastrado");
                 } catch (Exception e) {
@@ -90,6 +93,49 @@ public class Manutencao_Request {
 
     }
 
+    public void cadastrarManutencao(final String json) {
+
+        String url = ip + "/manutencao/";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    manutencao = gson.fromJson(jsonObject.toString(), Manutencao.class);
+                    viewToast(context, "Manutenção cadastrado");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    viewToastErro(context, "Ops! Algo deu errado");
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println(error);
+                viewToastErro(context, "Ops! Algo deu errado");
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return json == null ? null : json.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    return null;
+                }
+
+            }
+
+        };
+
+        mRequestQueue.add(stringRequest);
+
+    }
 
     public List<Manutencao> bsucarTodosAtivos(final ManutencaoAdapter funap, final ProgressBar progressBar, Long id) {
 
@@ -105,7 +151,7 @@ public class Manutencao_Request {
                                 JSONObject manutencaos = jsonArray.getJSONObject(i);
 
                                 progressBar.setVisibility(View.VISIBLE);
-                                manutencao = new Gson().fromJson(manutencaos.toString(), Manutencao.class);
+                                manutencao = gson.fromJson(manutencaos.toString(), Manutencao.class);
                                 manutencaoList.add(manutencao);
 
                             }
@@ -137,7 +183,7 @@ public class Manutencao_Request {
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    manutencao = new Gson().fromJson(jsonObject.toString(), Manutencao.class);
+                    manutencao = gson.fromJson(jsonObject.toString(), Manutencao.class);
                     viewToast(context, "Dados alterados!");
                 } catch (Exception e) {
                     e.printStackTrace();

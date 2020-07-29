@@ -3,6 +3,7 @@ package com.example.app.view;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -25,9 +27,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
+import com.example.app.controller.ApartamentoController;
 import com.example.app.controller.CheckinController;
 import com.example.app.model.Funcionario;
 import com.example.app.model.Hospedagem;
+import com.example.app.request.Apartamento_Request;
 import com.example.app.request.Hospedagem_Request;
 import com.example.app.view.adapter.HospedagemAdapter;
 
@@ -51,12 +55,16 @@ public class HospedagemActivity extends Activity {
     private Context context;
     private List<Hospedagem> fumList = new ArrayList<>();
     private Funcionario funcionario;
+    private Apartamento_Request apartamento_request;
+    private ApartamentoController apartamentoController;
+    private TextView  msn_func;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospedagem);
         context = this;
+        msn_func = findViewById(R.id.msn_fun);
         funcionario = (Funcionario) getIntent().getSerializableExtra("funcionario");
 
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
@@ -66,11 +74,10 @@ public class HospedagemActivity extends Activity {
         hospedagemAdapter = new HospedagemAdapter(this, fumList, funcionario);
 
         if (funcionario.getAdministrador_id() == null) {
-            hospedagem_request.bsucarTodosAtivos(hospedagemAdapter, funcionario.getId());
+            hospedagem_request.bsucarTodosAtivos(hospedagemAdapter, funcionario.getId(),msn_func);
         } else {
-            hospedagem_request.bsucarTodosAtivos(hospedagemAdapter, funcionario.getAdministrador_id());
+            hospedagem_request.bsucarTodosAtivos(hospedagemAdapter, funcionario.getAdministrador_id(),msn_func);
         }
-
 
         btn_add = findViewById(R.id.fab_add);
 
@@ -85,7 +92,7 @@ public class HospedagemActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(HospedagemActivity.this, CheckinActivity.class);
-                i.putExtra("funcionario",funcionario);
+                i.putExtra("funcionario", funcionario);
                 startActivity(i);
             }
         });
@@ -114,6 +121,9 @@ public class HospedagemActivity extends Activity {
         public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
             final int position = viewHolder.getAdapterPosition();
 
+            apartamento_request = new Apartamento_Request(context);
+            apartamentoController = new ApartamentoController(context);
+
             checkinController = new CheckinController(HospedagemActivity.this);
             hospedagemAdapter.getHospedagemsList().get(position).setEstado("Desabilitado");
 
@@ -121,10 +131,17 @@ public class HospedagemActivity extends Activity {
 
             hospedagem_request.alterar_hospedagem(json, hospedagemAdapter.getHospedagemsList().get(position).getId());
 
+            hospedagemAdapter.getHospedagemsList().get(position).getApartamento().setEstado("Disponível");
+
+            String apjson = apartamentoController.converter_apartamento_json(hospedagemAdapter.getHospedagemsList().get(position).getApartamento());
+            apartamento_request.alterar_Apartamento(apjson, hospedagemAdapter.getHospedagemsList().get(position).getApartamento().getId());
 
             hospedagemAdapter.getHospedagemsList().remove(position);
             hospedagemAdapter.notifyItemRemoved(position);
 
+            if (hospedagemAdapter.getHospedagemsList().size() <= 0) {
+                msn_func.setVisibility(View.VISIBLE);
+            }
             viewToast(context, "Hospedagem apagada!");
 
         }

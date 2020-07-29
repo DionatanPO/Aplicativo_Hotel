@@ -135,7 +135,7 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
         btn_manutencao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(PainelActivity.this, RelatorioActivity.class);
+                Intent i = new Intent(PainelActivity.this, ManutencaoActivity.class);
                 i.putExtra("funcionario", funcionario);
                 startActivity(i);
             }

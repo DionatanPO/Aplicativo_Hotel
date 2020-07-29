@@ -20,10 +20,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.app.R;
 import com.example.app.controller.ApartamentoController;
 import com.example.app.controller.LimpezaController;
+import com.example.app.controller.ManutencaoController;
+import com.example.app.controller.ReservaController;
 import com.example.app.model.Apartamento;
 import com.example.app.model.Funcionario;
+import com.example.app.model.Manutencao;
 import com.example.app.request.Apartamento_Request;
 import com.example.app.request.Limpeza_Request;
+import com.example.app.request.Manutencao_Request;
+import com.example.app.request.Reserva_Request;
 
 import java.util.List;
 
@@ -157,6 +162,15 @@ public class LimpezaAdapter extends RecyclerView.Adapter<LimpezaAdapter.Apartame
                                     if (est.equals("Manutenção")) {
 
                                         limpeza_request.cadastrar_limpeza(limpezaController.valirar_cadastro_lipenza(apc.converter_json_apartamento_(json), funcionario));
+                                        ManutencaoController manutencaoController = new ManutencaoController(ctx);
+                                        Manutencao_Request manutencao_request = new Manutencao_Request(ctx);
+
+                                        String r = manutencaoController.cadastrar(funcionario, descricao.getText().toString(), apartamentosList.get(pos));
+                                        if(r!=null){
+                                            manutencao_request.cadastrarManutencao(r);
+                                        }
+
+
                                     } else {
 
                                         limpeza_request.cadastrar_limpeza(limpezaController.valirar_cadastro_lipenza(apc.converter_json_apartamento_(json), funcionario));
