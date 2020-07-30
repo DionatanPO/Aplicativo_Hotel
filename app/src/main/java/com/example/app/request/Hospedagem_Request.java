@@ -18,6 +18,7 @@ import com.example.app.model.Url;
 import com.example.app.view.RelatorioActivity;
 import com.example.app.view.adapter.HospedagemAdapter;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,7 +35,8 @@ public class Hospedagem_Request {
     private List<Hospedagem> hospedagemList = new ArrayList<>();
     private Url url = new Url();
     private String ip = url.getUrl();
-
+    private Gson gson = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd").create();
 
     Hospedagem hospedagem = new Hospedagem();
 
@@ -92,6 +94,47 @@ public class Hospedagem_Request {
                                 JSONObject hospedagems = jsonArray.getJSONObject(i);
 
                                 hospedagem = new Gson().fromJson(hospedagems.toString(), Hospedagem.class);
+                                hospedagemList.add(hospedagem);
+
+                            }
+                            if (hospedagemList.size() > 0) {
+                                textView.setVisibility(View.GONE);
+                            } else {
+                                textView.setVisibility(View.VISIBLE);
+                            }
+                            funap.sethospedagemsList(hospedagemList);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println(error);
+            }
+        });
+        mRequestQueue.add(request);
+
+        return hospedagemList;
+    }
+
+
+    public List<Hospedagem> bsucarTodosEntreData(final HospedagemAdapter funap, Long id, final TextView textView, String data1, String data2) {
+
+        final String url = ip + "/hospedagem/todosData/" + id + "/" + data1 + "/" + data2;
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray jsonArray) {
+
+                        try {
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject hospedagems = jsonArray.getJSONObject(i);
+
+                                hospedagem = gson.fromJson(hospedagems.toString(), Hospedagem.class);
                                 hospedagemList.add(hospedagem);
 
                             }

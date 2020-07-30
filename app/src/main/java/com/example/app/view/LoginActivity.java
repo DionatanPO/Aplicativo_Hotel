@@ -2,13 +2,17 @@ package com.example.app.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 
 import com.example.app.R;
 import com.example.app.controller.FuncionarioController;
@@ -19,8 +23,7 @@ import static com.example.app.view.CustonToast.viewToast;
 import static com.example.app.view.CustonToast.viewToastAlerta;
 
 public class LoginActivity extends Activity {
-    private Button btn_create_account;
-    private Button btn_enter;
+    private Button btn_create_account,btn_enter, btn_ajuda;
     private TextView email, password;
     private Context context;
 
@@ -34,6 +37,7 @@ public class LoginActivity extends Activity {
         email = findViewById(R.id.editTextEmail);
         password = findViewById(R.id.editTextPassword);
         btn_enter = findViewById(R.id.buttonEnter);
+        btn_ajuda = findViewById(R.id.btn_ajuda);
 
         final FuncionarioController FunC = new FuncionarioController(this.getApplicationContext());
 
@@ -43,6 +47,36 @@ public class LoginActivity extends Activity {
             public void onClick(View view) {
                 Intent i = new Intent(LoginActivity.this, Create_Account.class);
                 startActivity(i);
+            }
+        });
+        btn_ajuda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                alertDialogBuilder.setTitle("Ajuda");
+                alertDialogBuilder
+                        .setMessage("Criar conta: Permite que proprietários/ gerentes de hotéis crie uma conta de administrador. Esta conta prove acesso as demais funcionalidades do aplicativo.")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                Intent i = new Intent(context, LoginActivity.class);
+                                startActivity(i);
+                                finishAffinity();
+
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton("", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             }
         });
 

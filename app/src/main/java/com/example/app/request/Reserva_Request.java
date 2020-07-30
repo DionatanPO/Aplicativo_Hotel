@@ -1,6 +1,8 @@
 package com.example.app.request;
 
 import android.content.Context;
+import android.view.View;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -174,7 +176,7 @@ public class Reserva_Request {
 
 
 
-    public List<Reserva> bsucarTodosAtivos(final ReservaAdapter funap, Long id) {
+    public List<Reserva> bsucarTodosAtivos(final ReservaAdapter funap, Long id, final TextView msn) {
 
         String url = ip + "/reserva/todosAtivos/"+id;
 
@@ -192,7 +194,11 @@ public class Reserva_Request {
                                 reservaList.add(reserva);
 
                             }
-
+                            if (reservaList.size() <= 0) {
+                                msn.setVisibility(View.VISIBLE);
+                            } else {
+                                msn.setVisibility(View.GONE);
+                            }
                             funap.setreservasList(reservaList);
 
                         } catch (JSONException e) {

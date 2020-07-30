@@ -11,10 +11,13 @@ import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -29,27 +32,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.app.R;
 import com.example.app.controller.ApartamentoController;
 import com.example.app.controller.CheckinController;
+import com.example.app.model.Cal_Data;
 import com.example.app.model.Funcionario;
 import com.example.app.model.Hospedagem;
 import com.example.app.request.Apartamento_Request;
 import com.example.app.request.Hospedagem_Request;
 import com.example.app.view.adapter.HospedagemAdapter;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import java.sql.Date;
 import java.util.List;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 import static com.example.app.view.CustonToast.viewToast;
+import static com.example.app.view.CustonToast.viewToastAlerta;
 
-public class HospedagemActivity extends Activity {
+public class HospedagemActivity extends Activity implements PopupMenu.OnMenuItemClickListener {
 
     private HospedagemAdapter hospedagemAdapter;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private CheckinController checkinController;
     private Hospedagem_Request hospedagem_request;
-    private Button btn_add;
+    private Button btn_add, button_menu;
     private String json;
     private ProgressBar progressBar;
     private Context context;
@@ -57,7 +67,7 @@ public class HospedagemActivity extends Activity {
     private Funcionario funcionario;
     private Apartamento_Request apartamento_request;
     private ApartamentoController apartamentoController;
-    private TextView  msn_func;
+    private TextView msn_func;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +76,7 @@ public class HospedagemActivity extends Activity {
         context = this;
         msn_func = findViewById(R.id.msn_fun);
         funcionario = (Funcionario) getIntent().getSerializableExtra("funcionario");
-
+        button_menu = findViewById(R.id.painel_btn_menu);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         hospedagem_request = new Hospedagem_Request(this);
@@ -74,9 +84,9 @@ public class HospedagemActivity extends Activity {
         hospedagemAdapter = new HospedagemAdapter(this, fumList, funcionario);
 
         if (funcionario.getAdministrador_id() == null) {
-            hospedagem_request.bsucarTodosAtivos(hospedagemAdapter, funcionario.getId(),msn_func);
+            hospedagem_request.bsucarTodosAtivos(hospedagemAdapter, funcionario.getId(), msn_func);
         } else {
-            hospedagem_request.bsucarTodosAtivos(hospedagemAdapter, funcionario.getAdministrador_id(),msn_func);
+            hospedagem_request.bsucarTodosAtivos(hospedagemAdapter, funcionario.getAdministrador_id(), msn_func);
         }
 
         btn_add = findViewById(R.id.fab_add);
@@ -102,6 +112,16 @@ public class HospedagemActivity extends Activity {
                         ItemTouchHelper.LEFT)
         );
         helper.attachToRecyclerView(recyclerView);
+
+        button_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popup = new PopupMenu(context, view);
+                popup.setOnMenuItemClickListener(HospedagemActivity.this);
+                popup.inflate(R.menu.menu_hospedagem);
+                popup.show();
+            }
+        });
 
     }
 
@@ -158,6 +178,94 @@ public class HospedagemActivity extends Activity {
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
 
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.perfil:
+                msn_func.setVisibility(View.GONE);
+                Cal_Data cal_data = new Cal_Data();
+
+                String data = new SimpleDateFormat("yyyy-MM-dd").format(cal_data.cal_data_entrada_saida().get(0));
+
+
+                if (funcionario.getAdministrador_id() == null) {
+                    hospedagemAdapter.getHospedagemsList().clear();
+                    hospedagemAdapter.notifyDataSetChanged();
+                    hospedagem_request.bsucarTodosEntreData(hospedagemAdapter, funcionario.getId(), msn_func, data, data);
+                } else {
+                    hospedagemAdapter.getHospedagemsList().clear();
+                    hospedagemAdapter.notifyDataSetChanged();
+                    hospedagem_request.bsucarTodosEntreData(hospedagemAdapter, funcionario.getAdministrador_id(), msn_func, data, data);
+
+                }
+
+                return true;
+            case R.id.perfil2:
+                AlertDialog alerta;
+                LayoutInflater inflater = LayoutInflater.from(context);
+                View layout = inflater.inflate(R.layout.busca_entre_datas, null);
+                Button btn_concluir = layout.findViewById(R.id.btnConcluir_hospedagem);
+
+                final EditText data1 = layout.findViewById(R.id.data1);
+                final EditText data2 = layout.findViewById(R.id.data2);
+
+                btn_concluir.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (data1.getText().toString().equals("")) {
+                            viewToastAlerta(context, "Preencha o campo data 1");
+                        } else {
+                            if (data2.getText().toString().equals("")) {
+                                data2.setText(data1.getText().toString());
+                            } else {
+
+
+                            }
+                            String edata_1 = data1.getText().toString();
+                            String edata_2 = data2.getText().toString();
+
+                            try {
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                java.sql.Date data = new java.sql.Date(sdf.parse(edata_1).getTime());
+
+                                edata_1 = sdf.format(data.getTime());
+
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                            try {
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                java.sql.Date data = new java.sql.Date(sdf.parse(edata_2).getTime());
+
+                                edata_2 = sdf.format(data.getTime());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                            if (funcionario.getAdministrador_id() == null) {
+                                hospedagemAdapter.getHospedagemsList().clear();
+                                hospedagemAdapter.notifyDataSetChanged();
+                                hospedagem_request.bsucarTodosEntreData(hospedagemAdapter, funcionario.getId(), msn_func, edata_1, edata_2);
+                            } else {
+                                hospedagemAdapter.getHospedagemsList().clear();
+                                hospedagemAdapter.notifyDataSetChanged();
+                                hospedagem_request.bsucarTodosEntreData(hospedagemAdapter, funcionario.getAdministrador_id(), msn_func, edata_1, edata_2);
+
+                            }
+                        }
+                    }
+                });
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setView(layout);
+                alerta = builder.create();
+                alerta.show();
+                return true;
+            default:
+                return false;
+        }
     }
 
 }

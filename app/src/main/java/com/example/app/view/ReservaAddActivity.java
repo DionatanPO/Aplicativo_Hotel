@@ -171,5 +171,11 @@ public class ReservaAddActivity extends AppCompatActivity implements Spinner.OnI
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(context, ReservaActivity.class);
+        intent.putExtra("funcionario", funcionario);
+        startActivity(intent);
+    }
 }

@@ -95,7 +95,8 @@ public class ApartamentoAdapter extends RecyclerView.Adapter<ApartamentoAdapter.
 
                     if (pos != RecyclerView.NO_POSITION) {
 
-                        if (apartamentosList.get(pos).getEstado().equals("Ocupado") || apartamentosList.get(pos).getEstado().equals("Reservado")) {
+                        if (apartamentosList.get(pos).getEstado().equals("Ocupado") || apartamentosList.get(pos).getEstado().equals("Reservado")
+                                || apartamentosList.get(pos).getEstado().equals("Manutenção")) {
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ctx);
 
                             alertDialogBuilder

@@ -168,7 +168,8 @@ public class ApartamentoActivity extends AppCompatActivity {
                 apartamentoAdapter.notifyItemRemoved(position);
             } else {
                 if (apartamentoAdapter.getApartamentosList().get(position).getEstado().equals("Ocupado") ||
-                        apartamentoAdapter.getApartamentosList().get(position).getEstado().equals("Reservado")) {
+                        apartamentoAdapter.getApartamentosList().get(position).getEstado().equals("Reservado")||
+                        apartamentoAdapter.getApartamentosList().get(position).getEstado().equals("Manutenção")) {
                     apartamentoAdapter.notifyItemRemoved(position);
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 

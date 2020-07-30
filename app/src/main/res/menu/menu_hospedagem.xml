@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/perfil"
-        android:title="Apartamentos limpos hoje" />
+        android:title="Hospedagens de hoje" />
 
     <item
         android:id="@+id/perfil2"
-        android:title="Apartamentos sujos" />
+        android:title="Hospedagem por intervalo entre datas" />
 
 
 </menu>

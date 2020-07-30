@@ -1,6 +1,7 @@
 package com.example.app.request;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -34,7 +35,7 @@ public class Limpeza_Request {
     private List<Limpeza> limpezaList = new ArrayList<>();
     private Url url = new Url();
     private String ip = url.getUrl();
-    Gson gson = new GsonBuilder()
+    private Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd").create();
 
     private Apartamento ap;
@@ -90,7 +91,7 @@ public class Limpeza_Request {
     }
 
 
-    public void buscar_Apartamentos_Sujos(final LimpezaAdapter lad, final TextView tv, Long id) {
+    public void buscar_Apartamentos_Sujos(final LimpezaAdapter lad, final TextView tv, Long id, final TextView msn) {
 
 
         final String url = ip + "/limpeza/todos/" + id;
@@ -108,6 +109,12 @@ public class Limpeza_Request {
 
 
                             }
+                            if (apList.size() <= 0) {
+                                msn.setVisibility(View.VISIBLE);
+                            } else {
+                                msn.setVisibility(View.GONE);
+                            }
+
                             lad.setApartamentosList(apList);
                             tv.setText(String.valueOf(apList.size()));
                         } catch (JSONException e) {
@@ -125,7 +132,7 @@ public class Limpeza_Request {
         mRequestQueue.add(request);
     }
 
-    public void buscar_Limpezas_pordata(final LimpezaAdapter lad, final TextView tv, Long id, String data) {
+    public void buscar_Limpezas_pordata(final LimpezaAdapter lad, final TextView tv, Long id, String data, final TextView qtd) {
 
         final String url = ip + "/limpeza/todosData/" + id + "/" + data;
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -137,11 +144,13 @@ public class Limpeza_Request {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject l = jsonArray.getJSONObject(i);
 
-                                limpeza =  gson.fromJson(l.toString(), Limpeza.class);
-
+                                limpeza = gson.fromJson(l.toString(), Limpeza.class);
+                                limpeza.getApartamento().setEstado("");
                                 apList.add(limpeza.getApartamento());
 
                             }
+                            qtd.setText(String.valueOf(apList.size()));
+
                             lad.setApartamentosList(apList);
                             tv.setText(String.valueOf(apList.size()));
                             lad.notifyDataSetChanged();

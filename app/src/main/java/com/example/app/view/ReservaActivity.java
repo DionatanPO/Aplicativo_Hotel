@@ -55,21 +55,24 @@ public class ReservaActivity extends Activity {
     private List<Reserva> reservaList = new ArrayList<>();
     private Funcionario funcionario;
     private Context context;
+    private TextView msn;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserva);
+
         funcionario = (Funcionario) getIntent().getSerializableExtra("funcionario");
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         context = this;
+        msn = findViewById(R.id.msn);
 
         reserva_request = new Reserva_Request(this);
 
         reservaAdapter = new ReservaAdapter(this, reservaList, funcionario);
 
-        reserva_request.bsucarTodosAtivos(reservaAdapter, funcionario.getAdministrador_id());
+        reserva_request.bsucarTodosAtivos(reservaAdapter, funcionario.getAdministrador_id(), msn);
 
         btn_add = findViewById(R.id.fab_add);
 
@@ -123,7 +126,6 @@ public class ReservaActivity extends Activity {
             reserva_request.alterar_reserva(json, reservaAdapter.getReservasList().get(position).getId());
 
 
-
             ApartamentoController apc = new ApartamentoController(context);
             reservaAdapter.getReservasList().get(position).getApartamento().setEstado("Disponível");
 
@@ -134,8 +136,13 @@ public class ReservaActivity extends Activity {
 
             reservaAdapter.getReservasList().remove(position);
             reservaAdapter.notifyItemRemoved(position);
-            viewToast(context, "Reserva apagada!");
 
+            viewToast(context, "Reserva apagada!");
+            if (reservaAdapter.getReservasList().size() < 0) {
+                msn.setVisibility(View.VISIBLE);
+            } else {
+                msn.setVisibility(View.GONE);
+            }
 
         }
 
@@ -164,7 +171,13 @@ public class ReservaActivity extends Activity {
         reservaAdapter.notifyDataSetChanged();
 
     }
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(context, PainelActivity.class);
+        intent.putExtra("funcionario", funcionario);
+        startActivity(intent);
+    }
 
 }
 

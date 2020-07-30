@@ -7,13 +7,13 @@ import java.util.Date;
 import java.util.List;
 
 public class Cal_Data {
-    List<String> horasList = new ArrayList<>();
+    private List<String> horasList = new ArrayList<>();
 
-    String date_entrada;
-    String date_saida;
-    Date dataHoraAtual = new Date();
+    private String date_entrada;
+    private String date_saida;
+    private Date dataHoraAtual = new Date();
 
-    public List<String> cal_data_entrada_saida() {
+    public  List<String> cal_data_entrada_saida() {
         Date date = new Date();
         Calendar c = Calendar.getInstance();
 
@@ -47,7 +47,6 @@ public class Cal_Data {
             c.add(Calendar.DAY_OF_MONTH, 1);
             date_saida = new SimpleDateFormat("dd/MM/yyyy").format(c.getTime());
             horasList.add(1, date_saida);
-
 
 
         }

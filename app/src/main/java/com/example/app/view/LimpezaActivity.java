@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
@@ -31,21 +32,24 @@ import java.util.Date;
 import java.util.List;
 
 
-public class LimpezaActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
+public class LimpezaActivity extends AppCompatActivity  implements PopupMenu.OnMenuItemClickListener {
     private RecyclerView recyclerView;
     private LimpezaAdapter limpezaAdapter;
     private Apartamento_Request apr;
     private Limpeza_Request limpeza_request;
-    private TextView quantidade_ap_sujo;
+    private TextView quantidade_ap_sujo, msn;
     private LimpezaController limpezaController;
     private Funcionario funcionario;
     private Button button_menu;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_limpeza);
         button_menu = findViewById(R.id.painel_btn_menu);
+        msn = findViewById(R.id.msn);
+
 
         funcionario = (Funcionario) getIntent().getSerializableExtra("funcionario");
 
@@ -64,14 +68,13 @@ public class LimpezaActivity extends AppCompatActivity implements PopupMenu.OnMe
         limpeza_request = new Limpeza_Request(this);
         List<Apartamento> apartamentoList = new ArrayList<>();
 
-        limpezaAdapter = new LimpezaAdapter(this, apartamentoList, funcionario);
+        limpezaAdapter = new LimpezaAdapter(this, apartamentoList, funcionario, msn, quantidade_ap_sujo);
 
-        if(funcionario.getAdministrador_id()==null){
-            limpeza_request.buscar_Apartamentos_Sujos(limpezaAdapter, quantidade_ap_sujo, funcionario.getId());
-        }else{
-            limpeza_request.buscar_Apartamentos_Sujos(limpezaAdapter, quantidade_ap_sujo, funcionario.getAdministrador_id());
+        if (funcionario.getAdministrador_id() == null) {
+            limpeza_request.buscar_Apartamentos_Sujos(limpezaAdapter, quantidade_ap_sujo, funcionario.getId(), msn);
+        } else {
+            limpeza_request.buscar_Apartamentos_Sujos(limpezaAdapter, quantidade_ap_sujo, funcionario.getAdministrador_id(), msn);
         }
-
 
 
         recyclerView.setAdapter(limpezaAdapter);
@@ -93,19 +96,38 @@ public class LimpezaActivity extends AppCompatActivity implements PopupMenu.OnMe
     public boolean onMenuItemClick(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.perfil:
+                msn.setVisibility(View.GONE);
                 Date dataHoraAtual = new Date();
                 Date d = new Date();
                 DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
                 String data = new SimpleDateFormat("yyyy-MM-dd").format(dataHoraAtual);
 
-                if(funcionario.getAdministrador_id()==null){
-                    limpeza_request.buscar_Limpezas_pordata(limpezaAdapter, quantidade_ap_sujo, funcionario.getId(),data);
-                }else{
-                    limpeza_request.buscar_Limpezas_pordata(limpezaAdapter, quantidade_ap_sujo, funcionario.getAdministrador_id(),data);
+
+
+
+                if (funcionario.getAdministrador_id() == null) {
+                    limpezaAdapter.getApartamentosList().clear();
+                    limpezaAdapter.notifyDataSetChanged();
+                    limpeza_request.buscar_Limpezas_pordata(limpezaAdapter, quantidade_ap_sujo, funcionario.getId(), data, quantidade_ap_sujo);
+                } else {
+                    limpezaAdapter.getApartamentosList().clear();
+                    limpezaAdapter.notifyDataSetChanged();
+                    limpeza_request.buscar_Limpezas_pordata(limpezaAdapter, quantidade_ap_sujo, funcionario.getAdministrador_id(), data, quantidade_ap_sujo);
                 }
 
                 return true;
+            case R.id.perfil2:
 
+                if (funcionario.getAdministrador_id() == null) {
+                    limpezaAdapter.getApartamentosList().clear();
+                    limpezaAdapter.notifyDataSetChanged();
+                    limpeza_request.buscar_Apartamentos_Sujos(limpezaAdapter, quantidade_ap_sujo, funcionario.getId(), msn);
+                } else {
+                    limpezaAdapter.getApartamentosList().clear();
+                    limpezaAdapter.notifyDataSetChanged();
+                    limpeza_request.buscar_Apartamentos_Sujos(limpezaAdapter, quantidade_ap_sujo, funcionario.getAdministrador_id(), msn);
+                }
+                return true;
             default:
                 return false;
         }

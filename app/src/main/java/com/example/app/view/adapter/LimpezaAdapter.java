@@ -44,10 +44,13 @@ public class LimpezaAdapter extends RecyclerView.Adapter<LimpezaAdapter.Apartame
     private Apartamento_Request apr;
     private ApartamentoController apc;
     private Funcionario funcionario;
+    private TextView msn, qtdsujo;
 
 
-    public LimpezaAdapter(Context ctx, List<Apartamento> apartamentos, Funcionario funcionario) {
+    public LimpezaAdapter(Context ctx, List<Apartamento> apartamentos, Funcionario funcionario, TextView msn, TextView qtdsujo) {
         this.ctx = ctx;
+        this.msn = msn;
+        this.qtdsujo = qtdsujo;
         apartamentosList = apartamentos;
         this.funcionario = funcionario;
 
@@ -93,110 +96,121 @@ public class LimpezaAdapter extends RecyclerView.Adapter<LimpezaAdapter.Apartame
                     final int pos = getAdapterPosition();
 
                     if (pos != RecyclerView.NO_POSITION) {
+                        if (apartamentosList.get(pos).getEstado().equals("")) {
 
-                        LayoutInflater inflater = LayoutInflater.from(ctx);
-                        View layout = inflater.inflate(R.layout.alert_limpeza_apartamento, null);
+                        } else {
+                            LayoutInflater inflater = LayoutInflater.from(ctx);
+                            View layout = inflater.inflate(R.layout.alert_limpeza_apartamento, null);
 
-                        layout.findViewById(R.id.btnCadAp);
-                        final View finalView = layout;
-
-                        TextView titulo;
-                        final TextView txtObs;
-                        titulo = layout.findViewById(R.id.txt_titulo);
-                        txtObs = layout.findViewById(R.id.txtObs);
-
-                        titulo.setText("Alterar estado do Apartamento");
-
-                        final EditText descricao = layout.findViewById(R.id.editText_DescricaoAp);
-
-                        Spinner spinner = (Spinner) layout.findViewById(R.id.estados_spinner);
-
-                        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(ctx,
-                                R.array.estados_array, android.R.layout.simple_spinner_item);
-
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                        spinner.setAdapter(adapter);
-                        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                est = (String) parent.getItemAtPosition(position);
-                                if (est.equals("Manutenção")) {
-                                    txtObs.setVisibility(View.VISIBLE);
-                                    descricao.setVisibility(View.VISIBLE);
-                                } else {
-                                    txtObs.setVisibility(GONE);
-                                    descricao.setVisibility(GONE);
-                                }
-                            }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
-                                est = "";
-                            }
-                        });
+                            layout.findViewById(R.id.btnCadAp);
 
 
-                        layout.findViewById(R.id.btnCadAp).setOnClickListener(new View.OnClickListener() {
-                            @SuppressLint("WrongConstant")
-                            public void onClick(View arg0) {
+                            TextView titulo;
+                            final TextView txtObs;
+                            titulo = layout.findViewById(R.id.txt_titulo);
+                            txtObs = layout.findViewById(R.id.txtObs);
 
-                                Long apId;
-                                apId = apartamentosList.get(pos).getId();
-                                System.out.println(apId);
+                            titulo.setText("Alterar estado do Apartamento");
 
-                                apc = new ApartamentoController(ctx);
-                                apr = new Apartamento_Request(ctx);
+                            final EditText descricao = layout.findViewById(R.id.editText_DescricaoAp);
 
-                                LimpezaController limpezaController = new LimpezaController(ctx);
-                                Limpeza_Request limpeza_request = new Limpeza_Request(ctx);
+                            Spinner spinner = (Spinner) layout.findViewById(R.id.estados_spinner);
 
-                                json = apc.valirar_alterar_Apartamento(
-                                        funcionario, apartamentosList.get(pos).getId(), apartamentosList.get(pos).getIdentificacao().toString()
-                                        , est, apartamentosList.get(pos).getDescricao());
+                            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(ctx,
+                                    R.array.estados_array, android.R.layout.simple_spinner_item);
 
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-                                if (json != null) {
-                                    apr.alterar_Apartamento(json, apId);
-
+                            spinner.setAdapter(adapter);
+                            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    est = (String) parent.getItemAtPosition(position);
                                     if (est.equals("Manutenção")) {
+                                        txtObs.setVisibility(View.VISIBLE);
+                                        descricao.setVisibility(View.VISIBLE);
+                                    } else {
+                                        txtObs.setVisibility(GONE);
+                                        descricao.setVisibility(GONE);
+                                    }
+                                }
 
-                                        limpeza_request.cadastrar_limpeza(limpezaController.valirar_cadastro_lipenza(apc.converter_json_apartamento_(json), funcionario));
-                                        ManutencaoController manutencaoController = new ManutencaoController(ctx);
-                                        Manutencao_Request manutencao_request = new Manutencao_Request(ctx);
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+                                    est = "";
+                                }
+                            });
 
-                                        String r = manutencaoController.cadastrar(funcionario, descricao.getText().toString(), apartamentosList.get(pos));
-                                        if(r!=null){
-                                            manutencao_request.cadastrarManutencao(r);
+
+                            layout.findViewById(R.id.btnCadAp).setOnClickListener(new View.OnClickListener() {
+                                @SuppressLint("WrongConstant")
+                                public void onClick(View arg0) {
+
+                                    Long apId;
+                                    apId = apartamentosList.get(pos).getId();
+                                    System.out.println(apId);
+
+                                    apc = new ApartamentoController(ctx);
+                                    apr = new Apartamento_Request(ctx);
+
+                                    LimpezaController limpezaController = new LimpezaController(ctx);
+                                    Limpeza_Request limpeza_request = new Limpeza_Request(ctx);
+
+                                    json = apc.valirar_alterar_Apartamento(
+                                            funcionario, apartamentosList.get(pos).getId(), apartamentosList.get(pos).getIdentificacao().toString()
+                                            , est, apartamentosList.get(pos).getDescricao());
+
+
+                                    if (json != null) {
+                                        apr.alterar_Apartamento(json, apId);
+
+                                        if (est.equals("Manutenção")) {
+
+                                            limpeza_request.cadastrar_limpeza(limpezaController.valirar_cadastro_lipenza(apc.converter_json_apartamento_(json), funcionario));
+                                            ManutencaoController manutencaoController = new ManutencaoController(ctx);
+                                            Manutencao_Request manutencao_request = new Manutencao_Request(ctx);
+
+                                            String r = manutencaoController.cadastrar(funcionario, descricao.getText().toString(), apartamentosList.get(pos));
+                                            if (r != null) {
+                                                manutencao_request.cadastrarManutencao(r);
+                                            }
+
+
+                                        } else {
+
+                                            limpeza_request.cadastrar_limpeza(limpezaController.valirar_cadastro_lipenza(apc.converter_json_apartamento_(json), funcionario));
                                         }
 
 
-                                    } else {
+                                        alerta.dismiss();
+                                        getApartamentosList().remove(pos);
 
-                                        limpeza_request.cadastrar_limpeza(limpezaController.valirar_cadastro_lipenza(apc.converter_json_apartamento_(json), funcionario));
+                                        if (getApartamentosList().size() <= 0) {
+                                            msn.setVisibility(View.VISIBLE);
+                                        } else {
+                                            msn.setVisibility(GONE);
+                                        }
+
+                                        qtdsujo.setText(String.valueOf(getApartamentosList().size()));
+
+                                        notifyDataSetChanged();
+
+                                        viewToast(ctx, "Estado do ap alterado!");
+
+
+                                    } else {
+                                        viewToastAlerta(ctx, "Preencha todos os campos ");
+
                                     }
 
-
-                                    alerta.dismiss();
-                                    getApartamentosList().remove(pos);
-                                    notifyDataSetChanged();
-
-                                    viewToast(ctx, "Estado do ap alterado!");
-
-
-                                } else {
-                                    viewToastAlerta(ctx, "Preencha todos os campos ");
-
                                 }
+                            });
 
-                            }
-                        });
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-                        builder.setView(layout);
-                        alerta = builder.create();
-                        alerta.show();
-
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                            builder.setView(layout);
+                            alerta = builder.create();
+                            alerta.show();
+                        }
                     }
 
                 }
