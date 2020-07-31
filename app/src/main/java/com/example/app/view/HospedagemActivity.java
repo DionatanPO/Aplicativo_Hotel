@@ -3,25 +3,20 @@ package com.example.app.view;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -51,6 +46,7 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 import static com.example.app.view.CustonToast.viewToast;
 import static com.example.app.view.CustonToast.viewToastAlerta;
+import static com.example.app.view.CustonToast.viewToastErro;
 
 public class HospedagemActivity extends Activity implements PopupMenu.OnMenuItemClickListener {
 
@@ -182,28 +178,45 @@ public class HospedagemActivity extends Activity implements PopupMenu.OnMenuItem
 
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
+
+
         switch (menuItem.getItemId()) {
             case R.id.perfil:
                 msn_func.setVisibility(View.GONE);
                 Cal_Data cal_data = new Cal_Data();
 
-                String data = new SimpleDateFormat("yyyy-MM-dd").format(cal_data.cal_data_entrada_saida().get(0));
+                String data = cal_data.cal_data_entrada_saida().get(0);
+                java.util.Date d = new java.util.Date();
+
+                DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
 
 
-                if (funcionario.getAdministrador_id() == null) {
-                    hospedagemAdapter.getHospedagemsList().clear();
-                    hospedagemAdapter.notifyDataSetChanged();
-                    hospedagem_request.bsucarTodosEntreData(hospedagemAdapter, funcionario.getId(), msn_func, data, data);
-                } else {
-                    hospedagemAdapter.getHospedagemsList().clear();
-                    hospedagemAdapter.notifyDataSetChanged();
-                    hospedagem_request.bsucarTodosEntreData(hospedagemAdapter, funcionario.getAdministrador_id(), msn_func, data, data);
+                try {
+                    d = fmt.parse(data);
+                    java.sql.Date d1 = new java.sql.Date(d.getTime());
 
+                    if (funcionario.getAdministrador_id() == null) {
+                        hospedagemAdapter.getHospedagemsList().clear();
+                        hospedagemAdapter.notifyDataSetChanged();
+                        hospedagem_request.bsucarTodosEntreData(hospedagemAdapter, funcionario.getId(), msn_func, d1, d1);
+                    } else {
+                        hospedagemAdapter.getHospedagemsList().clear();
+                        hospedagemAdapter.notifyDataSetChanged();
+                        hospedagem_request.bsucarTodosEntreData(hospedagemAdapter, funcionario.getAdministrador_id(), msn_func, d1, d1);
+
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    viewToastErro(context, "Ops! Algo não deu certo");
                 }
+
+
+//
 
                 return true;
             case R.id.perfil2:
-                AlertDialog alerta;
+                final AlertDialog alerta;
+
                 LayoutInflater inflater = LayoutInflater.from(context);
                 View layout = inflater.inflate(R.layout.busca_entre_datas, null);
                 Button btn_concluir = layout.findViewById(R.id.btnConcluir_hospedagem);
@@ -211,11 +224,16 @@ public class HospedagemActivity extends Activity implements PopupMenu.OnMenuItem
                 final EditText data1 = layout.findViewById(R.id.data1);
                 final EditText data2 = layout.findViewById(R.id.data2);
 
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setView(layout);
+                alerta = builder.create();
+                alerta.show();
+
                 btn_concluir.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (data1.getText().toString().equals("")) {
-                            viewToastAlerta(context, "Preencha o campo data 1");
+                            viewToastAlerta(context, "Preencha pelomenos o campo data 1");
                         } else {
                             if (data2.getText().toString().equals("")) {
                                 data2.setText(data1.getText().toString());
@@ -223,45 +241,40 @@ public class HospedagemActivity extends Activity implements PopupMenu.OnMenuItem
 
 
                             }
-                            String edata_1 = data1.getText().toString();
-                            String edata_2 = data2.getText().toString();
+                            java.util.Date d = new java.util.Date();
+
+                            DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
 
                             try {
-                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                                java.sql.Date data = new java.sql.Date(sdf.parse(edata_1).getTime());
+                                d = fmt.parse(data1.getText().toString());
+                                java.sql.Date d1 = new java.sql.Date(d.getTime());
+                                d = fmt.parse(data2.getText().toString());
+                                java.sql.Date d2 = new java.sql.Date(d.getTime());
 
-                                edata_1 = sdf.format(data.getTime());
+                                if (funcionario.getAdministrador_id() == null) {
+                                    hospedagemAdapter.getHospedagemsList().clear();
+                                    hospedagemAdapter.notifyDataSetChanged();
+                                    hospedagem_request.bsucarTodosEntreData(
+                                            hospedagemAdapter, funcionario.getId(), msn_func, d1, d2);
 
+                                } else {
+                                    hospedagemAdapter.getHospedagemsList().clear();
+                                    hospedagemAdapter.notifyDataSetChanged();
+                                    hospedagem_request.bsucarTodosEntreData(
+                                            hospedagemAdapter, funcionario.getAdministrador_id(), msn_func, d1, d2);
+
+                                }
                             } catch (ParseException e) {
                                 e.printStackTrace();
+                                viewToastErro(context, "Ops! Algo não deu certo");
                             }
 
-                            try {
-                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                                java.sql.Date data = new java.sql.Date(sdf.parse(edata_2).getTime());
-
-                                edata_2 = sdf.format(data.getTime());
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-
-                            if (funcionario.getAdministrador_id() == null) {
-                                hospedagemAdapter.getHospedagemsList().clear();
-                                hospedagemAdapter.notifyDataSetChanged();
-                                hospedagem_request.bsucarTodosEntreData(hospedagemAdapter, funcionario.getId(), msn_func, edata_1, edata_2);
-                            } else {
-                                hospedagemAdapter.getHospedagemsList().clear();
-                                hospedagemAdapter.notifyDataSetChanged();
-                                hospedagem_request.bsucarTodosEntreData(hospedagemAdapter, funcionario.getAdministrador_id(), msn_func, edata_1, edata_2);
-
-                            }
                         }
+                        alerta.cancel();
                     }
                 });
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setView(layout);
-                alerta = builder.create();
-                alerta.show();
+
+
                 return true;
             default:
                 return false;

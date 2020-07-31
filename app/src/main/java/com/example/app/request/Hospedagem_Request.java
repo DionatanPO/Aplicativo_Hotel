@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,7 +123,7 @@ public class Hospedagem_Request {
     }
 
 
-    public List<Hospedagem> bsucarTodosEntreData(final HospedagemAdapter funap, Long id, final TextView textView, String data1, String data2) {
+    public List<Hospedagem> bsucarTodosEntreData(final HospedagemAdapter funap, Long id, final TextView textView, Date data1, Date data2) {
 
         final String url = ip + "/hospedagem/todosData/" + id + "/" + data1 + "/" + data2;
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
