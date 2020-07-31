@@ -8,5 +8,7 @@
         android:id="@+id/perfil2"
         android:title="Apartamentos sujos" />
 
-
+    <item
+        android:id="@+id/perfil3"
+        android:title="Ajuda" />
 </menu>

@@ -9,14 +9,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="233dp"
+        android:layout_height="200dp"
         android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-
-
 
 
         <TextView
@@ -53,7 +50,7 @@
             android:layout_height="103dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="92dp"
+            android:layout_marginTop="80dp"
             android:src="@drawable/ic_do_utilizador"
             android:tint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +63,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="366dp"
-        android:layout_height="333dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
@@ -75,22 +72,34 @@
             android:id="@+id/buttonEnter"
             android:layout_width="113dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="76dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="48dp"
+            android:layout_marginRight="48dp"
             android:background="@drawable/borda_arredondada"
             android:text="Entrar"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="41dp"
+            android:layout_height="31dp"
+            android:layout_marginTop="56dp"
+            android:text="ou"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toStartOf="@+id/buttonEnter"
+            app:layout_constraintHorizontal_bias="0.583"
+            app:layout_constraintStart_toEndOf="@+id/buttonCreate_account"
+            app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+
         <Button
             android:id="@+id/buttonCreate_account"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="52dp"
-            android:layout_marginLeft="52dp"
-            android:layout_marginTop="76dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/borda_branca"
             android:text="Criar conta"
             app:layout_constraintStart_toStartOf="parent"
@@ -116,7 +125,6 @@
             android:id="@+id/editTextEmail"
             android:layout_width="258dp"
             android:layout_height="wrap_content"
-
             android:layout_marginTop="44dp"
             android:hint=""
             android:inputType="textEmailAddress"
@@ -129,7 +137,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_marginTop="16dp"
             android:text="Senha"
             android:textSize="16dp"
@@ -143,7 +150,6 @@
             android:id="@+id/editTextPassword"
             android:layout_width="258dp"
             android:layout_height="wrap_content"
-
             android:layout_marginTop="36dp"
             android:ems="10"
             android:hint=""
@@ -154,20 +160,40 @@
             app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="41dp"
-            android:layout_height="31dp"
+            android:gravity="center"
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="140dp"
+            android:layout_marginLeft="140dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="142dp"
+            android:layout_marginRight="142dp"
+            android:text="Para clientes"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-            android:layout_marginTop="92dp"
-            android:text="ou"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toStartOf="@+id/buttonEnter"
-            app:layout_constraintHorizontal_bias="0.55"
-            app:layout_constraintStart_toEndOf="@+id/buttonCreate_account"
-            app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+        <TextView
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="140dp"
+            android:layout_marginLeft="140dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="142dp"
+            android:layout_marginRight="142dp"
+            android:text="Clique aqui para efetuar reserva"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="17dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -55,7 +55,9 @@ public class LoginActivity extends Activity {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
                 alertDialogBuilder.setTitle("Ajuda");
                 alertDialogBuilder
-                        .setMessage("Criar conta: Permite que proprietários/ gerentes de hotéis crie uma conta de administrador. Esta conta prove acesso as demais funcionalidades do aplicativo.")
+                        .setMessage("Criar conta: Permite que proprietários/ gerentes de hotéis crie " +
+                                "uma conta de administrador. Esta conta prove acesso as demais funcionalidades do aplicativo. " +
+                                "A opção de efetuar reserva e destinada a clientes que desejam hospedar-se no hotel.")
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 

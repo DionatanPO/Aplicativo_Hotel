@@ -1,6 +1,8 @@
 package com.example.app.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -10,6 +12,7 @@ import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -127,6 +130,32 @@ public class LimpezaActivity extends AppCompatActivity  implements PopupMenu.OnM
                     limpezaAdapter.notifyDataSetChanged();
                     limpeza_request.buscar_Apartamentos_Sujos(limpezaAdapter, quantidade_ap_sujo, funcionario.getAdministrador_id(), msn);
                 }
+                return true;
+            case R.id.perfil3:
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder.setTitle("Ajuda");
+                alertDialogBuilder
+                        .setMessage("Após efetuar a limpeza de um apartamento, para alterar o estado " +
+                                "do apartamento, basta clicar no respectivo apartamento que surgira " +
+                                "a opção de alterar o estado para disponível ou outro estado.")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton("", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
                 return true;
             default:
                 return false;
