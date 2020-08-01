@@ -6,14 +6,32 @@ public class Funcionario implements Serializable {
     private Long id;
     private String cpf;
     private String nome;
+    private String nomeHotel;
     private String codidentificacao;
     private String senha;
     private String cargo;
     private String estado;
     private String token;
     private Long administrador_id;
+    private Hotel hotel;
 
     public Funcionario() {
+    }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
+
+    public String getNomeHotel() {
+        return nomeHotel;
+    }
+
+    public void setNomeHotel(String nomeHotel) {
+        this.nomeHotel = nomeHotel;
     }
 
     public Long getAdministrador_id() {

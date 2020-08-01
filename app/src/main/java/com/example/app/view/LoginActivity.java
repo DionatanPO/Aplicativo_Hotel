@@ -23,8 +23,8 @@ import static com.example.app.view.CustonToast.viewToast;
 import static com.example.app.view.CustonToast.viewToastAlerta;
 
 public class LoginActivity extends Activity {
-    private Button btn_create_account,btn_enter, btn_ajuda;
-    private TextView email, password;
+    private Button btn_create_account, btn_enter, btn_ajuda;
+    private TextView email, password, bt_reserva;
     private Context context;
 
     @Override
@@ -38,6 +38,7 @@ public class LoginActivity extends Activity {
         password = findViewById(R.id.editTextPassword);
         btn_enter = findViewById(R.id.buttonEnter);
         btn_ajuda = findViewById(R.id.btn_ajuda);
+        bt_reserva = findViewById(R.id.btn_reserva_login);
 
         final FuncionarioController FunC = new FuncionarioController(this.getApplicationContext());
 
@@ -49,15 +50,24 @@ public class LoginActivity extends Activity {
                 startActivity(i);
             }
         });
+
+        bt_reserva.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(LoginActivity.this, ClienteReservaAddActivity.class);
+                startActivity(i);
+            }
+        });
+
         btn_ajuda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
                 alertDialogBuilder.setTitle("Ajuda");
                 alertDialogBuilder
-                        .setMessage("Criar conta: Permite que proprietários/ gerentes de hotéis crie " +
-                                "uma conta de administrador. Esta conta prove acesso as demais funcionalidades do aplicativo. " +
-                                "A opção de efetuar reserva e destinada a clientes que desejam hospedar-se no hotel.")
+                        .setMessage("Criar conta: Permite que proprietários de hotéis criem " +
+                                "uma conta de administrador. Esta conta provem acesso às demais funcionalidades do aplicativo. " +
+                                "A opção de efetuar reserva e destinada a clientes que desejam hospedar-se no hotel.g")
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
@@ -92,7 +102,7 @@ public class LoginActivity extends Activity {
                     funcionario.setSenha(password.getText().toString());
 
                     LoginRequest loginRequest = new LoginRequest(context);
-                    loginRequest.login(FunC.converter_funcionario_json(funcionario), context);
+                    loginRequest.login(FunC.converter_funcionario_json(funcionario));
 
                 } else {
                     viewToastAlerta(context, "Preencha todos os campos");

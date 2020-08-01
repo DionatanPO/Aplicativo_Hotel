@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/borda_branca"
 
-   >
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -20,7 +20,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-
             android:layout_width="wrap_content"
             android:layout_height="29dp"
             android:layout_marginStart="8dp"
@@ -28,7 +27,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="32dp"
-            android:text="@string/m1"
+            android:text="Efetuar reserva"
             android:textColor="#fff"
             android:textSize="20dp"
             android:textStyle="bold"
@@ -36,7 +35,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.50"
             app:layout_constraintStart_toStartOf="parent" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -60,12 +58,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:text="Nome do hóspede"
+            android:text="Nome"
             android:textStyle="bold" />
 
         <EditText
 
-            android:id="@+id/editText_hospede_nome"
+            android:id="@+id/reserva_hospede_nome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -98,13 +96,11 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:ems="10"
-            android:hint="Ex:999.999.999-99"
             android:inputType="number"
             app:layout_constraintBottom_toTopOf="@+id/editTextEmail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:met_mask="###.###.###-##" />
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -115,15 +111,15 @@
             android:textStyle="bold" />
 
         <com.santalu.maskedittext.MaskEditText
-            android:id="@+id/editText_telefone"
+            android:id="@+id/reserva_telefone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
+
             android:inputType="phone"
-            android:hint="Ex:(64)99999-9999"
             app:met_mask="(##) #####-####" />
 
         <GridLayout
@@ -140,6 +136,7 @@
                 android:text="Data entrada"
                 android:textStyle="bold" />
 
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -149,7 +146,7 @@
                 android:textStyle="bold" />
 
             <com.santalu.maskedittext.MaskEditText
-                android:id="@+id/editTextData_entrada"
+                android:id="@+id/reservaData_entrada"
                 android:layout_width="153dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -164,7 +161,7 @@
                 app:met_mask="##/##/####" />
 
             <com.santalu.maskedittext.MaskEditText
-                android:id="@+id/editTextData_saida"
+                android:id="@+id/reservaData_saida"
                 android:layout_width="161dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -199,11 +196,10 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:ems="10"
-                android:inputType="numberDecimal"
-        />
+                android:inputType="numberDecimal" />
 
             <Spinner
-                android:id="@+id/n_pessoas_spinner"
+                android:id="@+id/reserva_n_pessoas_spinner"
                 android:layout_width="140dp"
                 android:layout_height="35dp" />
 
@@ -212,9 +208,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:text="Pagamento"
+                android:text="Hotel"
                 android:textStyle="bold" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -224,16 +219,18 @@
                 android:textStyle="bold" />
 
             <Spinner
-                android:id="@+id/pagamento_spinner"
-                android:layout_width="140dp"
-                android:layout_height="35dp"
-             />
-
-            <Spinner
-                android:id="@+id/apartamento_spinner"
+                android:id="@+id/reserva_hotel_spinner"
                 android:layout_width="140dp"
                 android:layout_height="35dp"
                 android:layout_marginBottom="70dp" />
+
+            <Spinner
+                android:id="@+id/reserva_apartamento_spinner"
+                android:layout_width="140dp"
+                android:layout_height="35dp"
+                android:layout_marginBottom="70dp" />
+
+
         </GridLayout>
 
 
@@ -241,7 +238,7 @@
 
     <Button
 
-        android:id="@+id/btnConcluir_hospedagem"
+        android:id="@+id/btnConcluir_reserva"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -255,25 +252,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.474"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/btn_hospedagem"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@drawable/borda_circle"
-        android:drawableTop="@drawable/ic_pasta"
-        android:paddingTop="25dp"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

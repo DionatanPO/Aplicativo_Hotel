@@ -38,23 +38,23 @@ public class LoginRequest {
     Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd").create();
     private RequestQueue mRequestQueue;
-    private Context mCtx;
+    public transient Context mContext;
     private Url url = new Url();
     private String ip = url.getUrl();
 
-    Funcionario funcionario = new Funcionario();
+    private transient Funcionario funcionario = new Funcionario();
 
     public LoginRequest(Context ctx) {
-        this.mCtx = ctx;
-        mRequestQueue = Volley.newRequestQueue(mCtx);
+        this.mContext = ctx;
+        mRequestQueue = Volley.newRequestQueue(mContext);
     }
 
-    public void login(final String json, final Context context) {
+    public void login(final String json) {
         final AlertDialog alerta;
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(mContext);
         View layout = inflater.inflate(R.layout.crregamento, null);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setView(layout);
         alerta = builder.create();
         alerta.show();
@@ -69,20 +69,20 @@ public class LoginRequest {
                     funcionario = gson.fromJson(jsonObject.toString(), Funcionario.class);
 
                     if (funcionario != null) {
-                        Intent i = new Intent(context, PainelActivity.class);
+                        Intent i = new Intent(mContext, PainelActivity.class);
                         i.putExtra("funcionario",funcionario);
-                        context.startActivity(i);
+                        mContext.startActivity(i);
                         alerta.cancel();
-                        viewToast(context, "Logado com sucesso!");
+                        viewToast(mContext, "Logado com sucesso!");
                     } else {
                         alerta.cancel();
-                        viewToastAlerta(context, "Usuário não encontrado ou senha invalida!");
+                        viewToastAlerta(mContext, "Usuário não encontrado ou senha invalida!");
                     }
 
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    viewToastAlerta(context, "Usuário não encontrado ou senha invalida!");
+                    viewToastAlerta(mContext, "Usuário não encontrado ou senha invalida!");
                     alerta.cancel();
                 }
             }

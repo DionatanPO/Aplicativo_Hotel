@@ -35,8 +35,10 @@ public class FuncionarioController {
     }
 
 
-    public String create_account(String nome, String email, String cpf, String senha, String senha2) {
-        if (cpf.equals("") || nome.equals("") || email.equals("") || senha.equals("") || senha2.equals("")) {
+    public String create_account(String nome, String email, String cpf, String senha, String senha2
+    ,String nome_hotel,String telefone, String endereco) {
+        if (cpf.equals("") || nome.equals("") || email.equals("") || senha.equals("") || senha2.equals("")
+        ||nome_hotel.equals("")||telefone.equals("")||endereco.equals("")) {
 
             viewToastAlerta(context, "Preencha todos os campos");
             return null;
@@ -112,7 +114,7 @@ public class FuncionarioController {
     }
 
     public String converter_funcionario_json(Funcionario fum) {
-        String json = gson.toJson(fum);
+        String json = new Gson().toJson(fum);
         return json;
     }
 

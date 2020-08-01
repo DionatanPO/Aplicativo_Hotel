@@ -176,6 +176,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <TextView
+            android:id="@+id/btn_reserva_login"
             android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
