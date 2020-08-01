@@ -1,6 +1,7 @@
 package com.example.app.request;
 
 import android.content.Context;
+import android.widget.ArrayAdapter;
 
 
 import com.android.volley.AuthFailureError;
@@ -9,6 +10,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.app.model.Apartamento;
@@ -19,6 +21,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -89,83 +93,34 @@ public class Hotel_Request implements Serializable {
 
     }
 
-//
-//    public void buscar_Apartamentos_Sujos(final HotelAdapter lad, final TextView tv, Long id, final TextView msn) {
-//
-//
-//        final String url = ip + "/hotel/todos/" + id;
-//        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
-//                new Response.Listener<JSONArray>() {
-//                    @Override
-//                    public void onResponse(JSONArray jsonArray) {
-//                        try {
-//
-//                            for (int i = 0; i < jsonArray.length(); i++) {
-//                                JSONObject produtos = jsonArray.getJSONObject(i);
-//
-//                                ap = new Gson().fromJson(produtos.toString(), Apartamento.class);
-//                                apList.add(ap);
-//
-//
-//                            }
-//                            if (apList.size() <= 0) {
-//                                msn.setVisibility(View.VISIBLE);
-//                            } else {
-//                                msn.setVisibility(View.GONE);
-//                            }
-//
-//                            lad.setApartamentosList(apList);
-//                            tv.setText(String.valueOf(apList.size()));
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                System.out.println(error);
-//
-//            }
-//        });
-//        mRequestQueue.add(request);
-//    }
-//
-//    public void buscar_Hotels_pordata(final HotelAdapter lad, final TextView tv, Long id, String data, final TextView qtd) {
-//
-//        final String url = ip + "/hotel/todosData/" + id + "/" + data;
-//        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
-//                new Response.Listener<JSONArray>() {
-//                    @Override
-//                    public void onResponse(JSONArray jsonArray) {
-//                        try {
-//
-//                            for (int i = 0; i < jsonArray.length(); i++) {
-//                                JSONObject l = jsonArray.getJSONObject(i);
-//
-//                                hotel = gson.fromJson(l.toString(), Hotel.class);
-//                                hotel.getApartamento().setEstado("");
-//                                apList.add(hotel.getApartamento());
-//
-//                            }
-//                            qtd.setText(String.valueOf(apList.size()));
-//
-//                            lad.setApartamentosList(apList);
-//                            tv.setText(String.valueOf(apList.size()));
-//                            lad.notifyDataSetChanged();
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                System.out.println(error);
-//
-//            }
-//        });
-//        mRequestQueue.add(request);
-//    }
+    public void buscar_Hotels(final List<Hotel> hotelList, final ArrayAdapter arrayAdapter) {
+
+        final String url = ip + "/hotel/todos/";
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray jsonArray) {
+                        try {
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject l = jsonArray.getJSONObject(i);
+                                hotel = gson.fromJson(l.toString(), Hotel.class);
+                                hotelList.add(hotel);
+                            }
+                            arrayAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println(error);
+
+            }
+        });
+        mRequestQueue.add(request);
+    }
 }
 

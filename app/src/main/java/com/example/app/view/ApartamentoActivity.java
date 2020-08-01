@@ -80,7 +80,7 @@ public class ApartamentoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (funcionario.getCargo().equals("Camareira") || funcionario.getCargo().equals("Recepcionista")) {
-                    viewToastAlerta(context, "Funcionários não tem acesso a essa opção");
+                    viewToastAlerta(context, "Esta opção não está disponível para funcionários!");
                 } else {
                     LayoutInflater li = getLayoutInflater();
 
@@ -126,7 +126,7 @@ public class ApartamentoActivity extends AppCompatActivity {
                                 apr.cadastrarApartamento(json, apartamentoAdapter);
                                 viewToast(context, "Apartamento cadastrado!");
                             } else {
-                                viewToastAlerta(context, "Preencha todos os campos *");
+                                viewToastAlerta(context, "Preencha todos os campos!");
                             }
                         }
                     });
@@ -164,7 +164,7 @@ public class ApartamentoActivity extends AppCompatActivity {
             final int position = viewHolder.getAdapterPosition();
 
             if (funcionario.getCargo().equals("Camareira") || funcionario.getCargo().equals("Recepcionista")) {
-                viewToastAlerta(context, "Funcionários não podem efetuar está açãp");
+                viewToastAlerta(context, "Esta opção não está disponível para funcionários!");
                 apartamentoAdapter.notifyItemRemoved(position);
             } else {
                 if (apartamentoAdapter.getApartamentosList().get(position).getEstado().equals("Ocupado") ||
@@ -174,9 +174,9 @@ public class ApartamentoActivity extends AppCompatActivity {
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
                     alertDialogBuilder
-                            .setMessage("O apartamento " + apartamentoAdapter.getApartamentosList().get(position).getIdentificacao() + " não pode ser apagado no momento, pois se encontra: " + apartamentoAdapter.getApartamentosList().get(position).getEstado())
+                            .setMessage("O apartamento " + apartamentoAdapter.getApartamentosList().get(position).getIdentificacao() + " não pode ser apagado no momento, pois se encontra no status de: " + apartamentoAdapter.getApartamentosList().get(position).getEstado())
                             .setCancelable(false)
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
                                 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                                 public void onClick(DialogInterface dialog, int id) {

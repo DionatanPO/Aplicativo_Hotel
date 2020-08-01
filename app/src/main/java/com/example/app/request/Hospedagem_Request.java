@@ -210,8 +210,6 @@ public class Hospedagem_Request {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     hospedagem = new Gson().fromJson(jsonObject.toString(), Hospedagem.class);
-//
-
 
                 } catch (Exception e) {
                     e.printStackTrace();

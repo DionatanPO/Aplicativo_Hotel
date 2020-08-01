@@ -277,7 +277,7 @@ public class Apartamento_Request {
                                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mCtx);
 
                                 alertDialogBuilder
-                                        .setMessage("Hotel lotado! Nenhum apartamento disponível no momento")
+                                        .setMessage("Hotel lotado! Nenhum apartamento disponível no momento.")
                                         .setCancelable(false)
                                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
@@ -311,7 +311,65 @@ public class Apartamento_Request {
 
         mRequestQueue.add(request);
     }
+    public void buscarDisponiveisPOrHotel(final List<Apartamento> list, final ArrayAdapter ar, Long id ) {
 
+        final String url = ip + "/apartamento/todosDisponivelPorHotel/"+id;
+
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray jsonArray) {
+                        try {
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject produtos = jsonArray.getJSONObject(i);
+
+                                ap = new Gson().fromJson(produtos.toString(), Apartamento.class);
+                                apList.add(ap);
+                                list.add(ap);
+
+                            }
+
+                            ar.notifyDataSetChanged();
+                            if(apList.size()==0){
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mCtx);
+
+                                alertDialogBuilder
+                                        .setMessage("Hotel lotado! Nenhum apartamento disponível no momento.")
+                                        .setCancelable(false)
+                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                                            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                                            public void onClick(DialogInterface dialog, int id) {
+
+                                                dialog.cancel();
+                                            }
+                                        })
+                                        .setNegativeButton("", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                            }
+                                        });
+
+                                AlertDialog alertDialog = alertDialogBuilder.create();
+                                alertDialog.show();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println(error);
+            }
+        });
+
+        mRequestQueue.add(request);
+    }
 }
 
 

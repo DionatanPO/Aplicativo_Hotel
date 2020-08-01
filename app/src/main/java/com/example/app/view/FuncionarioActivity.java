@@ -152,7 +152,7 @@ public class FuncionarioActivity extends Activity {
                             funR.cadastrarFuncionario(json, funcionarioAdapter);
 
                         } else {
-                            viewToastAlerta(context, "Prencha todos os campos");
+                            viewToastAlerta(context, "Prencha todos os campos!");
                         }
                     }
                 });

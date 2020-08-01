@@ -110,7 +110,7 @@ public class ManutencaoAdapter extends RecyclerView.Adapter<ManutencaoAdapter.Ma
                         TextView titulo;
                         titulo = finalView.findViewById(R.id.txt_titulo);
 
-                        titulo.setText("Alterar dados da manutenção");
+                        titulo.setText("Alterar dados de manutenção");
 
                         final EditText obs = finalView.findViewById(R.id.add_manutencao_observacao);
 
@@ -177,7 +177,7 @@ public class ManutencaoAdapter extends RecyclerView.Adapter<ManutencaoAdapter.Ma
                                     atualizar(pos, manutencaoController.converter_json_manutencao(json));
 
                                 } else {
-                                    viewToastAlerta(ctx, "Preencha todos os campos *");
+                                    viewToastAlerta(ctx, "Preencha todos os campos!");
 
                                 }
 

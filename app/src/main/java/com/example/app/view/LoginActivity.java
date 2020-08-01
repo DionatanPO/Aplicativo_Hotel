@@ -65,9 +65,10 @@ public class LoginActivity extends Activity {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
                 alertDialogBuilder.setTitle("Ajuda");
                 alertDialogBuilder
-                        .setMessage("Criar conta: Permite que proprietários de hotéis criem " +
-                                "uma conta de administrador. Esta conta provem acesso às demais funcionalidades do aplicativo. " +
-                                "A opção de efetuar reserva e destinada a clientes que desejam hospedar-se no hotel.g")
+                        .setMessage("Na opção “Criar conta”, é permitido que o gestor hoteleiro crie uma conta administrativa. " +
+                                "Se a conta for criada no aplicativo, será provido acesso às funcionalidades de cadastro, reservas," +
+                                " hospedagens e outras. A opção de “Efetuar reserva”, restringe-se ao uso de clientes que " +
+                                "desejam se hospedar no hotel.")
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
@@ -105,7 +106,7 @@ public class LoginActivity extends Activity {
                     loginRequest.login(FunC.converter_funcionario_json(funcionario));
 
                 } else {
-                    viewToastAlerta(context, "Preencha todos os campos");
+                    viewToastAlerta(context, "Preencha todos os campos!");
                 }
             }
         });

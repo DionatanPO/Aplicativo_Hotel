@@ -153,7 +153,7 @@ public class ReservaAddActivity extends AppCompatActivity implements Spinner.OnI
 
                 } else {
 
-                    viewToastAlerta(context, "Preencha todos os campos *");
+                    viewToastAlerta(context, "Preencha todos os campos!");
                 }
 
             }

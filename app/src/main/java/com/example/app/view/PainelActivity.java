@@ -71,7 +71,7 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
             public void onClick(View view) {
 
                 if (funcionario.getCargo().equals("Camareira") || funcionario.getCargo().equals("Recepcionista")) {
-                    viewToastAlerta(context, "Funcionários não tem acesso a essa opção");
+                    viewToastAlerta(context, "Esta opção não está disponível para funcionários!");
                 } else {
                     Intent i = new Intent(PainelActivity.this, FuncionarioActivity.class);
                     i.putExtra("funcionario", funcionario);
@@ -142,6 +142,7 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
@@ -153,7 +154,7 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
                 final TextView titulo = layout.findViewById(R.id.textView2);
                 final TextView titulo2 = layout.findViewById(R.id.textview_criarconta);
 
-                titulo.setText("Alterar seus dados");
+                titulo.setText("Altere seus dados");
                 titulo2.setText("Informe seus dados");
 
                 Button button_altera_conta = layout.findViewById(R.id.btnCreate);
@@ -192,7 +193,8 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
             case R.id.sair:
                 Intent i = new Intent(PainelActivity.this, LoginActivity.class);
                 startActivity(i);
-                finish();
+                finishAffinity();
+
 
                 return true;
             default:

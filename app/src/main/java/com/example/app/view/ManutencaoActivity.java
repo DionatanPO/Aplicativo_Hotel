@@ -150,7 +150,7 @@ public class ManutencaoActivity extends Activity {
                             manutencao_request.cadastrarManutencao(json, manutencaoAdapter);
 
                         } else {
-                            viewToastAlerta(context, "Prencha todos os campos");
+                            viewToastAlerta(context, "Prencha todos os campos!");
                         }
                     }
                 });
@@ -204,7 +204,7 @@ public class ManutencaoActivity extends Activity {
                 textView.setVisibility(View.VISIBLE);
             }
 
-            viewToast(context, "Manutenção apagado!");
+            viewToast(context, "Manutenção apagada!");
         }
 
         @Override

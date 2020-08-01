@@ -95,7 +95,7 @@ public class FuncionarioAdapter extends RecyclerView.Adapter<FuncionarioAdapter.
                         TextView titulo;
                         titulo = finalView.findViewById(R.id.txt_titulo);
 
-                        titulo.setText("   Alterar dados do Funcionário");
+                        titulo.setText(" Alterar dados do Funcionário");
 
                         final EditText fumNome = finalView.findViewById(R.id.editTextFunNome);
                         final EditText fumcpf = finalView.findViewById(R.id.editTextFumCpf);
@@ -148,7 +148,7 @@ public class FuncionarioAdapter extends RecyclerView.Adapter<FuncionarioAdapter.
                                     atualizar(pos, func.converter_json_funcionario(json));
 
                                 } else {
-                                    viewToastAlerta(ctx, "Preencha todos os campos *");
+                                    viewToastAlerta(ctx, "Preencha todos os campos!");
 
                                 }
 

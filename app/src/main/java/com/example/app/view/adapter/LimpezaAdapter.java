@@ -195,11 +195,11 @@ public class LimpezaAdapter extends RecyclerView.Adapter<LimpezaAdapter.Apartame
 
                                         notifyDataSetChanged();
 
-                                        viewToast(ctx, "Estado do ap alterado!");
+                                        viewToast(ctx, "Estado do apartamento alterado!");
 
 
                                     } else {
-                                        viewToastAlerta(ctx, "Preencha todos os campos ");
+                                        viewToastAlerta(ctx, "Preencha todos os campos!");
 
                                     }
 

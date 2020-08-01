@@ -59,7 +59,7 @@ public class CheckinController {
             hospedagem.setTipo_pagamento(tipo_pagamento);
             hospedagem.setValor_hospedagem(valor_hospedagem);
             hospedagem.setN_pessoas(n_pessoas);
-            if(tipo_pagamento.equals("Não Pago")){
+            if(tipo_pagamento.equals("Não pago")){
                 hospedagem.setEstado("Pg não efetuado");
             }else{
                 hospedagem.setEstado("OK");
@@ -100,7 +100,7 @@ public class CheckinController {
             hospedagem.setTipo_pagamento(tipo_pagamento);
             hospedagem.setValor_hospedagem(valor_hospedagem);
             hospedagem.setN_pessoas(n_pessoas);
-            if(tipo_pagamento.equals("Não Pago")){
+            if(tipo_pagamento.equals("Não pago")){
                 hospedagem.setEstado("Pg não efetuado");
             }else{
                 hospedagem.setEstado("OK");

@@ -103,20 +103,20 @@ public class Funcionario_Request {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     fum = new Gson().fromJson(jsonObject.toString(), Funcionario.class);
-                    viewToast(context, "Conta criada com sucesso");
+                    viewToast(context, "Conta criada com sucesso!");
                     Intent i = new Intent(context, LoginActivity.class);
                     context.startActivity(i);
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    viewToastErro(context, "Ops! Algo Não deu certo, tente novament");
+                    viewToastErro(context, "Ops! Algo não deu certo, tente novamente.");
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println(error);
-                viewToastErro(context, "Ops Algo Não deu certo, tente novament");
+                viewToastErro(context, "Ops! Algo não deu certo, tente novamente.");
             }
         }) {
             @Override
@@ -173,26 +173,6 @@ public class Funcionario_Request {
         return fumList;
     }
 
-
-//    public void delete_id(Long id) {
-//
-//        String url = ip+"/funcionario/"+id;
-//
-//        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                Toast.makeText(mCtx, "Apagado", Toast.LENGTH_LONG).show();
-//
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(mCtx, "Apagado", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//        mRequestQueue.add(stringRequest);
-//    }
 
     public void alterrar_estado_funcionario(final String json, Long id) {
 
@@ -285,7 +265,7 @@ public class Funcionario_Request {
                     viewToast(context, "Dados alterados!");
                 } catch (Exception e) {
                     e.printStackTrace();
-                    viewToastErro(context, "Ops! Algo deu errado");
+                    viewToastErro(context, "Ops! Algo deu errado.");
                 }
 
             }
@@ -293,7 +273,7 @@ public class Funcionario_Request {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println(error);
-                viewToastErro(context, "Ops! Algo deu errado");
+                viewToastErro(context, "Ops! Algo deu errado.");
             }
         }) {
             @Override

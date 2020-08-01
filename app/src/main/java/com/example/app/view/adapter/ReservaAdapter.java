@@ -156,7 +156,7 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
                         TextView titulo;
                         titulo = finalView.findViewById(R.id.txt_titulo);
 
-                        titulo.setText("  Alterar dados reserva");
+                        titulo.setText("Alterar dados da reserva");
                         final EditText valor = layout.findViewById(R.id.editText_valor_hospedagem);
                         valor.setText(String.valueOf(reservasList.get(pos).getValor()));
 
@@ -298,7 +298,7 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
 
                                 } else {
 
-                                    viewToastAlerta(ctx, "Preencha todos os campos *");
+                                    viewToastAlerta(ctx, "Preencha todos os campos!");
 
                                 }
 

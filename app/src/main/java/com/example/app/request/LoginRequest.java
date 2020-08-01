@@ -76,13 +76,13 @@ public class LoginRequest {
                         viewToast(mContext, "Logado com sucesso!");
                     } else {
                         alerta.cancel();
-                        viewToastAlerta(mContext, "Usuário não encontrado ou senha invalida!");
+                        viewToastAlerta(mContext, "Usuário não encontrado ou senha inválida!");
                     }
 
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    viewToastAlerta(mContext, "Usuário não encontrado ou senha invalida!");
+                    viewToastAlerta(mContext, "Usuário não encontrado ou senha inválida!");
                     alerta.cancel();
                 }
             }

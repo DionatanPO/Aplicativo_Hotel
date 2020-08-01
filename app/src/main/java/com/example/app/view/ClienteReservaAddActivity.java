@@ -20,7 +20,9 @@ import com.example.app.controller.ReservaController;
 import com.example.app.model.Apartamento;
 import com.example.app.model.Cal_Data;
 import com.example.app.model.Funcionario;
+import com.example.app.model.Hotel;
 import com.example.app.request.Apartamento_Request;
+import com.example.app.request.Hotel_Request;
 import com.example.app.request.Reserva_Request;
 
 import java.text.ParseException;
@@ -30,20 +32,22 @@ import java.util.List;
 import static com.example.app.view.CustonToast.viewToastAlerta;
 
 
-public class ClienteReservaAddActivity extends AppCompatActivity implements Spinner.OnItemSelectedListener {
+public class ClienteReservaAddActivity extends AppCompatActivity  {
 
     private int n_pessoas;
     private Spinner spinner2;
-    private Spinner spinner_apartamento;
+    private Spinner spinner_apartamento, spinner_hotel;
     private EditText nome_hospede, telefone, data_entrada, data_saida, cpf, valor;
     private Button btn_concluir;
-    private ArrayAdapter spinnerAdapter;
+    private ArrayAdapter spinnerAdapter, spinnerAdapter2;
     private List<Apartamento> apartamentoList;
+    private List<Hotel> hotelList;
     private Apartamento apartamento;
     private Cal_Data cal_data;
     private String json;
     private TextView btn_reserva;
     private Context context;
+    private Hotel hotel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,7 @@ public class ClienteReservaAddActivity extends AppCompatActivity implements Spin
 
         spinner2 = findViewById(R.id.reserva_n_pessoas_spinner);
         spinner_apartamento = findViewById(R.id.reserva_apartamento_spinner);
+        spinner_hotel = findViewById(R.id.reserva_hotel_spinner);
         nome_hospede = findViewById(R.id.reserva_hospede_nome);
         telefone = findViewById(R.id.reserva_telefone);
         data_entrada = findViewById(R.id.reservaData_entrada);
@@ -81,30 +86,59 @@ public class ClienteReservaAddActivity extends AppCompatActivity implements Spin
             }
         });
 
-        Apartamento_Request apartamento_request = new Apartamento_Request(this);
+        Hotel_Request hotel_request = new Hotel_Request(context);
+        final Apartamento_Request apartamento_request = new Apartamento_Request(this);
 
+        hotel = new Hotel();
+        hotelList = new ArrayList<>();
         apartamento = new Apartamento();
         apartamentoList = new ArrayList<>();
-//
-//        spinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, apartamentoList);
-//        apartamento_request.buscarDisponiveis(apartamentoList, spinnerAdapter, funcionario.getAdministrador_id());
-//
-//        spinner_apartamento.setAdapter(spinnerAdapter);
+
+        spinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, hotelList);
+
+        hotel_request.buscar_Hotels(hotelList,spinnerAdapter);
+        spinner_hotel.setAdapter(spinnerAdapter);
+
+
+
+
+        spinner_hotel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                spinnerAdapter.clear();
+                spinnerAdapter.notifyDataSetChanged();
+                hotel = (Hotel) parent.getItemAtPosition(position);
+                apartamento_request.buscarDisponiveisPOrHotel(apartamentoList, spinnerAdapter, hotel.getId());
+                spinnerAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+               hotel = null;
+            }
+
+        });
+
+        spinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, apartamentoList);
+        spinner_apartamento.setAdapter(spinnerAdapter);
 
         spinner_apartamento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 apartamento = (Apartamento) parent.getItemAtPosition(position);
 
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                spinnerAdapter.clear();
                 apartamento = null;
             }
 
         });
-
 
         cal_data = new Cal_Data();
         List<String> horasList = new ArrayList<>();
@@ -120,14 +154,14 @@ public class ClienteReservaAddActivity extends AppCompatActivity implements Spin
 
                 ReservaController reservaController = new ReservaController(ClienteReservaAddActivity.this);
 
-//                try {
-//                    json = (String) reservaController.valirar_reserva(funcionario,
-//                            apartamento, nome_hospede.getText().toString(), telefone.getText().toString(),
-//                            data_entrada.getText().toString(), data_saida.getText().toString(),
-//                            n_pessoas, cpf.getText().toString(),Float.parseFloat(valor.getText().toString()));
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    json = (String) reservaController.valirar_reserva_cliente(hotel,
+                            apartamento, nome_hospede.getText().toString(), telefone.getText().toString(),
+                            data_entrada.getText().toString(), data_saida.getText().toString(),
+                            n_pessoas, cpf.getText().toString(),Float.parseFloat(valor.getText().toString()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
                 Reserva_Request reserva_request = new Reserva_Request(ClienteReservaAddActivity.this);
 
@@ -145,7 +179,7 @@ public class ClienteReservaAddActivity extends AppCompatActivity implements Spin
 
                 } else {
 
-                    viewToastAlerta(context, "Preencha todos os campos *");
+                    viewToastAlerta(context, "Preencha todos os campos!");
                 }
 
             }
@@ -153,21 +187,4 @@ public class ClienteReservaAddActivity extends AppCompatActivity implements Spin
 
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-//        Intent intent = new Intent(context, ReservaActivity.class);
-//        intent.putExtra("funcionario", funcionario);
-//        startActivity(intent);
-    }
 }

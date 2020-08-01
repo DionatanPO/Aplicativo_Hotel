@@ -89,10 +89,9 @@ public class Create_Account extends AppCompatActivity {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
                 alertDialogBuilder.setTitle("Ajuda");
                 alertDialogBuilder
-                        .setMessage("Código de identificação é utilizado para efetuar o login no " +
-                                "aplicativo. Senha: Recomenda-se que utilize pelo menos 8 caracteres, " +
-                                "podendo ser 1 maiúscula e 1 número, deste modo sua senha será mais segura. " +
-                                "Campos como o símbolo de * são obrigatórios o seu preenchimento")
+                        .setMessage("Código de identificação é utilizado para efetuar o login no aplicativo." +
+                                " Para uma melhor segurança de senha, recomenda-se que utilize pelo menos 8 caracteres, " +
+                                "podendo ser 1 maiúscula e 1 número. Quanto ao campo com o símbolo de *, é obrigatório o preenchimento.")
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 

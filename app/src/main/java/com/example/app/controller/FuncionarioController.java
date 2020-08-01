@@ -40,7 +40,7 @@ public class FuncionarioController {
         if (cpf.equals("") || nome.equals("") || email.equals("") || senha.equals("") || senha2.equals("")
         ||nome_hotel.equals("")||telefone.equals("")||endereco.equals("")) {
 
-            viewToastAlerta(context, "Preencha todos os campos");
+            viewToastAlerta(context, "Preencha todos os campos!");
             return null;
         } else {
             if (senha.equals(senha2)) {
@@ -49,11 +49,11 @@ public class FuncionarioController {
                 funcionario.setSenha(senha);
                 funcionario.setCargo("Administrador");
                 funcionario.setCpf(cpf);
-                funcionario.setEstado("Abilitado");
+                funcionario.setEstado("Habilitado");
                String json = converter_funcionario_json(funcionario);
                 return json;
             } else {
-                viewToastAlerta(context, "As senhas não correspondem");
+                viewToastAlerta(context, "As senhas não correspondem!");
                 return null;
             }
         }
@@ -62,7 +62,7 @@ public class FuncionarioController {
     public String cadastrar_funcionario(Long id, String nome, String email, String cpf, String cargo, String senha, String senha2) {
         if (cpf.equals("") || nome.equals("") || email.equals("") || cargo.equals("") || senha.equals("") || senha2.equals("")) {
 
-            viewToastAlerta(context, "Preencha todos os campos");
+            viewToastAlerta(context, "Preencha todos os campos!");
             return null;
         } else {
             if (senha.equals(senha2)) {
@@ -72,12 +72,12 @@ public class FuncionarioController {
                 funcionario.setSenha(senha);
                 funcionario.setCargo(cargo);
                 funcionario.setCpf(cpf);
-                funcionario.setEstado("Abilitado");
+                funcionario.setEstado("Habilitado");
                 String json =converter_funcionario_json(funcionario);
 
                 return json;
             } else {
-                viewToastAlerta(context, "As senhas não correspondem");
+                viewToastAlerta(context, "As senhas não correspondem!");
                 return null;
             }
         }
@@ -86,7 +86,7 @@ public class FuncionarioController {
     public String valirar_alterar_funcionario(Long id, Long ida, String nome, String email, String cpf, String cargo, String senha, String senha2) {
         if (cpf.equals("") || nome.equals("") || email.equals("") || cargo.equals("")) {
 
-            viewToastAlerta(context, "Preencha todos os campos");
+            viewToastAlerta(context, "Preencha todos os campos!");
             return null;
         } else {
             if (senha.equals(senha2)) {
@@ -97,12 +97,12 @@ public class FuncionarioController {
                 funcionario.setSenha(senha);
                 funcionario.setCargo(cargo);
                 funcionario.setCpf(cpf);
-                funcionario.setEstado("Abilitado");
+                funcionario.setEstado("Habilitado");
 
                String json = converter_funcionario_json(funcionario);
                 return json;
             } else {
-                viewToastAlerta(context, "As senhas não correspondem");
+                viewToastAlerta(context, "As senhas não correspondem!");
                 return null;
             }
         }

@@ -59,12 +59,9 @@ public class ApartamentoAdapter extends RecyclerView.Adapter<ApartamentoAdapter.
     @Override
     public void onBindViewHolder(ApartamentoViewHolder holder, final int position) {
 
-
         holder.identificacao.setText(apartamentosList.get(position).getIdentificacao());
         holder.descricao.setText(apartamentosList.get(position).getDescricao());
         holder.estado.setText(apartamentosList.get(position).getEstado());
-
-
     }
 
     @Override
@@ -100,7 +97,8 @@ public class ApartamentoAdapter extends RecyclerView.Adapter<ApartamentoAdapter.
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ctx);
 
                             alertDialogBuilder
-                                    .setMessage("O apartamento " + apartamentosList.get(pos).getIdentificacao() + " não pode ser alterado no momento, pois se encontra: " + apartamentosList.get(pos).getEstado())
+                                    .setMessage("O apartamento " + apartamentosList.get(pos).getIdentificacao() +
+                                            " não pode ser alterado no momento, pois se encontra no status de: " + apartamentosList.get(pos).getEstado())
                                     .setCancelable(false)
                                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
@@ -183,7 +181,7 @@ public class ApartamentoAdapter extends RecyclerView.Adapter<ApartamentoAdapter.
                                         viewToast(ctx, "Apartamento alterado!");
 
                                     } else {
-                                        viewToastAlerta(ctx, "Preencha todos os campos *");
+                                        viewToastAlerta(ctx, "Preencha todos os campos!");
 
                                     }
 

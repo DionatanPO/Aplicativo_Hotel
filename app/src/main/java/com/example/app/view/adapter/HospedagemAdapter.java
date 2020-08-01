@@ -90,7 +90,7 @@ public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.Ho
         holder.nome_hospede_card.setText(hospedagemsList.get(position).getHospede().getNome());
         holder.tipo_pagamento_card.setText(hospedagemsList.get(position).getTipo_pagamento());
 
-        if (holder.tipo_pagamento_card.getText().equals("Não Pago")) {
+        if (holder.tipo_pagamento_card.getText().equals("Não pago")) {
             holder.tipo_pagamento_card.setTextColor(Color.RED);
         } else {
             holder.tipo_pagamento_card.setTextColor(Color.rgb(3, 130, 37));
@@ -138,10 +138,10 @@ public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.Ho
                 public void onClick(View view) {
                     final int pos = getAdapterPosition();
                     String m;
-                    if (hospedagemsList.get(pos).getTipo_pagamento().equals("Não Pago")) {
-                        m = "Lembrando que ainda não foi efetuado o pagamento da diária. Deseja mesmo asim efetuar o check-out?";
+                    if (hospedagemsList.get(pos).getTipo_pagamento().equals("Não pago")) {
+                        m = "Lembrando que ainda não foi efetuado o pagamento da diária. Mesmo assim, deseja efetuar o check-out?";
                     } else {
-                        m = "Tudo ok. Deseja efetuar o check-out?";
+                        m = "Hospedagem Tudo OK! Deseja efetuar o check-out?";
                     }
 
                     if (pos != RecyclerView.NO_POSITION) {
@@ -326,10 +326,10 @@ public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.Ho
                                     alerta.dismiss();
                                     atualizar(pos, checkin_controller.converter_json_hospedagem(json));
 
-                                    viewToast(ctx, "Hospedagem alterada");
+                                    viewToast(ctx, "Hospedagem alterada!");
 
                                 } else {
-                                    viewToastAlerta(ctx, "Preencha todos os campos!*");
+                                    viewToastAlerta(ctx, "Preencha todos os campos!");
 
                                 }
 

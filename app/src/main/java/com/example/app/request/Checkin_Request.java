@@ -80,14 +80,6 @@ public class Checkin_Request {
 
     }
 
-
-
-
-
-
-
-
-
     public Boolean alterar_Apartamento(final String json, Long id) {
 
         String url = ip + "/apartamento/" + id;
@@ -97,8 +89,6 @@ public class Checkin_Request {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     ap = new Gson().fromJson(jsonObject.toString(), Apartamento.class);
-//
-
 
                 } catch (Exception e) {
                     e.printStackTrace();

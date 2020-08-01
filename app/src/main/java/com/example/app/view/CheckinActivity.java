@@ -229,10 +229,10 @@ public class CheckinActivity extends AppCompatActivity implements Spinner.OnItem
                         reserva_request.alterar_reserva(json, reserva.getId());
                     }
 
-                    viewToast(context, "Hospedagem cadastrada");
+                    viewToast(context, "Hospedagem cadastrada!");
 
                 } else {
-                    viewToast(context, "Preencha todos os campos *");
+                    viewToast(context, "Preencha todos os campos!");
 
                 }
 

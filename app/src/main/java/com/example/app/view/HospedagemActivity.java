@@ -207,11 +207,9 @@ public class HospedagemActivity extends Activity implements PopupMenu.OnMenuItem
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
-                    viewToastErro(context, "Ops! Algo não deu certo");
+                    viewToastErro(context, "Ops! Algo não deu certo.");
                 }
 
-
-//
 
                 return true;
             case R.id.perfil2:
@@ -233,7 +231,7 @@ public class HospedagemActivity extends Activity implements PopupMenu.OnMenuItem
                     @Override
                     public void onClick(View view) {
                         if (data1.getText().toString().equals("")) {
-                            viewToastAlerta(context, "Preencha pelomenos o campo data 1");
+                            viewToastAlerta(context, "Preencha, ao menos, o campo referente a data 1.");
                         } else {
                             if (data2.getText().toString().equals("")) {
                                 data2.setText(data1.getText().toString());
@@ -266,7 +264,7 @@ public class HospedagemActivity extends Activity implements PopupMenu.OnMenuItem
                                 }
                             } catch (ParseException e) {
                                 e.printStackTrace();
-                                viewToastErro(context, "Ops! Algo não deu certo");
+                                viewToastErro(context, "Ops! Algo não deu certo.");
                             }
 
                         }

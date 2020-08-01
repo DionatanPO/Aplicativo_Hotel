@@ -59,17 +59,17 @@ public class Manutencao_Request {
                     JSONObject jsonObject = new JSONObject(response);
                     manutencao = gson.fromJson(jsonObject.toString(), Manutencao.class);
                     funadp.addManutencaoo(manutencao);
-                    viewToast(context, "Manutenção cadastrado");
+                    viewToast(context, "Manutenção cadastrada!");
                 } catch (Exception e) {
                     e.printStackTrace();
-                    viewToastErro(context, "Ops! Algo deu errado");
+                    viewToastErro(context, "Ops! Algo deu errado.");
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println(error);
-                viewToastErro(context, "Ops! Algo deu errado");
+                viewToastErro(context, "Ops! Algo deu errado.");
             }
         }) {
             @Override
@@ -103,17 +103,17 @@ public class Manutencao_Request {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     manutencao = gson.fromJson(jsonObject.toString(), Manutencao.class);
-                    viewToast(context, "Manutenção cadastrado");
+                    viewToast(context, "Manutenção cadastrada!");
                 } catch (Exception e) {
                     e.printStackTrace();
-                    viewToastErro(context, "Ops! Algo deu errado");
+                    viewToastErro(context, "Ops! Algo deu errado.");
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println(error);
-                viewToastErro(context, "Ops! Algo deu errado");
+                viewToastErro(context, "Ops! Algo deu errado.");
             }
         }) {
             @Override
@@ -187,7 +187,7 @@ public class Manutencao_Request {
                     viewToast(context, "Dados alterados!");
                 } catch (Exception e) {
                     e.printStackTrace();
-                    viewToastErro(context, "Ops! Algo deu errado");
+                    viewToastErro(context, "Ops! Algo deu errado.");
                 }
 
             }
@@ -195,7 +195,7 @@ public class Manutencao_Request {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println(error);
-                viewToastErro(context, "Ops! Algo deu errado");
+                viewToastErro(context, "Ops! Algo deu errado.");
             }
         }) {
             @Override

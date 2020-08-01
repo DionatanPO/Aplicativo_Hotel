@@ -136,9 +136,8 @@ public class LimpezaActivity extends AppCompatActivity  implements PopupMenu.OnM
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
                 alertDialogBuilder.setTitle("Ajuda");
                 alertDialogBuilder
-                        .setMessage("Após efetuar a limpeza de um apartamento, para alterar o estado " +
-                                "do apartamento, basta clicar no respectivo apartamento que surgira " +
-                                "a opção de alterar o estado para disponível ou outro estado.")
+                        .setMessage("Após efetuar a limpeza, basta clicar no respectivo apartamento na tela, " +
+                                "para alterar seu estado. Será sugerido a opção de alteração para disponível ou outro estado.")
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 

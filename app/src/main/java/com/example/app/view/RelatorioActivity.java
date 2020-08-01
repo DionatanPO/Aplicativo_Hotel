@@ -79,7 +79,7 @@ public class RelatorioActivity extends AppCompatActivity {
                 alertDialogBuilder.setTitle("Exportar Dados");
 
                 alertDialogBuilder
-                        .setMessage(" seus dados serão convertidos para uma planilha no formato xlsx. Deseja fazer o download da planilha?")
+                        .setMessage("Seus dados serão convertidos em planilha no formato xlsx. Deseja fazer download da planilha?")
                         .setCancelable(false)
                         .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
 

@@ -17,10 +17,18 @@ public class Reserva implements Serializable {
     private String estado;
     private int n_pessoas;
     private float valor;
+    private Hotel hotel;
 
     public Reserva() {
     }
 
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
 
     public float getValor() {
         return valor;

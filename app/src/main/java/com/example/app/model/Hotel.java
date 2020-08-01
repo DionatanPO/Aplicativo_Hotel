@@ -40,4 +40,8 @@ public class Hotel implements Serializable {
         this.telefone = telefone;
     }
 
+    @Override
+    public String toString() {
+        return nome;
+    }
 }
