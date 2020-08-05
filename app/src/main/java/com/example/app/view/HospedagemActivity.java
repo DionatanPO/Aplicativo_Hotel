@@ -189,7 +189,7 @@ public class HospedagemActivity extends Activity implements PopupMenu.OnMenuItem
                 String data = cal_data.cal_data_entrada_saida().get(0);
                 java.util.Date d = new java.util.Date();
 
-                DateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
+                DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
 
                 try {
                     d = fmt.parse(data);
