@@ -15,6 +15,7 @@ import com.android.volley.toolbox.Volley;
 
 import com.example.app.model.Hospedagem;
 import com.example.app.model.Url;
+import com.example.app.view.HospedagemActivity;
 import com.example.app.view.RelatorioActivity;
 import com.example.app.view.adapter.HospedagemAdapter;
 import com.google.gson.Gson;
@@ -28,6 +29,8 @@ import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.app.view.CustonToast.viewToastAlerta;
 
 
 public class Hospedagem_Request {
@@ -123,7 +126,7 @@ public class Hospedagem_Request {
     }
 
 
-    public List<Hospedagem> bsucarTodosEntreData(final HospedagemAdapter funap, Long id, final TextView textView, Date data1, Date data2) {
+    public List<Hospedagem> bsucarTodosEntreData(final HospedagemAdapter funap, Long id, final TextView textView, Date data1, Date data2, final HospedagemActivity activity) {
 
         final String url = ip + "/hospedagem/todosData/" + id + "/" + data1 + "/" + data2;
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -145,6 +148,7 @@ public class Hospedagem_Request {
                                 textView.setVisibility(View.VISIBLE);
                             }
                             funap.sethospedagemsList(hospedagemList);
+                            activity.request();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -158,7 +162,9 @@ public class Hospedagem_Request {
                 System.out.println(error);
             }
         });
+
         mRequestQueue.add(request);
+
 
         return hospedagemList;
     }

@@ -141,7 +141,7 @@ public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.Ho
                     if (hospedagemsList.get(pos).getTipo_pagamento().equals("Não pago")) {
                         m = "Lembrando que ainda não foi efetuado o pagamento da diária. Mesmo assim, deseja efetuar o check-out?";
                     } else {
-                        m = "Hospedagem Tudo OK! Deseja efetuar o check-out?";
+                        m = "Hospedagem tudo OK! Deseja efetuar o check-out?";
                     }
 
                     if (pos != RecyclerView.NO_POSITION) {

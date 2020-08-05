@@ -66,7 +66,7 @@ public class LoginActivity extends Activity {
                 alertDialogBuilder.setTitle("Ajuda");
                 alertDialogBuilder
                         .setMessage("Na opção “Criar conta”, é permitido que o gestor hoteleiro crie uma conta administrativa. " +
-                                "Se a conta for criada no aplicativo, será provido acesso às funcionalidades de cadastro, reservas," +
+                                "Esta conta provê acesso às funcionalidades de cadastro, reservas," +
                                 " hospedagens e outras. A opção de “Efetuar reserva”, restringe-se ao uso de clientes que " +
                                 "desejam se hospedar no hotel.")
                         .setCancelable(false)

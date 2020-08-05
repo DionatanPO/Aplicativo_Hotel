@@ -64,6 +64,7 @@ public class HospedagemActivity extends Activity implements PopupMenu.OnMenuItem
     private Apartamento_Request apartamento_request;
     private ApartamentoController apartamentoController;
     private TextView msn_func;
+    private Boolean result = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,8 +189,7 @@ public class HospedagemActivity extends Activity implements PopupMenu.OnMenuItem
                 String data = cal_data.cal_data_entrada_saida().get(0);
                 java.util.Date d = new java.util.Date();
 
-                DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
-
+                DateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
 
                 try {
                     d = fmt.parse(data);
@@ -198,11 +198,11 @@ public class HospedagemActivity extends Activity implements PopupMenu.OnMenuItem
                     if (funcionario.getAdministrador_id() == null) {
                         hospedagemAdapter.getHospedagemsList().clear();
                         hospedagemAdapter.notifyDataSetChanged();
-                        hospedagem_request.bsucarTodosEntreData(hospedagemAdapter, funcionario.getId(), msn_func, d1, d1);
+                        hospedagem_request.bsucarTodosEntreData(hospedagemAdapter, funcionario.getId(), msn_func, d1, d1, HospedagemActivity.this);
                     } else {
                         hospedagemAdapter.getHospedagemsList().clear();
                         hospedagemAdapter.notifyDataSetChanged();
-                        hospedagem_request.bsucarTodosEntreData(hospedagemAdapter, funcionario.getAdministrador_id(), msn_func, d1, d1);
+                        hospedagem_request.bsucarTodosEntreData(hospedagemAdapter, funcionario.getAdministrador_id(), msn_func, d1, d1, HospedagemActivity.this);
 
                     }
                 } catch (ParseException e) {
@@ -210,7 +210,11 @@ public class HospedagemActivity extends Activity implements PopupMenu.OnMenuItem
                     viewToastErro(context, "Ops! Algo não deu certo.");
                 }
 
+                if (hospedagemAdapter.getHospedagemsList().size() > 0) {
 
+                } else {
+                    viewToastAlerta(context, "Hoje não foi efetuada nenhuma hospedagem!");
+                }
                 return true;
             case R.id.perfil2:
                 final AlertDialog alerta;
@@ -253,15 +257,18 @@ public class HospedagemActivity extends Activity implements PopupMenu.OnMenuItem
                                     hospedagemAdapter.getHospedagemsList().clear();
                                     hospedagemAdapter.notifyDataSetChanged();
                                     hospedagem_request.bsucarTodosEntreData(
-                                            hospedagemAdapter, funcionario.getId(), msn_func, d1, d2);
+                                            hospedagemAdapter, funcionario.getId(), msn_func, d1, d2, HospedagemActivity.this);
 
                                 } else {
                                     hospedagemAdapter.getHospedagemsList().clear();
                                     hospedagemAdapter.notifyDataSetChanged();
                                     hospedagem_request.bsucarTodosEntreData(
-                                            hospedagemAdapter, funcionario.getAdministrador_id(), msn_func, d1, d2);
+                                            hospedagemAdapter, funcionario.getAdministrador_id(), msn_func, d1, d2,HospedagemActivity.this);
 
                                 }
+
+
+
                             } catch (ParseException e) {
                                 e.printStackTrace();
                                 viewToastErro(context, "Ops! Algo não deu certo.");
@@ -279,6 +286,9 @@ public class HospedagemActivity extends Activity implements PopupMenu.OnMenuItem
         }
     }
 
+    public void request() {
+        result= true;
+    }
 }
 
 
