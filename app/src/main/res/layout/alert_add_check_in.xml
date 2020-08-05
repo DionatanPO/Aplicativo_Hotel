@@ -193,6 +193,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:ems="10"
+                android:hint="Ex:50.00"
                 android:inputType="numberDecimal" />
 
             <Spinner
