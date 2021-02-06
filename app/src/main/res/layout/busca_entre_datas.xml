@@ -56,7 +56,6 @@
         android:ems="10"
         android:hint="Ex: 01/01/2020"
         android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/btnCreate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -87,7 +86,7 @@
         android:ems="10"
         android:hint="Ex: 02/01/2020"
         android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/btnCreate"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.50"
         app:layout_constraintStart_toStartOf="parent"

@@ -148,7 +148,6 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
         switch (menuItem.getItemId()) {
             case R.id.perfil:
 
-
                 LayoutInflater inflater = LayoutInflater.from(context);
                 View layout = inflater.inflate(R.layout.create_account, null);
                 final TextView titulo = layout.findViewById(R.id.textView2);
