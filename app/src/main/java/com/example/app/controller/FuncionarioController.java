@@ -3,6 +3,7 @@ package com.example.app.controller;
 import android.content.Context;
 
 import com.example.app.model.Funcionario;
+import com.example.app.model.Hotel;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -36,9 +37,9 @@ public class FuncionarioController {
 
 
     public String create_account(String nome, String email, String cpf, String senha, String senha2
-    ,String nome_hotel,String telefone, String endereco) {
+            , String nome_hotel, String telefone, String endereco) {
         if (cpf.equals("") || nome.equals("") || email.equals("") || senha.equals("") || senha2.equals("")
-        ||nome_hotel.equals("")||telefone.equals("")||endereco.equals("")) {
+                || nome_hotel.equals("") || telefone.equals("") || endereco.equals("")) {
 
             viewToastAlerta(context, "Preencha todos os campos!");
             return null;
@@ -50,7 +51,7 @@ public class FuncionarioController {
                 funcionario.setCargo("Administrador");
                 funcionario.setCpf(cpf);
                 funcionario.setEstado("Habilitado");
-               String json = converter_funcionario_json(funcionario);
+                String json = converter_funcionario_json(funcionario);
                 return json;
             } else {
                 viewToastAlerta(context, "As senhas não correspondem!");
@@ -73,7 +74,7 @@ public class FuncionarioController {
                 funcionario.setCargo(cargo);
                 funcionario.setCpf(cpf);
                 funcionario.setEstado("Habilitado");
-                String json =converter_funcionario_json(funcionario);
+                String json = converter_funcionario_json(funcionario);
 
                 return json;
             } else {
@@ -83,7 +84,8 @@ public class FuncionarioController {
         }
     }
 
-    public String valirar_alterar_funcionario(Long id, Long ida, String nome, String email, String cpf, String cargo, String senha, String senha2) {
+    public String valirar_alterar_funcionario(Long id, Long ida, String nome, String email, String cpf,
+                                              String cargo, String senha, String senha2) {
         if (cpf.equals("") || nome.equals("") || email.equals("") || cargo.equals("")) {
 
             viewToastAlerta(context, "Preencha todos os campos!");
@@ -99,7 +101,7 @@ public class FuncionarioController {
                 funcionario.setCpf(cpf);
                 funcionario.setEstado("Habilitado");
 
-               String json = converter_funcionario_json(funcionario);
+                String json = converter_funcionario_json(funcionario);
                 return json;
             } else {
                 viewToastAlerta(context, "As senhas não correspondem!");

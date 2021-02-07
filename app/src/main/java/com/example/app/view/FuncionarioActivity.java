@@ -76,7 +76,7 @@ public class FuncionarioActivity extends Activity {
 
         funcionarioAdapter = new FuncionarioAdapter(this, fumList, textView);
 
-        funR.bsucarTodosAtivos(funcionarioAdapter, progressBar, funcionario.getId());
+        funR.bsucarTodosAtivos(funcionarioAdapter, progressBar, funcionario.getAdministrador_id());
 
         btn_add = findViewById(R.id.fab_add);
 

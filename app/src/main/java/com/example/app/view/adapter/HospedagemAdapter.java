@@ -90,7 +90,7 @@ public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.Ho
         holder.nome_hospede_card.setText(hospedagemsList.get(position).getHospede().getNome());
         holder.tipo_pagamento_card.setText(hospedagemsList.get(position).getTipo_pagamento());
 
-        if (holder.tipo_pagamento_card.getText().equals("Não pago")) {
+        if (holder.tipo_pagamento_card.getText().equals("Não Pago")) {
             holder.tipo_pagamento_card.setTextColor(Color.RED);
         } else {
             holder.tipo_pagamento_card.setTextColor(Color.rgb(3, 130, 37));
@@ -138,7 +138,7 @@ public class HospedagemAdapter extends RecyclerView.Adapter<HospedagemAdapter.Ho
                 public void onClick(View view) {
                     final int pos = getAdapterPosition();
                     String m;
-                    if (hospedagemsList.get(pos).getTipo_pagamento().equals("Não pago")) {
+                    if (hospedagemsList.get(pos).getTipo_pagamento().equals("Não Pago")) {
                         m = "Lembrando que ainda não foi efetuado o pagamento da diária. Mesmo assim, deseja efetuar o check-out?";
                     } else {
                         m = "Hospedagem tudo OK! Deseja efetuar o check-out?";

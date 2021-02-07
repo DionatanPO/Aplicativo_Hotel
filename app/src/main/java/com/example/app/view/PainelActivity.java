@@ -22,8 +22,11 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.example.app.R;
 import com.example.app.controller.FuncionarioController;
+import com.example.app.controller.HotelController;
 import com.example.app.model.Funcionario;
+import com.example.app.model.Hotel;
 import com.example.app.request.Funcionario_Request;
+import com.example.app.request.Hotel_Request;
 
 import static android.graphics.Color.GRAY;
 import static com.example.app.view.CustonToast.viewToast;
@@ -152,6 +155,7 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
                 View layout = inflater.inflate(R.layout.create_account, null);
                 final TextView titulo = layout.findViewById(R.id.textView2);
                 final TextView titulo2 = layout.findViewById(R.id.textview_criarconta);
+                final EditText nome_hotel, telefone, endereco, senha2;
 
                 titulo.setText("Altere seus dados");
                 titulo2.setText("Informe seus dados");
@@ -163,19 +167,49 @@ public class PainelActivity extends Activity implements PopupMenu.OnMenuItemClic
                 email = layout.findViewById(R.id.editTextEmail);
                 email.setText(funcionario.getCodidentificacao());
                 senha = layout.findViewById(R.id.editTextPassword);
+                senha2 = layout.findViewById(R.id.editTextPassword);
                 criar_conta_cpf = layout.findViewById(R.id.criar_conta_cpf);
                 criar_conta_cpf.setText(funcionario.getCpf());
                 editTextSenha2 = layout.findViewById(R.id.editTextSenha2);
 
+
+                nome_hotel = layout.findViewById(R.id.editTextNomeHotel);
+                nome_hotel.setText(funcionario.getHotel().getNome());
+
+                telefone = layout.findViewById(R.id.editText_telefone);
+                telefone.setText(funcionario.getHotel().getTelefone());
+                endereco = layout.findViewById(R.id.editTextEndereco_hotel);
+                endereco.setText(funcionario.getHotel().getEndereco());
+
                 funC = new FuncionarioController(context);
                 funcionario_request = new Funcionario_Request(context);
+
+                final Hotel_Request hr = new Hotel_Request(context);
 
                 button_altera_conta.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String json = funC.valirar_alterar_funcionario(funcionario.getId(), funcionario.getAdministrador_id(), namee.getText().toString(), email.getText().toString(), criar_conta_cpf.getText().toString(), funcionario.getCargo(), senha.getText().toString(), editTextSenha2.getText().toString());
+                        String json = funC.valirar_alterar_funcionario(funcionario.getId(), funcionario.getAdministrador_id(),
+                                namee.getText().toString(), email.getText().toString(), criar_conta_cpf.getText().toString(),
+                                funcionario.getCargo(), senha.getText().toString(), editTextSenha2.getText().toString());
                         if (json != null) {
+                            funcionario.setNome(namee.getText().toString());
+                            funcionario.setCpf(criar_conta_cpf.getText().toString());
+                            if(senha.getText().toString()!=""&&senha2.getText().toString()!=""){
+                                funcionario.setSenha(senha.getText().toString());
+                            }
+
+                            json = funC.converter_funcionario_json(funcionario);
+
                             funcionario_request.alterar_funcionario(json, funcionario.getId());
+                            HotelController hc = new HotelController(context);
+
+                            funcionario.getHotel().setNome(nome_hotel.getText().toString());
+                            funcionario.getHotel().setEndereco(endereco.getText().toString());
+                            funcionario.getHotel().setTelefone(telefone.getText().toString());
+
+                            String h_json = hc.converter_hotel_json(funcionario.getHotel());
+                            hr.alterrar_Hotel(h_json, funcionario.getHotel().getId());
                             alerta.cancel();
                         }
 

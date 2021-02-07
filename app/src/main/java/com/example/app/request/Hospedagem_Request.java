@@ -148,7 +148,7 @@ public class Hospedagem_Request {
                                 textView.setVisibility(View.VISIBLE);
                             }
                             funap.sethospedagemsList(hospedagemList);
-                            activity.request();
+                            activity.request(hospedagemList.size());
 
                         } catch (JSONException e) {
                             e.printStackTrace();

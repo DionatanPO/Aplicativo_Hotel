@@ -129,7 +129,6 @@ public class ManutencaoActivity extends Activity {
                         apartamento = (Apartamento) parent.getItemAtPosition(position);
 
                     }
-
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
                         apartamento = null;
@@ -140,13 +139,19 @@ public class ManutencaoActivity extends Activity {
                 view.findViewById(R.id.btn_Consluir_Fun).setOnClickListener(new View.OnClickListener() {
                     @SuppressLint("WrongConstant")
                     public void onClick(View arg0) {
-
                         manutencaoController = new ManutencaoController(ManutencaoActivity.this);
                         manutencao_request = new Manutencao_Request(ManutencaoActivity.this);
 
                         json = manutencaoController.cadastrar(funcionario, observacao.getText().toString(), apartamento);
 
                         if (json != null) {
+                            Apartamento_Request ar = new Apartamento_Request(context);
+
+                            ApartamentoController ac = new ApartamentoController(context);
+                            apartamento.setEstado("Manutenção");
+
+                            ar.alterar_Apartamento(ac.converter_apartamento_json(apartamento), apartamento.getId());
+
                             manutencao_request.cadastrarManutencao(json, manutencaoAdapter);
 
                         } else {

@@ -14,6 +14,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.app.model.Apartamento;
+import com.example.app.model.Funcionario;
 import com.example.app.model.Hotel;
 import com.example.app.model.Url;
 import com.example.app.view.Create_Account;
@@ -121,6 +122,48 @@ public class Hotel_Request implements Serializable {
             }
         });
         mRequestQueue.add(request);
+    }
+
+
+    public void alterrar_Hotel(final String json, Long id) {
+
+        String url = ip + "/hotel/" + id;
+
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    hotel = new Gson().fromJson(jsonObject.toString(), Hotel.class);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return json == null ? null : json.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    return null;
+                }
+            }
+        };
+
+        mRequestQueue.add(stringRequest);
     }
 }
 

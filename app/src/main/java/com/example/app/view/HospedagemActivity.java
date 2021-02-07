@@ -189,7 +189,7 @@ public class HospedagemActivity extends Activity implements PopupMenu.OnMenuItem
                 String data = cal_data.cal_data_entrada_saida().get(0);
                 java.util.Date d = new java.util.Date();
 
-                DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+                DateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
 
                 try {
                     d = fmt.parse(data);
@@ -210,11 +210,7 @@ public class HospedagemActivity extends Activity implements PopupMenu.OnMenuItem
                     viewToastErro(context, "Ops! Algo não deu certo.");
                 }
 
-                if (hospedagemAdapter.getHospedagemsList().size() > 0) {
 
-                } else {
-                    viewToastAlerta(context, "Hoje não foi efetuada nenhuma hospedagem!");
-                }
                 return true;
             case R.id.perfil2:
                 final AlertDialog alerta;
@@ -286,7 +282,10 @@ public class HospedagemActivity extends Activity implements PopupMenu.OnMenuItem
         }
     }
 
-    public void request() {
+    public void request(int i) {
+        if (i==0){
+            viewToastAlerta(context, "Hoje não foi efetuada nenhuma hospedagem!");
+        }
         result= true;
     }
 }
